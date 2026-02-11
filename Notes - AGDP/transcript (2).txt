@@ -1,0 +1,832 @@
+Welcome, guys, for this lecture for the performance propulsion and climate engineer.
+This is my favourite one of the few,
+the performance and propulsion.
+We've done bits before, and there's a easy empirical,
+semi empirical things we can use there.
+But the climate engineering and climate impact and sort of how can we
+quantify that and bring that into a conceptual design tool,
+this is all quite new.
+There aren't any textbooks.
+So lots of the stuff here is based on papers and stuff in literature as well,
+or in white papers published by institutions as well.
+And it's really more towards the cutting edge of conceptual design as well.
+So hopefully, you guys find it interesting.
+So for this role of performance,
+propulsion and climate, how many of the PPC engineers have I got hands up?
+Four or eight. Cool. Good. Wonder. No worries.
+So for the performance stuff,
+this is very much what we already went through before.
+It's the stuff you'll be going through with
+the aerodynamics engineer to do the constraint analysis.
+It's also the mission analysis
+and doing the mass fractions and splitting up into sections.
+From a propulsion side,
+there's simple sort of thermodynamic models.
+I'm not asking you to do the full engine cycle,
+like working through compressors and combustors and turboes.
+But have a good understanding of
+how the efficiency and mass of those kind of systems scales at different thrust levels.
+And then the final one we'll go through is climate.
+And this picture here is for contrails,
+which aren't there to set the weather or control your mind.
+But actually, there's a growing appreciation.
+They have one of the largest impacts on climate of aviation.
+So, in general, what are the responsibilities for this role for the development sprint?
+It was the constraint analysis,
+the mission analysis, and also building this climate model.
+And all of these mainly focus on the cruise portion
+of the mission in the development sprint.
+And also only to consider the design mission.
+So whichever mission you've chosen as a team is your design mission for your aircraft,
+that's one you want to start building a model for.
+Then when you move into refinement,
+it's really about assessing the entire mission profile,
+go to the climb, cruise,
+descent approach, take off all these different segments,
+and using your climate model to estimate the impact across those different segments.
+And then in your individual presentation for this role,
+you can kind of compare what's the difference at
+the top levels optimization when you're just
+comparing climate impact from cruise to climate impact across the entire mission cycle.
+So just a let's start with a quick recap of mission analysis,
+the stuff we went through last week.
+Within your uh, specification,
+the mission profile is defined for you.
+And we went through before to how to develop
+this equation here for mass fractions for each segment of a flight.
+And what this means is to calculate the fuel mass fraction for the entire flight,
+we can break the flight down into lots of sections,
+and all we need to do is calculate the mass fraction.
+Effectively, how much does the mass of the aircraft reduce or
+how much fuel do we burn during each section of flight?
+And there are specific ones that are
+for you can't just take the fuel to get you to Malaga.
+You also need the fuel to get you somewhere else if there's a storm.
+So there's lots of regulations about how much fuel you have to hold in
+reserve at the start of a flight or even end of a flight.
+And this has lots of implications.
+Firstly, it's a lot of fuel,
+and you can imagine it's quite heavy well,
+it's quite inefficient to carry that fuel around with you.
+So one of the savings that can be made in the next few years and indeed,
+one that was made this year is they lowered the amount of
+contingency fuel you need to carry by half a percent.
+Doesn't sound like much. It's just a regulatory change,
+but tonnes and tonnes of CO two emissions every year
+have now been saved purely by small tweaks and regulations.
+And the other consideration here is when you land with all this reserve fuel,
+that is part of your landing mass.
+So that sizes your landing gear as well,
+which increases the mass of the aircraft,
+and you get this snowball effect of increasing masses.
+So the key really here for
+you is to use simplified equations to calculate each of these segments.
+And for each segment,
+you're going to really want to be able to calculate the fuel mass burden,
+the time in that segment,
+so you can calculate the length of the mission in terms
+of time or duration of the mission, I guess, I should say.
+And then also the distance of each segment.
+It's really easy for cruise.
+To sort of get an estimate for distance.
+But actually, climbing and descending takes time.
+If your mission is only 1,000 kilometres long,
+you may find that if you want to climb to 50,000 feet for some reason in your aircraft,
+by the time you've climbed and come back down,
+you've done over 1,000 kilometres.
+So you can't take it for granted that you'll reach your desired cruise altitude.
+You have to estimate what the distance
+you've travelled during climb and descent is, as well.
+There's lots of simplified equations for this section that
+my recommendation is the Goodmanson Civil Aviation Design book.
+That one has the Section 6.2 has all of the equations for each segment of flight,
+so you can use it basically just as I don't know,
+sweetie shop and pick the equation for your segment of flight.
+Now, when you're doing your design analysis or part of your optimization tool,
+the key here is to only consider the design mission.
+Fundamentally, the first aim of this tool is to estimate mass fraction,
+how much fuel you're going to be burning in your design mission.
+And so, yes, so starting off,
+you're going to go for the design mission.
+And we're also going to assume or
+the first approximation you can make is assume a constant CLN cruise.
+Does anyone know what I mean by this?
+So for most aircraft,
+when you have your drag polar,
+so your drag for every unit of lift,
+there will be an optimal CL which the lift to drag ratio of that aircraft is optimised.
+So there's an optimal amount of lift the wings want to
+make to have the minimum drag or the most efficient experience.
+Now, to match that CL,
+generally what you would do in
+an ideal world is as you burn fuel and your aircraft gets lighter,
+you need to make less lift,
+so you'll then fly higher to reduce your density so you can get back to your optimal CL.
+So an optimum cruise,
+as you can kind of see on here has this curve up where
+the altitude constantly increases during the cruise segment of flight.
+You can't do this in reality,
+and I'll say a little bit more why in a second,
+but it's a good initial estimate for your design tools to assume a constant CL cruise.
+The other thing to consider there is,
+as we'll talk a lot more about today,
+altitude becomes an important factor in
+your design or in the efficiency of your aircraft or what cruise altitude you pick.
+So that optimal CL,
+you want to work with that aerodynamics engineer
+to make sure that the cruise attitude you've picked is
+also the CL value that you're
+optimising your wing platform and structure around, as well.
+And the key thing in all of this is,
+don't forget that the atmosphere is in constant as you go up in altitude,
+pressure, density, temperature, speed of sound, they're all changing.
+I showed you that I put a tool within
+the Matlab code for you to be able to pick out the standard atmosphere model.
+So make sure you're using it.
+I don't want to see people at 33,000 feet still
+using the density at sea level for their calculations.
+And 33,000 feet is sort of around here, it's 12,012 kilometres.
+There's a lot more of the atmosphere,
+but there's not much we can really do up here unless we're a hypersonic mission.
+Cool.
+So that was kind of aims for the development section, these simplified models.
+And then what am I expecting from you in the refinement section?
+The first thing is in climb and descent,
+if you read the specification carefully,
+you'll have noticed that below 10,000 feet,
+you've got a speed limit in knots and above it,
+you have it in a MAC number.
+So it's 250 knots below 10,000 feet.
+This is set by the ICAO international flight regulations,
+but above that, you're only MAC restricted.
+So you can't just consider the climb segment as one long climb.
+You're going to need to do is break that down into lots of smaller climbs,
+maybe 500 foot or 100 foot climbs.
+And consider what speed your aircraft is at if it's had to accelerate,
+decelerate, and how much fuel you're burning over each of those segments.
+Then in cruise, the constant CL assumption is nice, but it's not realistic.
+Actually, in flight, you can only change your flight level,
+well, you can change it by 500 feet.
+But typically, pilots will change it by 1,000 or 2000 feet at a time.
+You won't notice it when you're in a plane,
+but typically on a long haul flight,
+you'll do this sort of step change in altitude as you go along the flight.
+And the idea here is to try and keep as close to
+that optimal CL as you can during the entire cruise mission.
+And then more generally,
+just doing the mission analysis in the refinement stage,
+the design mission you still need to do. That's the block fuel.
+That's what's important for sizing the aircraft.
+But for the climate impact and even for direct operating costs,
+what you want to do at this stage is analyse all the missions.
+So you have a list of 24 flights or maybe a few others with the ferry flights as well.
+Some of them are longer, some of them are shorter.
+You'll find that it's more expensive per
+kilometre to fly short flights than it is long haul flights.
+So when you're doing that climate impact and direct operating cost analysis,
+make sure you're doing it over all flights within within a year.
+And the last point here is make sure
+you're communicating with your aerodynamics engineer,
+and you are using appropriate drag polars in each segment of flight.
+So when we're down here below 10,000 feet on approach,
+we're going to be in our takeoff or landing flap settings.
+These are going to have different efficiency values associated with them.
+One of the key ones for here will be this loiter phase.
+So in the regulations and the specification,
+you have to have enough fuel to be able to loiter for 30 minutes.
+So this is an endurance.
+So rather than maximising range is what you do a cruise.
+Here, you maximise endurance,
+which is a slightly different equation.
+But that one's at, I think, 1,500 feet.
+So you'd generally be on a non clean flat configuration for that period of loitering.
+Cool. So that was just a recap.
+We've already gone through how to do that analysis.
+That was just to jog your memory and give you more of an idea for those PPC engineers
+of how I want you splitting your time over the development and refinement stages.
+Does anyone have any questions on the mission analysis segment of this?
+No? Cool. Wonderful. Let's move on to propulsion.
+So, it's amusing that you kind of just stick them on, right.
+At the end of the day, you just want some thrust.
+Might as well be a black box,
+which gives you some momentum.
+And the well, I say that as an lastician, I guess.
+I'm sure the people in the engineering building
+that work on engines would be quite offended by that.
+But the key to aircraft engines is they produce thrust by applying momentum to the air.
+So you have some mass flow into the engine.
+We can press it, we can bust it,
+we expand it, we increase its velocity.
+And by adding momentum to the air,
+we have the inverse reaction of pushing the aircraft forwards.
+Now, whether we have piston engines which are extremely similar to what's in a car,
+Ram jet engines, turbo jet engines,
+turbofan or turboprop engines,
+they all have the same three stages,
+slightly different depending on what cycle, but fundamentally,
+we're always compressing our air,
+getting it down nice and slow, high pressure,
+combusting to get a large expansion in the volume,
+and then exhausting to bring it back down to
+static ambient temperature and get an increased velocity.
+So for for a car engine, it's the carnocycle.
+Does anyone remember what the cycles called for a aircraft engine?
+Turbine engine, I guess.
+But have a guess.
+Any guesses? It's Brayton cycle.
+Now, thermodynamics was the module I did worst at, I think at university.
+So you'll be glad to know. I'm not going to require you to do any of
+the thermodynamic analysis for the different stages of the engines,
+but we want to really look at them at the sort of macro level.
+So how do we pick which one of these engines we want to use?
+Now, fundamentally, this comes down to what your MAC number wants to be.
+At low MAC numbers,
+the most efficient way to propel an aircraft is propellers. The reason for this.
+The reason for this is for propulsive efficiency,
+you want to move a large mass of air,
+the largest mass of air.
+Instead of moving a small mass of air really fast,
+you want to move the large mass of air slowly.
+And. Thinking about it?
+Tend that didn't happen?
+You want to use a large mass of air slowly.
+So a propeller can pull in lots of air around it,
+really efficient for making frost at low Mac numbers.
+And that's why in the early years of aviation,
+everything was a pistol engine with
+propeller A piston engines were being developed in the car industries.
+They can make them lighter, and then the propeller is
+an efficient way of producing thrust.
+Now, initial propellers had a fixed pitch angle.
+And that means they can be optimised for a single curve.
+Then we went to variable pitch propellers,
+and that means you can get a more optimal propulsive efficiency
+over a larger range of MAC numbers.
+But fundamentally, piston engines are heavy.
+They're simple and cheap, but they're heavy.
+So after the Second World War,
+turbojet engines came into the four,
+which are a much more efficient way or a lighter way,
+I guess, I should say, of producing thrust.
+Now, the original jet engines were turboprop engines where we take our turbine,
+connect it to a big prop.
+And these are the ones that are efficient up to around between MAC 0.4 to 0.7.
+But with a large as I'll talk about a little bit more in a minute,
+with a large diameter,
+we run into issues with MAC effects at the tip.
+As you increase in MAC number,
+turbo fans are the most efficient sort of transonic speed.
+And we'll talk a little bit more about this,
+and this is what you'll see on most aircraft nowadays.
+But fundamentally, all three of these have
+a turbine with a different fan at the front of it.
+So talking a little bit at the macro level about turbofan engines.
+There are four key parameters for
+turbofan engines for a sort of a conceptual design engineer.
+The first is the bypass ratio.
+This is how much air do we move around the turbine rather than through the turbine.
+It's inefficient. Basically, if you're
+putting a lot of energy into the flow and making it hot, it's not moving.
+That's a waste of energy. The most efficient way to create
+pulsion is to accelerate the flow without heating it.
+So the more air we can get going through the bypass,
+the more efficient our engine can be.
+The next key parameter is turbine exit temperature,
+which is the temperature,
+the exit of the combustion chamber.
+Or exit the turbine, I guess.
+These can reach 1,900 Kelvin there,
+or the next generation will reach 2000 elvit.
+That's above the melting point of steel.
+It's above the usability point of tungsten.
+Tungsten starts to creep at those speeds.
+It's insanely complicated engineering for
+the crystalline ceramic structures that are
+used on these turbines to make sure they don't melt.
+The next key one is overall pressure ratio.
+This is the compression ratio from the atmospheric conditions into the combustor.
+And then the last one is specific fuel consumption.
+What is your fuel flow rate for a given thrust?
+Now the main benefit of turbo fans
+is they have a large increase of efficiency, like I said,
+but they have a large frontal area,
+and they can be quite troublesome to fit on an aircraft.
+I'm sure you may have all seen a 737 with its non circular intake.
+It's just because they had to move the gearbox to
+the side of the turbo fan just to make sure I had
+enough clearance on the landing gear
+so they didn't have to redesign the landing gear on the 737.
+Now, I won't be asking you to do too much thermodynamics,
+but the key ones to remember,
+are you have your atmospheric conditions coming into the turbine.
+You can then change them to static pressures and temperatures
+using your general relationships.
+Then if you're assuming isentropic compression or compression across the fan,
+then you can use isentropic relations to estimate what
+the pressure and temperature are entering the combustor,
+which will be important for the climate impacts later.
+Now, for you on this project,
+you can't I'm not expecting you to design a new generation of turbofan engines,
+and lots of things are sort of fixed between generations,
+particularly the compression ratio or
+maximum pressure ratio and the turbine exit temperature.
+These so what I'm going
+to get you to do is just assume you're using the current generation of turbofans,
+so these ones are effectively fixed.
+However, it's defensible to be able to vary the bypass ratio.
+This has a sort of trade off.
+Bigger bypass ratio is more efficient, but it's also heavier,
+and it's also harder to integrate into your aircraft.
+So at first, as a first sort of estimate of weights, lengths, masses,
+and specific fuel consumptions,
+there's these generic equations from RMA,
+which have been matched across current engine types.
+So the aim here would be for you to use a rubberized process.
+This is typically what you do is there's only a certain amount of engines you can pick.
+You can't go to Roy Royce and say,
+I'd like an engine with Newtons of thrust Ps.
+They'll just tell you you can have one of these ones,
+unless your name is Airbus or Boeing, I guess.
+But for conceptual design,
+what we do is we take known parameters from an engine,
+and we sort of stretch that engine for different thrust levels.
+And these equations are really about taking known parameters from
+a known engine and then scaling them through your design process.
+So what you have to make sure is you've picked
+a reference engine that is suitable for the scale of aircraft you're looking at.
+And one important thing to note here, again,
+about the bypass ratio is there's a link here with the landing gear engineer.
+When there's a regulation that on the ground or for,
+like, a landing where you do one wheel landings,
+there has to be a five degree angle between
+the outer landing gear and the cell of the engine.
+So there's integrations with both aerodynamics and
+the landing gear engineers for propulsive and structural engineers,
+as well for the propulsive choices.
+So that gives you what you'll notice down here is this
+gives you different specific fuel consumptions for Max thrust,
+This is take off and then for crews as well.
+The difference here is, as engines are optimised for one specific flight condition.
+So the compression ratio is rather fixed.
+Okay, you can change the speed of the turbines,
+but there's not much variation in there.
+And also, there'll be an optimal exit temperature or turbine exit temperature.
+These only work at one specific condition.
+Away from that condition,
+engines will be sub optimal or the specific fuel consumption changes.
+Now, given two known values for the maximum and the specific fuel consumption,
+there's standard relations you can use which look at the static pressure at your altitude
+compared to sea level and
+your MAX number to give you an estimate for the variation in specific fuel consumption.
+And here, Beta is a value you tune for a given MX thrust and a given cruise,
+you can work out what Beta needs to be to give you
+this thrust specific fuel consumption for your MAX and altitude of choice.
+Switching to turbo props,
+effectively, these are turbo fans with a very large bypass ratio.
+The turbo prop brings in a large mass of air,
+and you're looking at effective bypass ratios 4100-1.
+As I said before, these have good efficiencies at low MAC numbers.
+But as you increase in MAC number,
+these large diameter fans spin quite fast,
+so the local speed at the tips can reach supersonic speeds.
+And the efficiency drops off
+dramatically when this starts to happen or when the blades start to stall.
+So on higher end turbo props,
+you'll start to see these sort of curved tips to the fan blades.
+The idea here is to try and reduce the local mac number towards the tip.
+And these are also counter rotating turbo props,
+which increase the efficiency.
+Effectively, you want to convert all your energy to moving the air backwards,
+but with one prop, you add swell to the flow as well.
+So if you have a counter rotating prop behind the first one,
+you can kind of remove that swell to make sure as much of
+your energy is moving the flow backwards rather than rotating.
+Now, one of the catches here is compared to turbo fans.
+Turbo props are generally measured in power,
+so you have to convert this to thrust.
+And also, you have to calculate the propeller efficiency as well.
+So for power.
+I got that the wrong way around?
+I've got that the wrong way around I've put it in twice.
+I've put it in twice the wrong way around.
+This should be the proper efficiency over velocity.
+So you need to convert when you look in the documents for turboprops,
+they'll give you a power specific fuel consumption.
+You need to convert this to a thrust specific fuel consumption.
+And the other tricky one at the conceptual level is
+working out what your propeller efficiency needs to be.
+Um, these are tuned to every single turbine blade,
+so it's quite hard to pick a value at conceptual level, particularly for you guys,
+where you want to scale between MAC numbers
+and different velocities and attitudes, as well.
+As a first guess, after a certain MAC number,
+you can have a sort of a parabolic drop off.
+And indeed, in the example code I've given you,
+that's what I've implemented.
+But it's really up to you to,
+if you want to use turboprop engines to ensure that you're happy
+with how that propeller efficiency is dropping off at higher MAC numbers.
+And just to re emphasise here,
+everything I've said here about different types of
+propulsors is I've done most of it for you.
+If you look in the code in the cast dot name space,
+there's two classes, one for turbofan, one for turboprop.
+I've tuned these to two specific engines I picked,
+I think for the CFM 51 and the was it PWM 100,
+whichever one's on the A 400.
+These may not be suitable turbo props or turbo fans for your design.
+So really use them as a starting point and change the values depending on
+whatever engine you think is suitable for whichever design you guys are looking at.
+As a curiosity between your concepts,
+how many of you are going to want to use something that isn't a turbofan engine?
+Cool. I didn't need the last two slides.
+That was easier. Cool. Okay. Wonderful.
+So propulsion, performance, propulsion and climate.
+So we've ticked off two of them.
+One to go climate impact.
+Now, the first question really is how bad is aviation, really?
+So aviation accounts for roughly 2.5% of global CO two emissions.
+And the key issue here is,
+it's very hard to reduce the carbon impact of aviation.
+Lots of other industries and countries to
+better or worse effects are aiming for net zero by 2050.
+This effectively means they're planting lots of trees,
+which doesn't really stop them emitting the carbon, but that's a different question.
+But if you go by these metrics and everyone moves to net zero,
+by 2050, aviation could actually account for 20% of global emissions.
+So action really needs to be taken.
+Otherwise, there's going to be a lot of pressure in the 30s and
+40s on aviation to rapidly reduce its carbon emissions.
+But is it we've always been told per kilometre,
+actually, aviation is quite efficient.
+So, for these different modes of transport here,
+have a think which ones have a chat Msels?
+Which ones do you think have more carbon emissions than aviation?
+Oh
+So which one
+do we reckon is the worst offender?
+Yeah, one passenger petrol cars probably going to be up there.
+Does anyone think any of the others are going to be higher than aviation as well?
+Memoring this is per kilometre.
+So the surprising answer it surprised me at the time when I first saw these as well.
+It's not even efficient per kilometre.
+So petrol car per one passenger,
+that is worst case,
+but only by a few grammes.
+Every other form of transport is actually much more efficient per kilometre travelled.
+And that's not even the worst of it,
+because climate change isn't just about carbon emissions,
+although everyone likes to move it towards CO two,
+there are other greenhouse gases and other effects that increase climate impact.
+When you account for these, as well,
+aviation is almost double the next form of transport.
+And aviation accounts for 4% of all anthropogenic forcing.
+This is climate impact by man.
+So there's a bit of a problem here,
+and that's our job as engineers to sort of,
+or aviation engineers is to reduce this climate impact.
+Luckily, that's also generally tied to reducing the cost of flights.
+One of the other key issues is the number of
+flights is only predicted to grow over the next 30 years.
+Now, there's different things we can do as
+an industry to reduce our carbon emissions given this growth.
+We can move to ultra efficient designs.
+We can go for zero carbon fuels.
+We can try and reduce operational constraints as well.
+For example, one of the largest efficiencies recent well,
+I say recently in the last two decades.
+Has been reducing the Etops ratings.
+When you guys were children,
+if you went on a long haul flight,
+it was probably on a 747 or an 83 30 or an 8380,
+a four engine aircraft model.
+Reason here was engine out operations
+restricted the distance that
+a two engine aircraft could be away from land or somewhere it could land.
+But in the 2010,
+with the what's the word I'm looking for?
+The reliability of turbo fans increasing the reliability of aviation,
+new aircraft like the Dreamliner were given and now
+even the A 321 have been given ETOps ratings that allow them to transatlantic flights.
+So two dreamliners can carry the same amount of people as the 747,
+but it has 20% less carbon emissions flying them across the Atlantic.
+There are other things you can do as well,
+like less restrictive flight corridors or moving to electric taxing.
+And there's also regulatory changes that can happen as well.
+So CorcIA is a European scheme that's aiming to put cost on emissions.
+It takes the emissions from 2022,
+and that's effectively each company's carbon budget.
+We can also tax emissions.
+This is a controversial one,
+particularly in the UK, there is no VAT paid on aviation fuel,
+but there is on train fares,
+which may unfairly penalise other forms of transport compared to aviation.
+But we like having cheap flights.
+The other thing to consider is the distance flown by aircraft.
+So this is a map of a mission per sort of distance.
+So we can break flights down into three different lengths.
+We've got short haul flights.
+That's my latest too. All right.
+Short haul flights, medium haul flights, and long haul flights.
+Now, new technologies that are coming through like electric aircraft could
+potentially get distances 500-1 thousand kilometres,
+maybe a little bit more at stretch.
+So potentially the short haul flights,
+London to Manchester, London to Paris.
+These ones could be done by electric aircraft.
+Medium haul flights up to around 4,000 kilometres.
+This is your 8320 and your 73 sevens of the world.
+These potentially hydrogen fuel cells are an option,
+but definitely not electric at this stage.
+But for long haul flights,
+even looking forward to 2050,
+it's going to require some form of combustion.
+Now, the likely choice here is probably going to be sustainable aviation fuel,
+but it could also be hydrogen.
+But the key here is for longhul flights,
+we're still going to be combusting things in the atmosphere.
+And the untold truth here is both
+sustainable aviation fuel and hydrogen fuel are projected to be expensive,
+even in the most optimistic of scenarios for 2050.
+So kind of a take home is we're likely living in a golden age for aviation.
+The prices of flights will probably not be this cheap relative
+to purchasing power again for the foreseeable future.
+So with that in mind,
+we want to be able to measure the climate impact of
+aviation and particularly for your conceptual design tools as well.
+And the first question is,
+why should we try and measure these these climate impact?
+One is to actually get some publicity about
+it and form public opinion and have tools to inform policy, as well.
+How much do you want to reduce the emissions by?
+One important note here that I
+think is interesting is we're actually at a fork in the road.
+Between the 1940s and the 2000s,
+Academia's goal of green aviation and
+industry's goal of cheap aviation were synonyms for each other.
+If you could make aviation cheaper,
+you're also burning less fuel, you're making it cheaper.
+Actually, nowadays, we're at more of a fork in the road.
+Cheap aviation is still about making more efficient kerosene aircraft,
+whereas green aviation is going in
+a different direction that industry may not want to go in.
+So there's an interesting pull here of how can
+policymakers change the direction of industry to move towards green aviation.
+So we want to measure impact,
+but how can we measure it?
+We need a quantitative way of estimating
+the impact of all pollutants emitted by aviation.
+And we can't just consider them at the moment they were emitted.
+We have to consider them over their entire life cycle.
+So the first metric is radiative forcing.
+And this is the instantaneous change in
+the Earth's energy balance caused by a climate driver,
+be it that CO two or NOS or ozone or something else.
+And this is expressed in terms of power per unit area.
+And this is a diagram of sort of radiative forcing over it over a year,
+I think in 2004.
+So you have your energy inputs from the sun and then, you know,
+reflected up by clouds or absorbed or reflected down from greenhouse gases,
+you've all seen these things before.
+So we're in our combustion aircraft, what's actually emitted.
+So burning one kilo of fuel
+is purely by looking at the chemistry and the chemical reaction.
+We get about 3.2 kilos of CO two,
+1.3 kilos of water,
+a small amount of sulphates, some soot, as well.
+These like particulates and some nitrous oxides as well.
+Now, these are all purely dependent on how much fuel you burn,
+but nitrous oxide is actually more dependent on the combustor environment, as well.
+So to calculate how much NO two NOX is being made,
+you have to know the combustor pressure
+and temperature and the relative humidity as well.
+The other thing is aircraft also produce contrails above a certain height.
+Water crystallises around soot particles and
+other particulates in the plume to create those classical contrails,
+which may turn into cirrus clouds as well.
+And the classical term for this in academia is aircraft induced cloudiness.
+I don't know why, to be honest, contrails seem fighting.
+I guess it's to get away from all the
+like the US trying to control your mind or something.
+So how do we get from okay,
+we're burning 3.2 kilogrammes of CO two.
+How do we convert that into a radiative forcing factor?
+Because we have lots of different sources,
+the first thing we want to do is try and normalise them against some metric.
+So the chosen metric is generally the radiative forcing from
+doubling the concentration of CO two in the atmosphere is 3.7 watts per metre squared.
+We then calculate the radiative forcing of each element,
+and we'll go through this for each one,
+and then we times it by some efficacy factor,
+which basically says, how much of a greenhouse gas is this species.
+So the take homes here I don't know why I've done on two slides.
+Anyway, the take homes here is actually the worst greenhouse gas is ozone,
+then followed by water and methane,
+then followed by CO two,
+although we are producing much more CO two than water.
+But it's interesting that effectively even from this quick analysis,
+you can see that 25% of
+radiative forcing comes from the water that's emitted rather than the CO two.
+But radiative forcing isn't the whole picture.
+It's telling us the instantaneous amount of energy being added to the system effectively.
+But different elements last for different periods in the atmosphere.
+So the half life of water in that atmosphere is weeks,
+whereas the half life of CO two is hundreds of years.
+It still up for debate,
+but it's maybe somewhere 100-500 years for
+the half life or to remove the CO two you've added to the atmosphere.
+So how do we capture this radiative forcing
+over the lifespan of each species?
+And here jumps in something called the average temperature response,
+and this is what I'd like you to use in your climate impact models.
+Now, what this does is it averages the surface temperature over years.
+So if we go back to this plot,
+you can imagine, effectively,
+you draw a line and you say, this line,
+this is the average temperature increase
+each year to give me the same area under the curve.
+It was proposed in 2011,
+and there's this horizon that you choose,
+how many years you pick.
+There's been variations over the years,
+but relatively there's an EU project currently running called Claim.
+They've done a large literature survey and different reviews,
+and there's a growing consensus that 100 year horizon is a good way of using this tool.
+It's a good balance between short term effects,
+such as contrails and ozone and long term effects,
+such as CO two emissions.
+There are other metrics as well.
+I completely forgot what it was called.
+GW is weighted global weighted potential, something.
+This one basically is the sum total of the area underneath.
+This is one that's used in all climate policies.
+So typically, if you see something
+from a government or an institution talking about reducing climate emissions,
+generally, they're talking about the global weighted potential of each species.
+So given our so for this,
+we need to work out what the average temperature
+response or the change in the temperature is each year.
+And from this, we have our radiative forcing.
+This is the energy input into the system.
+And we have this GT term,
+which is effectively modelling the thermal response of the Earth or
+the surface temperature of the Earth to this radiative forcing.
+So all that's left here to do is then calculate this
+normalised radiative forcing term for each of the different species.
+Before we do that, one last point,
+though, is altitude dependence.
+Now, long lasting pollutants like CO two,
+it doesn't actually matter where you put them in the atmosphere.
+If you put them at zero feet or 30,000 feet,
+they're going to have the same impact over their lifetime.
+However, for other pollutants such as ozone,
+methane or methane or aircraft induced cloudiness,
+it's highly dependent on what altitude you're flying.
+Aircraft induced cloudiness is a bit of a misnomer really putting on here.
+There are other metrics you can use,
+but this is a good baseline metric for you to use in your sizing tools.
+So below a critical height,
+there are no contrails produced by an aircraft.
+As soon as you go above a certain height,
+the water water vapour can start
+to freeze around the soup particles, leaving the contrails.
+So if you ever see an aircraft taking off,
+you can watch it, and at some point,
+the contrails will start to form.
+Now, in terms of radiative forcing,
+the worst offender is aircraft induced cloudiness if you're at like 32 33,000 feet.
+You can already see here that potentially
+moving to a lower altitude might reduce your climate impact.
+That also reduces the efficiency of your aircraft.
+So let's do a quick run through of
+how you can calculate the radiative forcing from each species.
+And it's basically a convolution integral over
+a year time span or over however long you want to look at typically a year here.
+And we have a term here.
+We have this term, which is the out this is how much CO two we emitted.
+These were the terms we calculated earlier.
+This is 3.12 kilos per kilo of fuel we've burnt.
+And this is effectively measuring the half life.
+So it's a summation of these terms here,
+and it's telling us if we've emitted one kilo,
+how long does that take to decay away?
+And if we integrate over time,
+we get our change in CO two in the atmosphere over time.
+To convert this into radiative forcing,
+we can use this equation,
+which uses a estimate for the background concentration of CO two.
+If you're emitting CO two, maybe that increases,
+but as a first estimate,
+you can assume a constant value here.
+We plug in our change in the total amount of CO two or concentration of CO two,
+and we can get a radiative forcing term for a given year.
+That's for CO two,
+which has no altitude dependence.
+We then have water cut and sulphates.
+Again, these don't really show that much of an altitude dependence.
+But these are short lived greenhouse gases.
+They're only in the atmosphere for weeks or months.
+So what we do is we effectively lump them into one term,
+like an impulse and radiative forcing for one year.
+So there's some reference values which come from literature.
+I'll give you the references at the end.
+But we take how much we emitted times it by reference values
+to give us our radiative forcing for each one of these species.
+Then we have aircraft induced cloudiness.
+It's a similar story.
+We have some reference term for radiative forcing per length.
+Now, here, L is the distance flown.
+The catch here is we've started to go into something with an altitude dependence.
+So this S is the scaling factor with altitude dependence,
+which was from this figure.
+So this is effectively the length flown at each height over a year.
+So once you've done your mission analysis,
+you can do a histogram of how long you've spent in,
+like, 1,000 foot blocks or something like this.
+And then you can use that to calculate
+the total radiative forcing from aircraft induced cloudiness.
+And then the last one,
+I should say, there's other more advanced methods of doing this.
+If you want to look into them as a few references as well,
+different ways of doing it, but I'm more than happy for you
+to use these simplified methods to start with.
+And the last one or the fun one is nitrous oxide emissions.
+Now, as I said before, these are related to
+the turbine the combustor pressure and temperature.
+And NOX itself isn't actually a greenhouse gas,
+but it's quite a reactive component that has other effects in the atmosphere.
+Actually, in the long term,
+it has a net cooling effect.
+It depletes ozone and methane in the atmosphere.
+So you have this convolution integral,
+similar to the CO two emissions that gives you
+the reduction or the climate cooling effect of the reduction in ozone.
+But by far, the biggest effect is the generation of ozone in the short.
+And this we model again in a similar way to water, sulphate and sts,
+where you have just a reference value times the amount you've generated and
+that altitude dependence of ozone, ozone climate forcing.
+So I hope you can see there that,
+as much as it might seem a complicated process,
+actually, there's four species.
+Each one has a convolution integral where
+it's effectively you're taking some weighted number,
+timesing it by the amount you've omitted and integrating it over time,
+taking into a fact the half life of each of the species.
+So at this point, it's over to you.
+For the development phase,
+you need to calculate the normalised radiative forcing for each species using
+the first equation where
+the radiative forcing term comes from the different equations for each species.
+From there, you can then calculate the average change, Oh,
+the change in temperature on the Earth's surface each year,
+and then the average change over 100 year horizon.
+And then in the refinement so for the development phase,
+just look at Cruz and then in the refinement phase,
+you can look at the entire mission instead.
+Now, the main references for all this stuff is this Dara paper from 2011.
+This was the first one to try and make this form of metric, the ATR metric.
+And then there's this really nice paper. I'll give you a hint.
+If you look at it, it might help you with other parts of
+your design for this aircraft optimization for minimum global warming impact.
+I may have similar themes to your entire project,
+but I'll leave it there as a link.
+Cool.
+So that was an overview,
+a quick overview and a refresher of mission analysis.
+Then laid out how to do rubberization for
+turbofan and turboprop engines, climate impacts.
+We've gone through what is the climate impact of
+aviation and how can we measure it as a metric to the average temperature response.
+I laid out what I'm expecting for you from each of
+the two sprints in terms of development and refinement.
+And the one we didn't touch here is sustainable aviation fuel.
+Within your spec, I said you can either use sustainable aviation fuel or kerosene.
+I haven't quite decided on the metric I'd like you
+to use for life cycle analysis of sustainable aviation fuel,
+but I've gotten to your next sprint.
+That's fine. So I'll give you a bit of an update then about
+how I want you to integrate looking at
+the life cycle analysis for sustainable aviation fuel.
+Cool. That's all for today.
+Does anyone have any questions on that top content?
+No, cool. Any more general questions? Wonderful.
+There's no town hall today,
+so you're free to go,
+but are there any general questions for MSC stuff as well?
+You can come see me afterwards as well, if there are, as well.
+But enjoy a day, then, guys.
+I'll see you on Friday Friday.
+Hello.
+Okay.
+So is
+there a question or is there a stat? Is it a statement?
+Yeah, I tell you folding wing tips is more as you change the span.
+It's the same the low parts are changing,
+Append they're ground folding they ground
+popping all you're doing is holding up when you land.
+A you've got to do include a mass at certain spans.
+Yeah. So when you move into a wider electrical body,
+I think that's fine if you're a group with a fuselage engineer, probably.
+Just because if you don't have a fuselage engineer,
+when you're doing the wider body stuff, actually,
+it's quite hard to be able to quantify
