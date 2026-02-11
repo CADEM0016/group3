@@ -1,7 +1,6 @@
 # CADEM0016 Reference Code
 
 Welcome to the example code issued for the University of Bristol unit CADEM0016 (MSc Groupd Design Project) 2026.
-
 In its initial form, this codebase can perform ~class-I conceptual sizing for a B777F-like freighter aircraft.
 
 The script "+scripts/ExampleSizing.m", which can be called in MATLAB as ```scripts.ExampleSizing;```, demonstrates the sizing of a B777F-like aircraft and gives an example of a simple trade study comparing the variation in maximum take-off mass (MTOM) and block fuel mass as a function of wingspan.
