@@ -1,12 +1,12 @@
-%% Size an B777 at a Mach number of 0.84
+%% Size an Conventional at a Mach number of 0.84
 
-% Instantiate an instance of the B777 class add define some initial
+% Instantiate an instance of the Conventional class add define some initial
 % parameters
-ADP = B777.ADP();
+ADP = Conventional.ADP();
 ADP.TLAR = cast.TLAR.B777F(); % sets top level aircraft requirements
 ADP.TLAR.M_c = 0.84;
 
-% --------------------- set B777 specific parameters ---------------------
+% --------------------- set Conventional specific parameters ---------------------
 ADP.KinkPos = 10;       % spanwise position of TE kink in wing planform
 ADP.CabinRadius = 3.1;
 ADP.CabinLength = 63.7 - 6 - 3.1*2*1.48;
@@ -34,10 +34,10 @@ ADP.Mf_TOC = 0.97;  % mass at teh Top of Climb (TOC)
 
 % -------------------------------- Sizing --------------------------------
 % Note - see the "size" function at the bottum of this script
-ADP = B777.Size(ADP);
+ADP = Conventional.Size(ADP);
 
 %% build the "Sized" geometry and plot it
-[B7Geom,B7Mass] = B777.BuildGeometry(ADP); % get list of components geometries and masses
+[B7Geom,B7Mass] = Conventional.BuildGeometry(ADP); % get list of components geometries and masses
 
 % plot the geometry (ontop of an image of a B777F for reference)
 f = figure(1);
@@ -59,7 +59,7 @@ fprintf('MTOM: %0.0f t, Fuel Mass: %0.0f t, Wing Mass %0.0f t\n',ADP.MTOM/1e3,AD
 fprintf('CD0: %0.3f, CD (CL=0.5): %0.3f \n',ADP.AeroPolar.CD(0),ADP.AeroPolar.CD(0.5));
 
 %% Example call to mission analysis discipline
-[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = B777.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
+[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Conventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
 % predefine spans to test
@@ -72,7 +72,7 @@ fuels = mtoms;
 % loop over spans and size aircraft for each span
 for i = 1:length(Spans)
     ADP.Span = Spans(i);
-    ADP = B777.Size(ADP);
+    ADP = Conventional.Size(ADP);
     mtoms(i) = ADP.MTOM;
     fuels(i) = ADP.Mf_Fuel*ADP.MTOM;
 end
