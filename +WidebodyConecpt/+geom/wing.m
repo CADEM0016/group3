@@ -23,8 +23,6 @@ c = (1-(1-tr)*obj.KinkPos/(b/2))*c_r_star; % estimate chord at kink pos
 c = fminsearch(@(x)(get_areas(x,L2,L3,R_f,tr,SweepQtrChord)-S).^2,c);
 [~,c_t,c_r,A1,A2,A3] = get_areas(c,L2,L3,R_f,tr,SweepQtrChord);
 
-
-
 %% create wing planfrom
 % Create straight leading edge based on quarter chord sweep
 ys = [-b/2 -obj.KinkPos -R_f 0 R_f obj.KinkPos b/2]';
@@ -67,7 +65,8 @@ n_z    = 2.5 * 1.5;                      % ultimate
 Wpc = 1.0;
 
 % Raymer wing weight [lb]
-w_wing = 0.00125 * Wdg_lb * (b_w/cosLambda)^0.75 * (1 + sqrt(6.3*cosLambda/b_w))*n_z^0.55 * ...
+w_wing = 0.00125 * Wdg_lb * (b_w/cosLambda)^0.75 * ...
+    (1 + sqrt(6.3*cosLambda/b_w))*n_z^0.55 * ...
     (b_w*S_w/(t_w*Wdg_lb*cosLambda))^0.3;
 
 % Convert to mass [kg]

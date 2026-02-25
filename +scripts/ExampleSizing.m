@@ -42,10 +42,13 @@ ADP = B777.Size(ADP);
 % plot the geometry (ontop of an image of a B777F for reference)
 f = figure(1);
 clf;
+print("Here")
 img = imread('B777F_planform.png'); 
 imshow(img, 'XData', [0 63.7], 'YData', [-64.8 64.8]/2); 
 
-cast.draw(B7Geom,B7Mass)
+CoG = cast.cog(B7Mass);
+
+cast.draw(B7Geom,B7Mass,CoG)
 ax = gca;
 ax.XAxis.Visible = "on";
 ax.YAxis.Visible = "on";
