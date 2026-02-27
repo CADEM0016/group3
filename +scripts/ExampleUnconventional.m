@@ -1,43 +1,46 @@
-%% Size an Conventional at a Mach number of 0.84
+%% Size an Unconventional at a Mach number of 0.84
 
-% Instantiate an instance of the Conventional class add define some initial
+% Instantiate an instance of the Unconventional class add define some initial
 % parameters
-ADP = Conventional.ADP();
+ADP = Unconventional.ADP();
 ADP.TLAR = cast.TLAR.B777F(); % sets top level aircraft requirements
 ADP.TLAR.M_c = 0.84;
 
-% --------------------- set Conventional specific parameters ---------------------
+
+% --------------------- set Unconventional specific parameters ---------------------
+fuselage_length = 65; % Total fuselage length (m)
 ADP.KinkPos = 10;       % spanwise position of TE kink in wing planform
-ADP.CabinRadius = 3.1;
-ADP.CabinLength = 63.7 - 6 - 3.1*2*1.48;
-ADP.WingPos = 0.44*63.7;    % normalised wing position (% of fuselage length)
-ADP.V_HT = 0.75;    % horizontal tail volume coefficent
-ADP.V_VT = 0.07;    % vertical tail volume coefficent
-ADP.HtpPos = 0.85*63.7;% normalised HTP position (% of fuselage length)
-ADP.VtpPos = 0.82*63.7;% normalised VTP position (% of fuselage length)
+ADP.CabinRadius = 6.3;
+ADP.CabinLength = 50;
+ADP.WingPos = 0.44*fuselage_length; % normalised wing position (% of fuselage length)
+ADP.V_HT = 0.97; % horizontal tail volume coefficent
+ADP.V_VT = 0.072; % vertical tail volume coefficent
+ADP.HtpPos = 0.85*fuselage_length;% normalised HTP position (% of fuselage length)
+ADP.VtpPos = 0.82*fuselage_length;% normalised VTP position (% of fuselage length)
+
 
 % ------------------------- set Hyper-parameters -------------------------
-ADP.Span = 64.8;
+ADP.Span = 74; % Gate code + Folding tips
 % ADP.FleetSize = 6;
 
 % -------------------------- class-I estimates ---------------------------
 % initial mission analysis to estimate MTOM
-ADP.MTOM = 3.35*ADP.TLAR.Payload; % VERY basic guess of MTOM from payload
+ADP.MTOM = 490000; % VERY basic guess of MTOM from payload
 
 % initial estimate of fuel mass ( % of MTOM)
-ADP.Mf_Fuel = 0.19; % maximum fuel mass
+ADP.Mf_Fuel = 0.32; % maximum fuel mass
 ADP.Mf_res = 0.03;  % reserve fuel mass
 
 % initial estimate of mass fractions at important flight phases
-ADP.Mf_Ldg = 0.68;  % maximum landing mass
-ADP.Mf_TOC = 0.97;  % mass at teh Top of Climb (TOC)
+ADP.Mf_Ldg = 0.62;  % maximum landing mass
+ADP.Mf_TOC = 0.975;  % mass at the Top of Climb (TOC)
 
 % -------------------------------- Sizing --------------------------------
 % Note - see the "size" function at the bottum of this script
-ADP = Conventional.Size(ADP);
+ADP = Unconventional.Size(ADP);
 
 %% build the "Sized" geometry and plot it
-[B7Geom,B7Mass] = Conventional.BuildGeometry(ADP); % get list of components geometries and masses
+[B7Geom,B7Mass] = Unconventional.BuildGeometry(ADP); % get list of components geometries and masses
 
 % plot the geometry (ontop of an image of a B777F for reference)
 f = figure(1);
@@ -59,7 +62,7 @@ fprintf('MTOM: %0.0f t, Fuel Mass: %0.0f t, Wing Mass %0.0f t\n',ADP.MTOM/1e3,AD
 fprintf('CD0: %0.3f, CD (CL=0.5): %0.3f \n',ADP.AeroPolar.CD(0),ADP.AeroPolar.CD(0.5));
 
 %% Example call to mission analysis discipline
-[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Conventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
+[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
 % predefine spans to test
@@ -72,7 +75,7 @@ fuels = mtoms;
 % loop over spans and size aircraft for each span
 for i = 1:length(Spans)
     ADP.Span = Spans(i);
-    ADP = Conventional.Size(ADP);
+    ADP = Unconventional.Size(ADP);
     mtoms(i) = ADP.MTOM;
     fuels(i) = ADP.Mf_Fuel*ADP.MTOM;
 end

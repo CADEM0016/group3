@@ -43,10 +43,7 @@ tcr = 0.15; % thickness to chord at the root
 tct = 0.12; % thickness to chord at teh tip
 
 % Gudmunson (6-49)
-m_HT = 0.016*(1.5*2.5*M_dg)^0.414*(SI.lb/SI.ft^2*q_c)^0.168*...
-        (obj.HtpArea*SI.ft^2)^0.896*...
-        (100*(tcr+tct)/2/cosd(SweepQtrChord))^-0.12*...
-        (AR/cosd(SweepQtrChord)^2)^0.043*tr^-0.02;
+m_HT = 0.016*(1.5*2.5*M_dg)^0.414*(SI.lb/SI.ft^2*q_c)^0.168*(obj.HtpArea*SI.ft^2)^0.896*(100*(tcr+tct)/2/cosd(SweepQtrChord))^-0.12*(AR/cosd(SweepQtrChord)^2)^0.043*tr^-0.02;
 m_HT = m_HT./SI.lb;
 massObj = cast.MassObj(Name="HTP",m=m_HT,X=[obj.HtpPos+c_rh*0.25;0]);
 
