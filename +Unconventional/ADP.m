@@ -27,10 +27,20 @@ classdef ADP < handle
     
     % Aerodynamic
     properties
-        % ------------------------- geometry -------------------------
+        % ------------------------- Tail -------------------------
+        % GUESSES CURRENTLY
+        % Tail volume
         V_HT = 0.9; % Horizontal Tail Volume
         V_VT = 0.07; % Vertical tail volume
-
+        % Tail sweep
+        HT_sweep= 30; % sweep at the Leading edge of the horizontal tail (deg)
+        VT_sweep = 38; % sweep at the Leading edge of the vertical tail (deg)
+        % Tail aspect ratio
+        VT_AR = 1.5 % Vertical tail aspect ratio 
+        HT_AR = 5 % Horizontal tail aspect ratio 
+        % Tail taper ratio 
+        VT_TR = 0.46
+        HT_TR = 0.44
         % --------------------- aero properties ----------------------
         Cl_max = 1.5;   % airfoil amx Cl for wing
         
