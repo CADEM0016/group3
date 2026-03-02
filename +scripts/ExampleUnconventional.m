@@ -8,7 +8,7 @@ ADP.TLAR.M_c = 0.84;
 
 
 % --------------------- set Unconventional specific parameters ---------------------
-fuselage_length = 65; % Total fuselage length (m)
+ADP.FuselageLength = 65; % Total fuselage length (m)
 ADP.KinkPos = 10;       % spanwise position of TE kink in wing planform
 ADP.CabinRadius = 6.3;
 ADP.CabinLength = 50;

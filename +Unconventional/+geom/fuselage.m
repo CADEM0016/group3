@@ -1,9 +1,9 @@
 function [GeomObj,massObj] = fuselage(obj)
-% fuselage - this function build the fuselage for a B777 like aircraft
+% fuselage
 
 
 % estiamte fuselage length
-L_f = obj.CockpitLength + obj.CabinLength + obj.CabinRadius * 1.48;
+L_f = ADP.FuselageLength;
 
 % cockpit plot points
 theta = linspace(0,pi,101)';
@@ -56,5 +56,5 @@ V_t = FuelMass/cast.eng.Fuel.JA1.Density*SI.litre; % tank volume
 N_eng = 2; % number of engines
 
 m_fuelsys = (36.3*(N_eng+N_fuelTank-1)+4.366*N_fuelTank^0.5*V_t^(1/3)); % Torenbeek
-massObj(end+1) = cast.MassObj(Name="Fuel Systems",m=m_fuelsys,X=[L_f/2;0]);
+ (end+1) = cast.MassObj(Name="Fuel Systems",m=m_fuelsys,X=[L_f/2;0]);
 end
