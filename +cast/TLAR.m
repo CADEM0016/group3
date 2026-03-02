@@ -27,16 +27,16 @@ classdef TLAR
         Loiter = 30./SI.min; % 30 minutes in seconds
     end
     methods(Static)
-        function obj = B777F
+        function obj = Unconventional
             obj = cast.TLAR();
-            obj.Range = 4800./SI.Nmile;% m (from nautical miles)
-            obj.GroundRun = 2830; %m
-            obj.GroundRunLanding = 1500; %m
-            obj.M_c = 0.82;
+            obj.Range = 5831./SI.Nmile;% m (from nautical miles)
+            obj.GroundRun = 2950; %m
+            obj.GroundRunLanding = 2500; %m
+            obj.M_c = 0.85;
             obj.Alt_max = 39e3./SI.ft; %m (39,000ft)
-            obj.Alt_cruise = 31e3./SI.ft;
+            obj.Alt_cruise = 34e3./SI.ft;
             obj.Crew = 4;
-            obj.Payload = 103700;
+            obj.Payload = 138500;
             obj.CrewMass = (80+10)*obj.Crew;
             obj.V_app = 200./SI.knt;
             obj.V_ld = 150./SI.knt;

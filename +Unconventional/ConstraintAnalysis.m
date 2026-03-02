@@ -4,8 +4,8 @@ function [ThrustToWeightRatio,WingLoading] = ConstraintAnalysis(obj)
 % for now just setting to those of B777
 % ---------------------- TODO -----------------------
 % --------- update with constraint analysis ---------
-obj.ThrustToWeightRatio = (513e3*2)/(347815*9.81);
-obj.WingLoading = (347815*9.81)/(473.3*cosd(31.6));
+obj.ThrustToWeightRatio = 0.3; % ASSUMPTION: hardcoded for now based of CDR
+obj.WingLoading = 765; % ASSUMPTION: hardcoded for now based of CDR
 % obj.WingLoading = (347815*9.81)/436.8;
 
 % set Wing Area and Thrust
