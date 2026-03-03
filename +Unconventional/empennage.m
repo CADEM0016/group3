@@ -8,8 +8,8 @@ L_ht = 0.42*obj.FuselageLength ; % horizontal tail moment arm
 L_vt = 0.55*obj.FuselageLength; % vertical tail moment arm
 
 % Tail Areas
-S_Vt = (Span*WingAreaActual*obj.V_VT)/(L_vt) ; % Calculated vertical tail area (m^2)
-S_Ht = (Cmac*WingAreaActual*obj.V_HT)/(L_ht) ; % Calculated horizontal tail area (m^2)
+S_Vt = (Span*WingAreaActual*obj.V_VT)/(L_vt); % Calculated vertical tail area (m^2)
+S_Ht = (Cmac*WingAreaActual*obj.V_HT)/(L_ht); % Calculated horizontal tail area (m^2)
 
 % Tail Spans
 b_Ht = sqrt(obj.HT_AR * S_Ht); % Horizontal tail span (m)
