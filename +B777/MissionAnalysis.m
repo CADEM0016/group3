@@ -1,8 +1,9 @@
-function [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = MissionAnalysis(ADP,tripRange,M_TO)
+function [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = MissionAnalysis(ADP,tripRangeA,tripRangeB,M_TO)
 %MISSIONANALYSIS conduct mission analysis to estimate fuel burn
 arguments
     ADP % geometry object
-    tripRange % mission range in m
+    tripRangeA % mission range in m
+    tripRangeB % mission range in m
     M_TO = ADP.MTOM; % take off mass
 end
 
@@ -38,10 +39,16 @@ end
 f = figure(11);clf;plot(Cls,LDs)
 
 % account for fact I don't model climb with an "effective" trip range
-tripRange = tripRange * 1;
-fs(1) = exp(-tripRange*9.81*ADP.Engine.TSFC(M_cruise,alt)/(M_cruise*a*LD_c)); % Rearranged Brequet
-ts(1) = tripRange/(M_cruise*a); % time taken
+tripRangeA = tripRangeA * 1;
+fs(1) = exp(-tripRangeA*9.81*ADP.Engine.TSFC(M_cruise,alt)/(M_cruise*a*LD_c)); % Rearranged Brequet
+ts(1) = tripRangeA/(M_cruise*a); % time taken
 EWF = EWF*fs(1);
+
+% account for fact I don't model climb with an "effective" trip range
+tripRangeB = tripRangeB * 1;
+fs(2) = exp(-tripRangeB*9.81*ADP.Engine.TSFC(M_cruise,alt)/(M_cruise*a*LD_c)); % Rearranged Brequet
+ts(2) = tripRangeB/(M_cruise*a); % time taken
+EWF = EWF*fs(2);
 
 
 %% alternate mission analysis

@@ -13,6 +13,14 @@ while delta>1
     B777.UpdateAero(ADP);
     
     % mission Analysis
+
+    %DOUBLE CHECK ITERATIONS
+    %        T_Static = 374.5e3 %double check connection
+    %        T2W = 0.3; % check connections
+    %        MTOM = 271484; %check connections
+    %        T_new = T2W*MTOM*9.81; %Check T2W & MTOM connection    
+    %
+
     [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = B777.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
     
     % calc OEM

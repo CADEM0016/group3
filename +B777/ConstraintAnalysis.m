@@ -9,7 +9,7 @@ obj.WingLoading = (347815*9.81)/(473.3*cosd(31.6));
 % obj.WingLoading = (347815*9.81)/436.8;
 
 % set Wing Area and Thrust
-SweepQtrChord = real(acosd(0.75.*obj.Mstar./obj.TLAR.M_c)); % quarter chord sweep angle
+SweepQtrChord = real(acosd(0.75.*obj.0.935./obj.TLAR.M_c)); % quarter chord sweep angle
 obj.WingArea = obj.MTOM*9.81/obj.WingLoading/cosd(SweepQtrChord);
 obj.Thrust = obj.ThrustToWeightRatio * obj.MTOM * 9.81;
 end
