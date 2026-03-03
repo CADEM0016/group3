@@ -3,7 +3,7 @@
 % Instantiate an instance of the Unconventional class add define some initial
 % parameters
 ADP = Unconventional.ADP();
-ADP.TLAR = cast.TLAR.B777F(); % sets top level aircraft requirements
+ADP.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
 ADP.TLAR.M_c = 0.84;
 
 
