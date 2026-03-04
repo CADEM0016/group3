@@ -16,7 +16,7 @@
 clear; clc;
 
 % === PARAMETERS ===
-alt_ft = 20000;  % Altitude in feet - CHANGE THIS TO ANALYZE DIFFERENT CRUISE ALTITUDES
+alt_ft = 30000;  % Altitude in feet - CHANGE THIS TO ANALYZE DIFFERENT CRUISE ALTITUDES
 % Suggested values: 10000, 15000, 20000, 25000, 30000, 35000
 % === END PARAMETERS ===
 

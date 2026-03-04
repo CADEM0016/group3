@@ -4,29 +4,32 @@ function [ADP,out] = Size(ADP)
 delta = inf;
 while delta>1
     % constraint Analysis
-    Unconventional.ConstraintAnalysis(ADP);
+    B777.ConstraintAnalysis(ADP);
     
     % build geometry
-    [~,B7Mass] = Unconventional.BuildGeometry(ADP);
+    [~,B7Mass] = B777.BuildGeometry(ADP);
     
     % update Aero
-    Unconventional.UpdateAero(ADP);
+    B777.UpdateAero(ADP);
     
     % mission Analysis
-<<<<<<< Updated upstream
-    ADP.TLAR.Range
-    [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
-=======
-    [BlockFuelA,TripFuelA,ResFuelA,Mf_TOC_A,MissionTimeA] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.RangeA, ADP.MTOM);
-    [BlockFuelB,TripFuelB,ResFuelB,Mf_TOC_B,MissionTimeB] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.RangeB, ADP.MTOM);
+
+    %DOUBLE CHECK ITERATIONS
+    %        T_Static = 374.5e3 %double check connection
+    %        T2W = 0.3; % check connections
+    %        MTOM = 271484; %check connections
+    %        T_new = T2W*MTOM*9.81; %Check T2W & MTOM connection    
+    %
+
+    [BlockFuelA,TripFuelA,ResFuelA,Mf_TOC_A,MissionTimeA] = B777.MissionAnalysis(ADP,ADP.TLAR.RangeA, ADP.MTOM);
+    [BlockFuelB,TripFuelB,ResFuelB,Mf_TOC_B,MissionTimeB] = B777.MissionAnalysis(ADP,ADP.TLAR.RangeB, ADP.MTOM);
 
     BlockFuel = max(BlockFuelA, BlockFuelB);
     TripFuel  = max(TripFuelA,  TripFuelB);
     ResFuel   = max(ResFuelA,   ResFuelB);
     Mf_TOC    = max(Mf_TOC_A,   Mf_TOC_B);
     MissionTime = max(MissionTimeA, MissionTimeB);
->>>>>>> Stashed changes
-    
+
     % calc OEM
     idx = contains([B7Mass.Name],"Fuel","IgnoreCase",true) | contains([B7Mass.Name],"Payload","IgnoreCase",true);
     ADP.OEM = sum([B7Mass(~idx).m]);

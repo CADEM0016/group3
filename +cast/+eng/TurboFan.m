@@ -24,7 +24,7 @@ classdef TurboFan
                 SFC_cruise
                 BPR
                 alt_cruise = 32e3 ./ SI.ft
-                M_cruise = 0.78 %aero connection again
+                M_cruise = 0.85 %aero connection again ------
             end
             obj.T_Static = T_Static;
             obj.Length = L;
@@ -92,7 +92,7 @@ classdef TurboFan
             arguments
                 sfc_scaling = 1; %check up if it properly converts to the real values
                 alt_cruise = 32e3 ./ SI.ft % remember to scale altitude for entire flight !!!!!!!
-                M_cruise = 0.78 %ensure proper connection
+                M_cruise = 0.85 %ensure proper connection ------- -------- change all values to the unconventinoal numbers
             end
             %CFM_LEAP_1A SData for CFM LEAP-1A
             %   https://www.easa.europa.eu/en/downloads/20086/en
