@@ -94,13 +94,13 @@ classdef ADP < handle
 
     % fuselage properties
     properties
-        FuselageLength; % Total length of the fuselage
-        FuselageDiameter; % Diameter of the fuselage
+        FuselageLength = 65.625; % Total length of the fuselage
+        FuselageDiameter = 6.2; % Diameter of the fuselage
         Decks = 2; % Number of flight decks
-        CockpitLength
-        CabinRadius
-        CabinLength
-        SidewallThickness % Outer thickness (m)
+        CockpitLength= 6;
+        CabinRadius = 3.15;
+        CabinLength = 50.375;
+        SidewallThickness= 0.15; % Outer thickness (m)
     end
 
     methods
