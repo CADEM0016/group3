@@ -7,6 +7,8 @@ SweepQtrChord = real(acosd(0.75.*obj.Mstar./obj.TLAR.M_c)); % quarter chord swee
 tr =  -0.0083*SweepQtrChord + 0.4597; % taper ratio of outer portion of the wing
 
 b = obj.Span;
+obj.MTOM = 490000 % VERY VERY TEMPORARY FIX
+obj.WingLoading
 S = (obj.MTOM*9.81)/obj.WingLoading;
 
 R_f = obj.CabinRadius;        % radius of fuselage
@@ -14,8 +16,13 @@ L2 = obj.KinkPos-R_f;   % length from fuselage to kink
 L3 =  obj.Span/2-obj.KinkPos;  % length from kink to wingtip
 
 % estimate chord at kink
-c_r_star  = (S/b)/(1 + tr); % root chord if constant taper
-c = (1-(1-tr)*obj.KinkPos/(b/2))*c_r_star; % estimate chord at kink pos
+S
+b
+tr
+c_r_star  = (S/b)/(1 + tr) % root chord if constant taper
+c = (1-(1-tr)*obj.KinkPos/(b/2))*c_r_star % estimate chord at kink pos
+
+
 
 % find chord at the kink which gives the correct wing area
 % Note - look at "get_areas" function at the bottum of script which
@@ -37,12 +44,26 @@ x_te = cs + x_le;
 
 Xs = [x_le,ys;flipud(x_te),flipud(ys)];
 
-% calc mean aero chord  (this is a crude approximation) you can do better!
 As = [A3,A2,A1,A1,A2,A3];
 As_sum = [0,cumsum(As)];
-idx = find(As_sum>=S/4,1,'first')-1;
-y_ac = fminsearch(@(y)(trapz([ys(idx),y],interp1(ys(idx:idx+1),cs(idx:idx+1),[ys(idx),y]))-(S/4-As_sum(idx))).^2,mean(ys(idx:idx+1)));
+
+k = find(As_sum >= S/4,1,'first');
+if isempty(k)
+    k = length(As_sum);
+end
+
+idx = max(1,min(k-1,length(ys)-1));
+
+y_ac = fminsearch(@(y) ...
+    (trapz([ys(idx),y],interp1(ys,cs,[ys(idx),y],'linear','extrap')) ...
+    -(S/4-As_sum(idx)))^2, ...
+    mean(ys(idx:idx+1)));
+
+y_ac
+cs
+ys
 obj.c_ac = interp1(ys,cs,y_ac);
+
 obj.x_ac = interp1(ys,x_qtr,y_ac);
 
 % place aerodynamic centre at WingPos

@@ -22,7 +22,7 @@ CD_c = ADP.AeroPolar.CD(CL_c);
 LD_c = CL_c./CD_c;
 [~,idx] = max(LD_c);
 
-alt = alts(idx);
+alt = alts(idx);  
 CL_c = CL_c(idx);
 CD_c = CD_c(idx);
 LD_c = CL_c/CD_c;
@@ -39,7 +39,9 @@ f = figure(11);clf;plot(Cls,LDs)
 
 % account for fact I don't model climb with an "effective" trip range
 tripRange = tripRange * 1;
-fs(1) = exp(-tripRange*9.81*ADP.Engine.TSFC(M_cruise,alt)/(M_cruise*a*LD_c)); % Rearranged Brequet
+fs(1) = exp(9.81*ADP.Engine.TSFC(M_cruise,alt)/(M_cruise*a*LD_c)); % Rearranged Brequet
+%fs(1) = exp(-tripRange*9.81*ADP.Engine.TSFC(M_cruise,alt)/(M_cruise*a*LD_c)); % Rearranged Brequet
+tripRange
 ts(1) = tripRange/(M_cruise*a); % time taken
 EWF = EWF*fs(1);
 

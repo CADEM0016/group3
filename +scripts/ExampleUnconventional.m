@@ -12,12 +12,14 @@ ADP.FuselageLength = 65; % Total fuselage length (m)
 ADP.KinkPos = 10;       % spanwise position of TE kink in wing planform
 ADP.CabinRadius = 6.3;
 ADP.CabinLength = 50;
-ADP.WingPos = 0.44*fuselage_length; % normalised wing position (% of fuselage length)
+ADP.CockpitLength = 5;
+ADP.WingPos = 0.44*ADP.FuselageLength; % normalised wing position (% of fuselage length)
 ADP.V_HT = 0.97; % horizontal tail volume coefficent
 ADP.V_VT = 0.072; % vertical tail volume coefficent
-ADP.HtpPos = 0.85*fuselage_length;% normalised HTP position (% of fuselage length)
-ADP.VtpPos = 0.82*fuselage_length;% normalised VTP position (% of fuselage length)
+ADP.HtpPos = 0.85*ADP.FuselageLength;% normalised HTP position (% of fuselage length)
+ADP.VtpPos = 0.82*ADP.FuselageLength;% normalised VTP position (% of fuselage length)
 
+ADP.WingArea = 750; % m^2 guess
 
 % ------------------------- set Hyper-parameters -------------------------
 ADP.Span = 74; % Gate code + Folding tips

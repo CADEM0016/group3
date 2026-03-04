@@ -4,16 +4,17 @@ function [ADP,out] = Size(ADP)
 delta = inf;
 while delta>1
     % constraint Analysis
-    B777.ConstraintAnalysis(ADP);
+    Unconventional.ConstraintAnalysis(ADP);
     
     % build geometry
-    [~,B7Mass] = B777.BuildGeometry(ADP);
+    [~,B7Mass] = Unconventional.BuildGeometry(ADP);
     
     % update Aero
-    B777.UpdateAero(ADP);
+    Unconventional.UpdateAero(ADP);
     
     % mission Analysis
-    [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = B777.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
+    ADP.TLAR.Range
+    [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
     
     % calc OEM
     idx = contains([B7Mass.Name],"Fuel","IgnoreCase",true) | contains([B7Mass.Name],"Payload","IgnoreCase",true);

@@ -12,7 +12,7 @@ massObj = struct.empty;
 FuncNames = ["wing","empenage","fuselage","engine","landingGear"];
 
 for i = 1:length(FuncNames)
-    [gTmp,mTmp] = B777.geom.(FuncNames(i))(obj); 
+    [gTmp,mTmp] = Unconventional.geom.(FuncNames(i))(obj); 
     GeomObj = [GeomObj,gTmp]; % Accumulate geom objects
     massObj = [massObj, mTmp]; % Accumulate mass objects
 end

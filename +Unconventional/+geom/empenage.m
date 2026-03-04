@@ -10,6 +10,10 @@ q_c = 0.5*rho*(M_c*a)^2;
 % calc HTP moment arm from 
 L_h = obj.HtpPos - obj.WingPos;
 
+obj.V_HT
+obj.WingArea 
+obj.c_ac
+
 % calc HTP Area
 obj.HtpArea = obj.V_HT * obj.WingArea * obj.c_ac / L_h;
 

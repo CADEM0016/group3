@@ -4,7 +4,7 @@ classdef TLAR
     
     properties
         Crew
-        Range       % Harmonic Range
+        Range = 10000*10^3     % Harmonic Range
         Payload     % Max. Payload
         V_ld        % Landing Speed
         V_app       % approach speed
@@ -15,6 +15,12 @@ classdef TLAR
         Alt_max     % max altitude in m
         Alt_cruise  % Cruise Altitude
         CrewMass    % Mass of the Crew
+    end
+
+    properties
+        % Performance Properties - mission analysis
+        RangeA % London to Singapore
+        RangeB % Singapore to Melborne
     end
 
     properties

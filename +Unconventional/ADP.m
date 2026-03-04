@@ -11,7 +11,7 @@ classdef ADP < handle
     
     % Masses
     properties
-        MTOM    % Maximum take-off mass
+        MTOM = 490000    % Maximum take-off mass
         OEM     % Operational Empty Mass
         Mf_Ldg  % maximum landing mass fraction (e.g. MLDG = MTOM*Mf_Ldg)
         Mf_Fuel % fuel mass fraction 
@@ -79,9 +79,9 @@ classdef ADP < handle
 
         Mstar = 0.935; % wing technology factor
 
-        % Empenage Specific
-        HtpArea;
-        VtpArea
+        % Empenage Specific - Rough guesses
+        HtpArea = 300;
+        VtpArea= 200;
     end
 
     % useful properties
