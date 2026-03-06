@@ -49,8 +49,7 @@ switch upper(material)
         mat       = p.CF;
         mat_name  = 'CFRP (quasi-isotropic)';
     otherwise
-        error('Structures:WingboxSizing:badMaterial', ...
-              'Unknown material "%s". Use: Al | CF', material);
+        error('Use Al or CF as material input');
 end
 
 sig_all  = mat.sig_all;
@@ -77,9 +76,9 @@ for i = 1:N
     Ae = G.A_enc(i);       % enclosed area  [m^2]
 
     % Applied loads (use absolute values for sizing)
-    M_i = abs(S.M(i));
-    Q_i = abs(S.Q(i));
-    T_i = abs(S.T(i));
+    Mi = abs(S.M(i));
+    Qi = abs(S.Q(i));
+    Ti = abs(S.T(i));
 
     % -----------------------------------------------------------------
     %  (a) SPAR CAP AREA — from bending moment
@@ -91,8 +90,8 @@ for i = 1:N
     %    σ_max = M * (h/2) / I = M / (2 * A_cap * h/2) = M / (A_cap * h)
     %    → A_cap = M / (σ_all * h)
     % -----------------------------------------------------------------
-    if h > 1e-6 && M_i > 0
-        A_cap(i) = M_i / (sig_all * h);
+    if h > 1e-6 && Mi > 0
+        A_cap(i) = Mi / (2.0 * sig_all * h);
     end
     A_cap(i) = max(A_cap(i), A_min);    % minimum gauge
 
@@ -104,8 +103,8 @@ for i = 1:N
     %    τ = q / t                     [shear stress]
     %    t = T / (2 * A_enc * τ_all)
     % -----------------------------------------------------------------
-    if Ae > 1e-8 && T_i > 0
-        t_skin(i) = T_i / (2 * Ae * tau_all);
+    if Ae > 1e-8 && Ti > 0
+        t_skin(i) = Ti / (2 * Ae * tau_all);
     end
     t_skin(i) = max(t_skin(i), t_min);  % minimum gauge
 
@@ -120,8 +119,8 @@ for i = 1:N
     %  Note: this is a lower bound. Refined rib spacing / shear lag
     %        effects handled in Sprint 3 refinement.
     % -----------------------------------------------------------------
-    if h > 1e-6 && Q_i > 0
-        t_web(i) = Q_i / (2 * h * tau_all);
+    if h > 1e-6 && Qi > 0
+        t_web(i) = Qi / (2 * h * tau_all);
     end
     t_web(i) = max(t_web(i), tw_min);   % minimum gauge
 

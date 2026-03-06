@@ -122,11 +122,14 @@ text(0.02,0.70,sprintf('Hinge M = %.2f MNm  (%.0f%% of root)', ...
 % M — FUEL RELIEF DEMONSTRATION (zoom showing effect of fuel)
 nexttile(4); hold on;
 % For comparison: what would M be WITHOUT fuel relief?
+p_nf = p;
+p_nf.M_fuel  = 0;
+p_nf.Mf_fuel = 0;
 p_nofuel         = p;
 p_nofuel.M_fuel  = 0;       % zero out fuel
-G_nf = Structures.WingGeometry(p_nofuel);
-L_nf = Structures.LoadDistribution(p_nofuel, G_nf, lc);
-S_nf = Structures.SMT(p_nofuel, G_nf, L_nf);
+G_nf = Unconventional.Structures.WingGeometry(p_nf);
+L_nf = Unconventional.Structures.LoadDistribution(p_nf, G_nf, lc);
+S_nf = Unconventional.Structures.SMT(p_nf, G_nf, L_nf);
 
 plot(y, flip_arr(S_nf.M)/1e6, '--','Color',[0.6 0.6 0.6],'LineWidth',1.5,...
      'DisplayName','No fuel relief');
@@ -166,7 +169,7 @@ txt = {
     sprintf('Semi-span = %.1f m', G.s),
     sprintf('Engine @  y=%.1f m', engine_x),
 };
-text(0.05,0.97,txt,'Units','norm','VA','top','FontSize',10,'Interpreter','tex');
+text(0.05,0.97,txt,'Units','norm','VerticalAlignment','top','FontSize',10,'Interpreter','tex');
 
 % =========================================================================
 %  FIGURE 3 — WINGBOX PROPERTIES

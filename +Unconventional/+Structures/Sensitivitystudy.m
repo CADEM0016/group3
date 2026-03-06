@@ -49,9 +49,9 @@ for k = 1:numel(ARs)
     pk.c_tip   = pk.lambda * pk.c_root;
     pk.y_engine= 0.35 * pk.Span/2;
 
-    E_k       = Structures.EmpiricalMass(pk);
+    E_k       = Unconventional.Structures.EmpiricalMass(pk);
     m_emp(k)  = E_k.m_total;
-    m_II5(k)  = Structures.run_II5_mass(pk, '2.5g', 'Al');
+    m_II5(k)  = local_II5mass(pk, '2.5g', 'Al');
 end
 
 nexttile(1);
@@ -77,9 +77,9 @@ for k = 1:numel(MTOMs)
     pk.MTOM   = MTOMs(k);
     pk.M_fuel = pk.Mf_fuel * pk.MTOM;
 
-    E_k        = Structures.EmpiricalMass(pk);
+    E_k        = Unconventional.Structures.EmpiricalMass(pk);
     m2_emp(k)  = E_k.m_total;
-    m2_II5(k)  = Structures.run_II5_mass(pk, '2.5g', 'Al');
+    m2_II5(k)  = local_II5mass(pk, '2.5g', 'Al');
 end
 
 nexttile(2);
@@ -109,9 +109,9 @@ for k = 1:numel(spans)
     pk.c_tip   = pk.lambda * pk.c_root;
     pk.y_engine= 0.35 * pk.Span/2;
 
-    E_k        = Structures.EmpiricalMass(pk);
+    E_k        = Unconventional.Structures.EmpiricalMass(pk);
     m3_emp(k)  = E_k.m_total;
-    m3_II5(k)  = Structures.run_II5_mass(pk, '2.5g', 'Al');
+    m3_II5(k)  = local_II5mass(pk, '2.5g', 'Al');
 end
 
 nexttile(3);
@@ -134,7 +134,7 @@ lcs     = {'2.5g', '1g', 'neg1g'};
 lc_lbls = {'2.5g manoeuvre', '1g level', '−1g inverted'};
 m4      = zeros(1,3);
 for k = 1:3
-    m4(k) = Structures.run_II5_mass(p_base, lcs{k}, 'Al');
+    m4(k) = local_II5mass(p_base, lcs{k}, 'Al');
 end
 [m_crit, ic] = max(m4);
 
@@ -161,9 +161,9 @@ mat_lbls = {'Al 7075-T6', 'CFRP'};
 m5_emp   = zeros(1,2);
 m5_II5   = zeros(1,2);
 for k = 1:2
-    E_k       = Structures.EmpiricalMass(p_base, mats{k});
+    E_k       = Unconventional.Structures.EmpiricalMass(p_base, mats{k});
     m5_emp(k) = E_k.m_total;
-    m5_II5(k) = Structures.run_II5_mass(p_base, '2.5g', mats{k});
+    m5_II5(k) = local_II5mass(p_base, '2.5g', mats{k});
 end
 
 nexttile(5);
@@ -183,8 +183,8 @@ text(1.5, max(m5_emp)/1e3*0.5, sprintf('CFRP saves\n%.0f%%', saving_pct), ...
 %  PANEL 6: Fidelity ladder at design point
 % -------------------------------------------------------------------------
 fprintf('  Panel 6: Fidelity ladder ...\n');
-E_dp  = Structures.EmpiricalMass(p_base, 'Al');
-m_II5_dp = Structures.run_II5_mass(p_base, '2.5g', 'Al');
+E_dp  = Unconventional.Structures.EmpiricalMass(p_base, 'Al');
+m_II5_dp = local_II5mass(p_base, '2.5g', 'Al');
 
 fid_vals = [E_dp.m_raymer, E_dp.m_torenbeek, E_dp.m_total, m_II5_dp] / 1e3;
 fid_lbls = {'Raymer','Torenbeek','I/II avg+hinge','II.5 (2.5g)'};
@@ -207,7 +207,7 @@ end
 %  FIGURE 2 — SMT COMPARISON: THREE LOAD CASES
 % =========================================================================
 fprintf('\n  Generating SMT comparison figure ...\n');
-G = Structures.WingGeometry(p_base);
+G = Unconventional.Structures.WingGeometry(p_base);
 
 cases    = {'2.5g','1g','neg1g'};
 lc_names = {'2.5g manoeuvre','1g level','−1g inverted'};
@@ -227,8 +227,8 @@ ax_T = nexttile(3); hold(ax_T,'on');
 y_plot = fliplr(G.y);   % root → tip for x-axis
 
 for k = 1:3
-    Lk = Structures.LoadDistribution(p_base, G, cases{k});
-    Sk = Structures.SMT(p_base, G, Lk);
+    Lk = Unconventional.Structures.LoadDistribution(p_base, G, cases{k});
+    Sk = Unconventional.Structures.SMT(p_base, G, Lk);
 
     % Reorder tip→root to root→tip for plotting
     Q_plot = fliplr(Sk.Q);
@@ -264,12 +264,11 @@ end
 %  PRIVATE HELPER — run full II.5 chain and return mass scalar
 %  Kept here so SensitivityStudy.m has no loop boilerplate
 % =========================================================================
-function m = run_II5_mass(p, loadcase, material)
-% Runs the full Class II.5 pipeline and returns total wing mass [kg].
-    G   = Structures.WingGeometry(p);
-    L   = Structures.LoadDistribution(p, G, loadcase);
-    S   = Structures.SMT(p, G, L);
-    W   = Structures.WingboxSizing(p, G, S, material);
-    MB  = Structures.MassBuildup(p, G, W);
-    m   = MB.m_total;
+function m = local_II5mass(p, lc, mat)
+    Gk  = Unconventional.Structures.WingGeometry(p);
+    Lk  = Unconventional.Structures.LoadDistribution(p, Gk, lc);
+    Sk  = Unconventional.Structures.SMT(p, Gk, Lk);
+    Wk  = Unconventional.Structures.WingboxSizing(p, Gk, Sk, mat);
+    MBk = Unconventional.Structures.MassBuildup(p, Gk, Wk);
+    m   = MBk.m_total;
 end
