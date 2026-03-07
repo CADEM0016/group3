@@ -105,6 +105,8 @@ m_outer_primary   = 2 * (m_outer_skin_semi + m_outer_caps_semi + m_outer_webs_se
 
 m_hinge = p.f_hinge_mech * m_outer_primary;
 
+m_hinge = max(m_hinge, p.m_hinge_min);
+
 % -------------------------------------------------------------------------
 %  TOTAL
 % -------------------------------------------------------------------------

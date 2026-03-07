@@ -91,7 +91,8 @@ for i = 1:N
     %    → A_cap = M / (σ_all * h)
     % -----------------------------------------------------------------
     if h > 1e-6 && Mi > 0
-        A_cap(i) = Mi / (2.0 * sig_all * h);
+        % IMPROVED (caps carry 60%, skin carries 40%):
+        A_cap(i) = 0.60 * Mi / (2.0 * sig_all * h);
     end
     A_cap(i) = max(A_cap(i), A_min);    % minimum gauge
 

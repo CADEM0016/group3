@@ -90,8 +90,8 @@ p.CF.E        = 3/8 * 135e9;
 p.CF.G        = 3/8 *  50e9;
 p.CF.rho      = 1550;
 p.CF.sig_ult  = 600e6;
-p.CF.sig_all  = 400e6;
-p.CF.tau_all  = 200e6;
+p.CF.sig_all  = 220e6;    % Post-knockdown allowable (BVID, CS-25.571)
+p.CF.tau_all  = 110e6;    % Shear allowable scaled accordingly
 p.CF.t_min    = 0.002;
 p.CF.t_web_min= 0.003;
 p.CF.A_cap_min= 1.0e-4;
@@ -101,8 +101,10 @@ p.CF.A_cap_min= 1.0e-4;
 % -------------------------------------------------------------------------
 p.f_secondary  = 0.35;      % Secondary structure on primary wingbox
 %   Covers: ribs, LE/TE, control surfaces, brackets, sealant
-p.f_hinge_mech = 0.10;      % Folding hinge mechanism on outer panel mass
-%   Covers: actuator, lock, structural doublers, fairing
+p.f_hinge_mech = 0.10;    % keep fraction
+% AND add a minimum floor in EmpiricalMass.m and MassBuildup.m:
+p.m_hinge_min  = 1500;    % kg minimum per aircraft (both wings)
+                           % based on 777X programme data%   Covers: actuator, lock, structural doublers, fairing
 
 % -------------------------------------------------------------------------
 %  DISCRETISATION
