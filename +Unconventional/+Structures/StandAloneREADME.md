@@ -1,4 +1,4 @@
-# Wing Structural Analysis
+# Wing Structural Analysis (Stand Alone)
 ### CADEM0016 - Group 3 MDO Project | University of Bristol 2025–26
 ### Unconventional Configuration: Wide-Body Fuselage + Folding Wingtips
 
