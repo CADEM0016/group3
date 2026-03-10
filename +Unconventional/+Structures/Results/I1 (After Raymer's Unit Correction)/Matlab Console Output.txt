@@ -1,0 +1,3027 @@
+Iteration-1
+Matlab Output:
+=========================================================
+Wing Structural Analysis — MDO Development Phase
+CADEM0016 GDP, University of Bristol 2025-26
+Unconventional config: wide-body + folding wingtips
+=========================================================
+
+STEP 0: Loading aircraft parameters ...
+MTOM: 348700 kg (348.7 t)
+Span: 72.0 m (flight)
+Taxi span: 65.0 m (Code E limit)
+Fold hinge: y = 32.5 m
+Wing area: 436.8 m^2
+AR: 11.87
+Fuel mass: 66253 kg (66.3 t)
+
+=========================================================
+STEP 1: Class I/II Empirical Wing Mass
+=========================================================
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 36534 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18267 kg
+Hinge penalty: 1500 kg
+TOTAL: 19767 kg ( 5.7% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -41.9%
+
+--- Class I/II Empirical Wing Mass: CFRP ---
+Raymer (2018): 36534 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 12731 kg
+Hinge penalty: 1500 kg
+TOTAL: 14231 kg ( 4.1% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -58.1%
+
+Aluminium: 19767 kg (5.7% MTOM)
+CFRP: 14231 kg (4.1% MTOM)
+CFRP saves: 5536 kg (28.0%)
+
+=========================================================
+STEP 2: Wing Geometry
+=========================================================
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+=========================================================
+STEP 3: Load Distributions
+=========================================================
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- Load Distribution: 1g ---
+n_limit = 1.0 | n_ult = 1.50
+Semi-wing lift: 1.710 MN
+Wing inertia relief: 0.231 MN
+Fuel inertia relief: 0.473 MN
+Engine point load: 0.129 MN
+Relief as % of lift: 41.1%
+
+--- Load Distribution: neg1g ---
+n_limit = 1.0 | n_ult = 1.50
+Semi-wing lift: 1.710 MN
+Wing inertia relief: 0.231 MN
+Fuel inertia relief: 0.473 MN
+Engine point load: 0.129 MN
+Relief as % of lift: 41.1%
+
+=========================================================
+STEP 4: SMT Integration
+=========================================================
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.152 MNm
+Root torque: 4.481 MNm
+Hinge shear force: 0.095 MN
+Hinge bending moment: 0.116 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- SMT Integration: 1g ---
+Root shear force: 0.877 MN
+Root bending moment: 15.661 MNm
+Root torque: 1.793 MNm
+Hinge shear force: 0.038 MN
+Hinge bending moment: 0.046 MNm
+Hinge torque: 0.002 MNm
+BM hinge / BM root: 0.3%
+
+--- SMT Integration: neg1g ---
+Root shear force: 0.877 MN
+Root bending moment: 15.661 MNm
+Root torque: 1.793 MNm
+Hinge shear force: 0.038 MN
+Hinge bending moment: 0.046 MNm
+Hinge torque: 0.002 MNm
+BM hinge / BM root: 0.3%
+
+Root bending moments:
+2.5g: 39.15 MNm
+1g: 15.66 MNm
+neg1g: 15.66 MNm
+→ CRITICAL CASE: 2.5g (highest bending moment)
+
+=========================================================
+STEP 5: Wingbox Sizing
+=========================================================
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.40 mm
+Spar cap area: 305.1 cm^2
+Spar web thick: 4.93 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Wingbox Sizing: neg1g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 122.0 cm^2
+Spar web thick: 3.00 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Wingbox Sizing: 2.5g (CFRP (quasi-isotropic)) ---
+Allowable stress: 220 MPa
+Allowable shear: 110 MPa
+Root:
+Skin thickness: 3.46 mm
+Spar cap area: 381.4 cm^2
+Spar web thick: 7.12 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 4.1 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+=========================================================
+STEP 6: Stiffness Distributions EI(y) and GJ(y)
+=========================================================
+
+--- Stiffness Distributions (Aluminium 7075-T6) ---
+EI at root: 4.9459e+09 Nm^2
+EI at hinge: 1.9936e+07 Nm^2 (y=32.5m)
+EI at tip: 9.1601e+06 Nm^2
+EI_tip/EI_root ratio: 0.0019
+GJ at root: 7.9610e+08 Nm^2
+GJ at hinge: 1.9900e+07 Nm^2
+GJ at tip: 1.0335e+07 Nm^2
+GJ_tip/GJ_root ratio: 0.0130
+
+--- Stiffness Distributions (CFRP (quasi-isotropic)) ---
+EI at root: 4.5058e+09 Nm^2
+EI at hinge: 1.4836e+07 Nm^2 (y=32.5m)
+EI at tip: 6.5314e+06 Nm^2
+EI_tip/EI_root ratio: 0.0014
+GJ at root: 8.0208e+08 Nm^2
+GJ at hinge: 1.3871e+07 Nm^2
+GJ at tip: 7.2037e+06 Nm^2
+GJ_tip/GJ_root ratio: 0.0090
+
+=========================================================
+STEP 7: Mass Buildup
+=========================================================
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2248 kg (15.8%)
+Spar caps (×4): 10540 kg (74.0%)
+Spar webs (×2): 1451 kg (10.2%)
+Primary total: 14239 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4984 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 166 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 20722 kg
+Wing mass fraction MTOM: 5.94%
+[B777F reference: ~34000 kg]
+
+--- Mass Buildup: CF (CFRP (quasi-isotropic)) ---
+PRIMARY WINGBOX
+Skin (top+bot): 1451 kg (14.6%)
+Spar caps (×4): 7345 kg (73.9%)
+Spar webs (×2): 1140 kg (11.5%)
+Primary total: 9935 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3477 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 94 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 14912 kg
+Wing mass fraction MTOM: 4.28%
+[B777F reference: ~34000 kg]
+
+=========================================================
+STEP 8: Fidelity Comparison — Class I/II vs Class II.5
+=========================================================
+
++-------------------------------+----------+-----------+
+| Method | Mass [kg]| % MTOM |
++-------------------------------+----------+-----------+
+| Class I/II Raymer | 36534 | 10.48% |
+| Class I/II Torenbeek | 0 | 0.00% |
+| Class I/II Avg + hinge (Al) | 19767 | 5.67% |
+| Class I/II Avg + hinge (CF) | 14231 | 4.08% |
++-------------------------------+----------+-----------+
+| Class II.5 2.5g (Al) | 20722 | 5.94% |
+| Class II.5 2.5g (CFRP) | 14912 | 4.28% |
++-------------------------------+----------+-----------+
+| B777F reference | 34000 | 9.76% |
++-------------------------------+----------+-----------+
+
+Diff I/II vs II.5 (Al): +955 kg (+4.8%)
+
+=========================================================
+STEP 9: Generating Plots
+=========================================================
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 0.000 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 13.5%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 3.375 MN
+Root bending moment: 52.682 MNm
+Root torque: 4.481 MNm
+Hinge shear force: 0.117 MN
+Hinge bending moment: 0.150 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+=========================================================
+STEP 10: Sensitivity Studies
+=========================================================
+
+========================================
+SENSITIVITY STUDY — Wing Structural Mass
+========================================
+
+Panel 1: Wing mass vs AR ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 28058 kg ( 8.0% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 14029 kg
+Hinge penalty: 1500 kg
+TOTAL: 15529 kg ( 4.5% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -54.3%
+
+--- Wing Geometry ---
+Semi-span: 27.65 m
+Root chord: 12.15 m
+Tip chord: 3.65 m
+Aspect ratio: 7.00
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 9.7 m (station 98)
+Stations: 150 (dy = 0.186 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 30.069 MNm
+Root torque: 5.835 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 179.9 cm^2
+Spar web thick: 3.78 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (27.1%)
+Spar caps (×4): 4776 kg (58.7%)
+Spar webs (×2): 1157 kg (14.2%)
+Primary total: 8133 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 2847 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 12480 kg
+Wing mass fraction MTOM: 3.58%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 29363 kg ( 8.4% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 14682 kg
+Hinge penalty: 1500 kg
+TOTAL: 16182 kg ( 4.6% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -52.4%
+
+--- Wing Geometry ---
+Semi-span: 28.93 m
+Root chord: 11.61 m
+Tip chord: 3.48 m
+Aspect ratio: 7.67
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 10.1 m (station 98)
+Stations: 150 (dy = 0.194 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 31.468 MNm
+Root torque: 5.576 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 197.1 cm^2
+Spar web thick: 3.96 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (24.8%)
+Spar caps (×4): 5474 kg (61.7%)
+Spar webs (×2): 1201 kg (13.5%)
+Primary total: 8875 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3106 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 13481 kg
+Wing mass fraction MTOM: 3.87%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 30613 kg ( 8.8% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 15307 kg
+Hinge penalty: 1500 kg
+TOTAL: 16807 kg ( 4.8% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -50.6%
+
+--- Wing Geometry ---
+Semi-span: 30.17 m
+Root chord: 11.14 m
+Tip chord: 3.34 m
+Aspect ratio: 8.33
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 10.6 m (station 98)
+Stations: 150 (dy = 0.202 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 32.808 MNm
+Root torque: 5.348 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.01 mm
+Spar cap area: 214.2 cm^2
+Spar web thick: 4.13 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2201 kg (22.8%)
+Spar caps (×4): 6203 kg (64.3%)
+Spar webs (×2): 1243 kg (12.9%)
+Primary total: 9647 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3376 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 14523 kg
+Wing mass fraction MTOM: 4.16%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 31814 kg ( 9.1% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 15907 kg
+Hinge penalty: 1500 kg
+TOTAL: 17407 kg ( 5.0% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -48.8%
+
+--- Wing Geometry ---
+Semi-span: 31.35 m
+Root chord: 10.72 m
+Tip chord: 3.22 m
+Aspect ratio: 9.00
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 11.0 m (station 98)
+Stations: 150 (dy = 0.210 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 34.095 MNm
+Root torque: 5.146 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.09 mm
+Spar cap area: 231.4 cm^2
+Spar web thick: 4.29 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2204 kg (21.1%)
+Spar caps (×4): 6961 kg (66.6%)
+Spar webs (×2): 1285 kg (12.3%)
+Primary total: 10450 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3657 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 15607 kg
+Wing mass fraction MTOM: 4.48%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 32972 kg ( 9.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 16486 kg
+Hinge penalty: 1500 kg
+TOTAL: 17986 kg ( 5.2% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -47.1%
+
+--- Wing Geometry ---
+Semi-span: 32.49 m
+Root chord: 10.34 m
+Tip chord: 3.10 m
+Aspect ratio: 9.67
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 11.4 m (station 98)
+Stations: 150 (dy = 0.218 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 35.335 MNm
+Root torque: 4.966 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.16 mm
+Spar cap area: 248.5 cm^2
+Spar web thick: 4.45 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2210 kg (19.6%)
+Spar caps (×4): 7748 kg (68.7%)
+Spar webs (×2): 1325 kg (11.7%)
+Primary total: 11284 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3949 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 16733 kg
+Wing mass fraction MTOM: 4.80%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 34090 kg ( 9.8% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 17045 kg
+Hinge penalty: 1500 kg
+TOTAL: 18545 kg ( 5.3% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -45.5%
+
+--- Wing Geometry ---
+Semi-span: 33.59 m
+Root chord: 10.00 m
+Tip chord: 3.00 m
+Aspect ratio: 10.33
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 6)
+Engine @ y = 11.8 m (station 98)
+Stations: 150 (dy = 0.225 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 36.533 MNm
+Root torque: 4.803 MNm
+Hinge shear force: 0.015 MN
+Hinge bending moment: 0.005 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.24 mm
+Spar cap area: 265.6 cm^2
+Spar web thick: 4.60 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2219 kg (18.3%)
+Spar caps (×4): 8563 kg (70.5%)
+Spar webs (×2): 1365 kg (11.2%)
+Primary total: 12147 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4252 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 61 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 17899 kg
+Wing mass fraction MTOM: 5.13%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 35172 kg (10.1% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 17586 kg
+Hinge penalty: 1500 kg
+TOTAL: 19086 kg ( 5.5% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -43.9%
+
+--- Wing Geometry ---
+Semi-span: 34.66 m
+Root chord: 9.69 m
+Tip chord: 2.91 m
+Aspect ratio: 11.00
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 10)
+Engine @ y = 12.1 m (station 98)
+Stations: 150 (dy = 0.233 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 37.693 MNm
+Root torque: 4.655 MNm
+Hinge shear force: 0.044 MN
+Hinge bending moment: 0.031 MNm
+Hinge torque: 0.002 MNm
+BM hinge / BM root: 0.1%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.31 mm
+Spar cap area: 282.8 cm^2
+Spar web thick: 4.74 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2231 kg (17.1%)
+Spar caps (×4): 9405 kg (72.1%)
+Spar webs (×2): 1403 kg (10.8%)
+Primary total: 13038 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4563 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 105 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 19102 kg
+Wing mass fraction MTOM: 5.48%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 36222 kg (10.4% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18111 kg
+Hinge penalty: 1500 kg
+TOTAL: 19611 kg ( 5.6% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -42.3%
+
+--- Wing Geometry ---
+Semi-span: 35.69 m
+Root chord: 9.41 m
+Tip chord: 2.82 m
+Aspect ratio: 11.67
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 14)
+Engine @ y = 12.5 m (station 98)
+Stations: 150 (dy = 0.240 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 38.819 MNm
+Root torque: 4.520 MNm
+Hinge shear force: 0.084 MN
+Hinge bending moment: 0.093 MNm
+Hinge torque: 0.005 MNm
+BM hinge / BM root: 0.2%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.38 mm
+Spar cap area: 299.9 cm^2
+Spar web thick: 4.89 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 2.6 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2244 kg (16.1%)
+Spar caps (×4): 10272 kg (73.6%)
+Spar webs (×2): 1440 kg (10.3%)
+Primary total: 13956 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4885 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 153 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 20341 kg
+Wing mass fraction MTOM: 5.83%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 37243 kg (10.7% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18622 kg
+Hinge penalty: 1500 kg
+TOTAL: 20122 kg ( 5.8% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -40.8%
+
+--- Wing Geometry ---
+Semi-span: 36.70 m
+Root chord: 9.16 m
+Tip chord: 2.75 m
+Aspect ratio: 12.33
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 18)
+Engine @ y = 12.8 m (station 98)
+Stations: 150 (dy = 0.246 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.912 MNm
+Root torque: 4.396 MNm
+Hinge shear force: 0.131 MN
+Hinge bending moment: 0.202 MNm
+Hinge torque: 0.010 MNm
+BM hinge / BM root: 0.5%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.44 mm
+Spar cap area: 317.0 cm^2
+Spar web thick: 5.02 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 5.5 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2258 kg (15.2%)
+Spar caps (×4): 11165 kg (74.9%)
+Spar webs (×2): 1477 kg ( 9.9%)
+Primary total: 14900 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5215 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 210 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 21614 kg
+Wing mass fraction MTOM: 6.20%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 38236 kg (11.0% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 19118 kg
+Hinge penalty: 1500 kg
+TOTAL: 20618 kg ( 5.9% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -39.4%
+
+--- Wing Geometry ---
+Semi-span: 37.68 m
+Root chord: 8.92 m
+Tip chord: 2.68 m
+Aspect ratio: 13.00
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 21)
+Engine @ y = 13.2 m (station 98)
+Stations: 150 (dy = 0.253 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 40.977 MNm
+Root torque: 4.282 MNm
+Hinge shear force: 0.171 MN
+Hinge bending moment: 0.321 MNm
+Hinge torque: 0.015 MNm
+BM hinge / BM root: 0.8%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.51 mm
+Spar cap area: 334.2 cm^2
+Spar web thick: 5.16 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 8.6 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2273 kg (14.3%)
+Spar caps (×4): 12082 kg (76.1%)
+Spar webs (×2): 1512 kg ( 9.5%)
+Primary total: 15868 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5554 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 260 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 22921 kg
+Wing mass fraction MTOM: 6.57%
+[B777F reference: ~34000 kg]
+Panel 2: Wing mass vs MTOM ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 26805 kg (13.4% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 13403 kg
+Hinge penalty: 1500 kg
+TOTAL: 14903 kg ( 7.5% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -56.2%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 2.452 MN
+Wing inertia relief: 0.331 MN
+Fuel inertia relief: 0.678 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 1.121 MN
+Root bending moment: 20.713 MNm
+Root torque: 2.570 MNm
+Hinge shear force: 0.055 MN
+Hinge bending moment: 0.066 MNm
+Hinge torque: 0.003 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 161.4 cm^2
+Spar web thick: 3.00 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.9 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (24.4%)
+Spar caps (×4): 5827 kg (64.7%)
+Spar webs (×2): 981 kg (10.9%)
+Primary total: 9009 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3153 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 164 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 13662 kg
+Wing mass fraction MTOM: 6.83%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 28584 kg (12.7% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 14292 kg
+Hinge penalty: 1500 kg
+TOTAL: 15792 kg ( 7.0% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -53.6%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 2.751 MN
+Wing inertia relief: 0.371 MN
+Fuel inertia relief: 0.761 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 1.297 MN
+Root bending moment: 23.744 MNm
+Root torque: 2.885 MNm
+Hinge shear force: 0.061 MN
+Hinge bending moment: 0.075 MNm
+Hinge torque: 0.004 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 185.0 cm^2
+Spar web thick: 3.00 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 2.1 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (22.5%)
+Spar caps (×4): 6602 kg (67.4%)
+Spar webs (×2): 996 kg (10.2%)
+Primary total: 9798 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3429 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 164 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 14727 kg
+Wing mass fraction MTOM: 6.56%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 30278 kg (12.2% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 15139 kg
+Hinge penalty: 1500 kg
+TOTAL: 16639 kg ( 6.7% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -51.1%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 3.051 MN
+Wing inertia relief: 0.412 MN
+Fuel inertia relief: 0.843 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 1.473 MN
+Root bending moment: 26.775 MNm
+Root torque: 3.199 MNm
+Hinge shear force: 0.068 MN
+Hinge bending moment: 0.083 MNm
+Hinge torque: 0.004 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 208.6 cm^2
+Spar web thick: 3.31 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 2.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (20.7%)
+Spar caps (×4): 7376 kg (69.4%)
+Spar webs (×2): 1053 kg ( 9.9%)
+Primary total: 10629 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3720 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 164 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 15850 kg
+Wing mass fraction MTOM: 6.37%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 31900 kg (11.7% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 15950 kg
+Hinge penalty: 1500 kg
+TOTAL: 17450 kg ( 6.4% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -48.7%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 3.351 MN
+Wing inertia relief: 0.452 MN
+Fuel inertia relief: 0.926 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 1.650 MN
+Root bending moment: 29.807 MNm
+Root torque: 3.513 MNm
+Hinge shear force: 0.075 MN
+Hinge bending moment: 0.091 MNm
+Hinge torque: 0.005 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 232.3 cm^2
+Spar web thick: 3.71 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 2.6 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (19.1%)
+Spar caps (×4): 8151 kg (70.9%)
+Spar webs (×2): 1145 kg (10.0%)
+Primary total: 11496 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4024 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 165 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 17020 kg
+Wing mass fraction MTOM: 6.23%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 33459 kg (11.2% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 16729 kg
+Hinge penalty: 1500 kg
+TOTAL: 18229 kg ( 6.1% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -46.4%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 3.650 MN
+Wing inertia relief: 0.493 MN
+Fuel inertia relief: 1.009 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 1.826 MN
+Root bending moment: 32.838 MNm
+Root torque: 3.827 MNm
+Hinge shear force: 0.081 MN
+Hinge bending moment: 0.099 MNm
+Hinge torque: 0.005 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.05 mm
+Spar cap area: 255.9 cm^2
+Spar web thick: 4.10 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 2.8 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2201 kg (17.8%)
+Spar caps (×4): 8926 kg (72.2%)
+Spar webs (×2): 1243 kg (10.0%)
+Primary total: 12370 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4329 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 165 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 18199 kg
+Wing mass fraction MTOM: 6.11%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 34962 kg (10.9% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 17481 kg
+Hinge penalty: 1500 kg
+TOTAL: 18981 kg ( 5.9% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -44.2%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 3.950 MN
+Wing inertia relief: 0.533 MN
+Fuel inertia relief: 1.092 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.002 MN
+Root bending moment: 35.869 MNm
+Root torque: 4.141 MNm
+Hinge shear force: 0.088 MN
+Hinge bending moment: 0.107 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.21 mm
+Spar cap area: 279.5 cm^2
+Spar web thick: 4.50 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2216 kg (16.7%)
+Spar caps (×4): 9700 kg (73.2%)
+Spar webs (×2): 1342 kg (10.1%)
+Primary total: 13259 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4641 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 166 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 19399 kg
+Wing mass fraction MTOM: 6.02%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 36415 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18208 kg
+Hinge penalty: 1500 kg
+TOTAL: 19708 kg ( 5.7% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -42.0%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.250 MN
+Wing inertia relief: 0.574 MN
+Fuel inertia relief: 1.175 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.179 MN
+Root bending moment: 38.900 MNm
+Root torque: 4.455 MNm
+Hinge shear force: 0.095 MN
+Hinge bending moment: 0.115 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.38 mm
+Spar cap area: 303.1 cm^2
+Spar web thick: 4.89 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.2 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2245 kg (15.9%)
+Spar caps (×4): 10475 kg (74.0%)
+Spar webs (×2): 1443 kg (10.2%)
+Primary total: 14163 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4957 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 166 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 20620 kg
+Wing mass fraction MTOM: 5.95%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 37824 kg (10.2% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18912 kg
+Hinge penalty: 1500 kg
+TOTAL: 20412 kg ( 5.5% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -40.0%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.549 MN
+Wing inertia relief: 0.614 MN
+Fuel inertia relief: 1.258 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.355 MN
+Root bending moment: 41.931 MNm
+Root torque: 4.769 MNm
+Hinge shear force: 0.101 MN
+Hinge bending moment: 0.123 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.55 mm
+Spar cap area: 326.7 cm^2
+Spar web thick: 5.29 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.5 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2284 kg (15.1%)
+Spar caps (×4): 11250 kg (74.6%)
+Spar webs (×2): 1545 kg (10.2%)
+Primary total: 15078 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5277 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 167 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 21856 kg
+Wing mass fraction MTOM: 5.89%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 39192 kg ( 9.9% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 19596 kg
+Hinge penalty: 1500 kg
+TOTAL: 21096 kg ( 5.3% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -38.0%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.849 MN
+Wing inertia relief: 0.655 MN
+Fuel inertia relief: 1.340 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.532 MN
+Root bending moment: 44.962 MNm
+Root torque: 5.084 MNm
+Hinge shear force: 0.108 MN
+Hinge bending moment: 0.131 MNm
+Hinge torque: 0.007 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.72 mm
+Spar cap area: 350.4 cm^2
+Spar web thick: 5.69 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.7 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2331 kg (14.6%)
+Spar caps (×4): 12025 kg (75.1%)
+Spar webs (×2): 1647 kg (10.3%)
+Primary total: 16003 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5601 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 167 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 23104 kg
+Wing mass fraction MTOM: 5.84%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 40523 kg ( 9.6% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 20261 kg
+Hinge penalty: 1500 kg
+TOTAL: 21761 kg ( 5.2% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -36.0%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 5.148 MN
+Wing inertia relief: 0.695 MN
+Fuel inertia relief: 1.423 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.708 MN
+Root bending moment: 47.994 MNm
+Root torque: 5.398 MNm
+Hinge shear force: 0.115 MN
+Hinge bending moment: 0.140 MNm
+Hinge torque: 0.007 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.89 mm
+Spar cap area: 374.0 cm^2
+Spar web thick: 6.08 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.9 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2384 kg (14.1%)
+Spar caps (×4): 12799 kg (75.6%)
+Spar webs (×2): 1750 kg (10.3%)
+Primary total: 16934 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5927 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 167 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 24361 kg
+Wing mass fraction MTOM: 5.80%
+[B777F reference: ~34000 kg]
+Panel 3: Wing mass vs Wingspan ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 27908 kg ( 8.0% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 13954 kg
+Hinge penalty: 1500 kg
+TOTAL: 15454 kg ( 4.4% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -54.5%
+
+--- Wing Geometry ---
+Semi-span: 27.50 m
+Root chord: 12.22 m
+Tip chord: 3.67 m
+Aspect ratio: 6.93
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 9.6 m (station 98)
+Stations: 150 (dy = 0.185 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 29.908 MNm
+Root torque: 5.867 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 178.0 cm^2
+Spar web thick: 3.76 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (27.3%)
+Spar caps (×4): 4700 kg (58.4%)
+Spar webs (×2): 1152 kg (14.3%)
+Primary total: 8052 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 2818 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 12370 kg
+Wing mass fraction MTOM: 3.55%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 29176 kg ( 8.4% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 14588 kg
+Hinge penalty: 1500 kg
+TOTAL: 16088 kg ( 4.6% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -52.7%
+
+--- Wing Geometry ---
+Semi-span: 28.75 m
+Root chord: 11.69 m
+Tip chord: 3.51 m
+Aspect ratio: 7.57
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 10.1 m (station 98)
+Stations: 150 (dy = 0.193 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 31.267 MNm
+Root torque: 5.612 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 194.6 cm^2
+Spar web thick: 3.93 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (25.1%)
+Spar caps (×4): 5370 kg (61.3%)
+Spar webs (×2): 1194 kg (13.6%)
+Primary total: 8765 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3068 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 13332 kg
+Wing mass fraction MTOM: 3.82%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 30445 kg ( 8.7% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 15223 kg
+Hinge penalty: 1500 kg
+TOTAL: 16723 kg ( 4.8% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -50.8%
+
+--- Wing Geometry ---
+Semi-span: 30.00 m
+Root chord: 11.20 m
+Tip chord: 3.36 m
+Aspect ratio: 8.24
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 10.5 m (station 98)
+Stations: 150 (dy = 0.201 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 32.627 MNm
+Root torque: 5.378 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 211.9 cm^2
+Spar web thick: 4.11 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (23.1%)
+Spar caps (×4): 6101 kg (64.0%)
+Spar webs (×2): 1238 kg (13.0%)
+Primary total: 9539 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3339 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 14377 kg
+Wing mass fraction MTOM: 4.12%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 31713 kg ( 9.1% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 15857 kg
+Hinge penalty: 1500 kg
+TOTAL: 17357 kg ( 5.0% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -49.0%
+
+--- Wing Geometry ---
+Semi-span: 31.25 m
+Root chord: 10.75 m
+Tip chord: 3.23 m
+Aspect ratio: 8.94
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 10.9 m (station 98)
+Stations: 150 (dy = 0.210 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 33.986 MNm
+Root torque: 5.163 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.08 mm
+Spar cap area: 229.9 cm^2
+Spar web thick: 4.28 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2203 kg (21.2%)
+Spar caps (×4): 6895 kg (66.4%)
+Spar webs (×2): 1281 kg (12.3%)
+Primary total: 10380 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3633 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 15512 kg
+Wing mass fraction MTOM: 4.45%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 32982 kg ( 9.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 16491 kg
+Hinge penalty: 1500 kg
+TOTAL: 17991 kg ( 5.2% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -47.1%
+
+--- Wing Geometry ---
+Semi-span: 32.50 m
+Root chord: 10.34 m
+Tip chord: 3.10 m
+Aspect ratio: 9.67
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 1)
+Engine @ y = 11.4 m (station 98)
+Stations: 150 (dy = 0.218 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 35.346 MNm
+Root torque: 4.964 MNm
+Hinge shear force: 0.000 MN
+Hinge bending moment: 0.000 MNm
+Hinge torque: 0.000 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.16 mm
+Spar cap area: 248.6 cm^2
+Spar web thick: 4.45 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2210 kg (19.6%)
+Spar caps (×4): 7756 kg (68.7%)
+Spar webs (×2): 1326 kg (11.7%)
+Primary total: 11291 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3952 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 10 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 16743 kg
+Wing mass fraction MTOM: 4.80%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 34250 kg ( 9.8% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 17125 kg
+Hinge penalty: 1500 kg
+TOTAL: 18625 kg ( 5.3% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -45.2%
+
+--- Wing Geometry ---
+Semi-span: 33.75 m
+Root chord: 9.96 m
+Tip chord: 2.99 m
+Aspect ratio: 10.43
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 7)
+Engine @ y = 11.8 m (station 98)
+Stations: 150 (dy = 0.227 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 36.705 MNm
+Root torque: 4.780 MNm
+Hinge shear force: 0.021 MN
+Hinge bending moment: 0.009 MNm
+Hinge torque: 0.001 MNm
+BM hinge / BM root: 0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.25 mm
+Spar cap area: 268.1 cm^2
+Spar web thick: 4.62 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.0 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2221 kg (18.1%)
+Spar caps (×4): 8685 kg (70.7%)
+Spar webs (×2): 1370 kg (11.2%)
+Primary total: 12276 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4297 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 71 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 18073 kg
+Wing mass fraction MTOM: 5.18%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 35519 kg (10.2% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 17760 kg
+Hinge penalty: 1500 kg
+TOTAL: 19260 kg ( 5.5% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -43.4%
+
+--- Wing Geometry ---
+Semi-span: 35.00 m
+Root chord: 9.60 m
+Tip chord: 2.88 m
+Aspect ratio: 11.22
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 12)
+Engine @ y = 12.2 m (station 98)
+Stations: 150 (dy = 0.235 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 38.065 MNm
+Root torque: 4.610 MNm
+Hinge shear force: 0.063 MN
+Hinge bending moment: 0.057 MNm
+Hinge torque: 0.003 MNm
+BM hinge / BM root: 0.1%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.33 mm
+Spar cap area: 288.4 cm^2
+Spar web thick: 4.79 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.6 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2235 kg (16.8%)
+Spar caps (×4): 9686 kg (72.6%)
+Spar webs (×2): 1415 kg (10.6%)
+Primary total: 13336 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4667 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 128 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 19503 kg
+Wing mass fraction MTOM: 5.59%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 36787 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18394 kg
+Hinge penalty: 1500 kg
+TOTAL: 19894 kg ( 5.7% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -41.5%
+
+--- Wing Geometry ---
+Semi-span: 36.25 m
+Root chord: 9.27 m
+Tip chord: 2.78 m
+Aspect ratio: 12.03
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 16)
+Engine @ y = 12.7 m (station 98)
+Stations: 150 (dy = 0.243 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.424 MNm
+Root torque: 4.451 MNm
+Hinge shear force: 0.107 MN
+Hinge bending moment: 0.141 MNm
+Hinge torque: 0.007 MNm
+BM hinge / BM root: 0.4%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.41 mm
+Spar cap area: 309.3 cm^2
+Spar web thick: 4.96 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.9 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2251 kg (15.6%)
+Spar caps (×4): 10761 kg (74.4%)
+Spar webs (×2): 1460 kg (10.1%)
+Primary total: 14472 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5065 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 180 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 21038 kg
+Wing mass fraction MTOM: 6.03%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 38056 kg (10.9% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 19028 kg
+Hinge penalty: 1500 kg
+TOTAL: 20528 kg ( 5.9% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -39.6%
+
+--- Wing Geometry ---
+Semi-span: 37.50 m
+Root chord: 8.96 m
+Tip chord: 2.69 m
+Aspect ratio: 12.88
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 21)
+Engine @ y = 13.1 m (station 98)
+Stations: 150 (dy = 0.252 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 40.784 MNm
+Root torque: 4.302 MNm
+Hinge shear force: 0.171 MN
+Hinge bending moment: 0.320 MNm
+Hinge torque: 0.015 MNm
+BM hinge / BM root: 0.8%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.50 mm
+Spar cap area: 331.0 cm^2
+Spar web thick: 5.13 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 8.6 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2270 kg (14.5%)
+Spar caps (×4): 11912 kg (75.9%)
+Spar webs (×2): 1506 kg ( 9.6%)
+Primary total: 15688 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5491 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 260 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 22679 kg
+Wing mass fraction MTOM: 6.50%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 39325 kg (11.3% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 19662 kg
+Hinge penalty: 1500 kg
+TOTAL: 21162 kg ( 6.1% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -37.8%
+
+--- Wing Geometry ---
+Semi-span: 38.75 m
+Root chord: 8.67 m
+Tip chord: 2.60 m
+Aspect ratio: 13.75
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 25)
+Engine @ y = 13.6 m (station 98)
+Stations: 150 (dy = 0.260 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 42.143 MNm
+Root torque: 4.163 MNm
+Hinge shear force: 0.228 MN
+Hinge bending moment: 0.538 MNm
+Hinge torque: 0.024 MNm
+BM hinge / BM root: 1.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.58 mm
+Spar cap area: 353.5 cm^2
+Spar web thick: 5.30 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 14.1 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2292 kg (13.5%)
+Spar caps (×4): 13143 kg (77.4%)
+Spar webs (×2): 1551 kg ( 9.1%)
+Primary total: 16986 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 5945 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 342 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 24431 kg
+Wing mass fraction MTOM: 7.01%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 40593 kg (11.6% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 20297 kg
+Hinge penalty: 1500 kg
+TOTAL: 21797 kg ( 6.3% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -35.9%
+
+--- Wing Geometry ---
+Semi-span: 40.00 m
+Root chord: 8.40 m
+Tip chord: 2.52 m
+Aspect ratio: 14.65
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 29)
+Engine @ y = 14.0 m (station 98)
+Stations: 150 (dy = 0.268 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 43.502 MNm
+Root torque: 4.033 MNm
+Hinge shear force: 0.290 MN
+Hinge bending moment: 0.833 MNm
+Hinge torque: 0.036 MNm
+BM hinge / BM root: 1.9%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.66 mm
+Spar cap area: 376.6 cm^2
+Spar web thick: 5.47 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 21.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2315 kg (12.6%)
+Spar caps (×4): 14456 kg (78.7%)
+Spar webs (×2): 1597 kg ( 8.7%)
+Primary total: 18368 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 6429 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 446 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 26297 kg
+Wing mass fraction MTOM: 7.54%
+[B777F reference: ~34000 kg]
+Panel 4: Load case comparison ...
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.152 MNm
+Root torque: 4.481 MNm
+Hinge shear force: 0.095 MN
+Hinge bending moment: 0.116 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.40 mm
+Spar cap area: 305.1 cm^2
+Spar web thick: 4.93 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2248 kg (15.8%)
+Spar caps (×4): 10540 kg (74.0%)
+Spar webs (×2): 1451 kg (10.2%)
+Primary total: 14239 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4984 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 166 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 20722 kg
+Wing mass fraction MTOM: 5.94%
+[B777F reference: ~34000 kg]
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 1g ---
+n_limit = 1.0 | n_ult = 1.50
+Semi-wing lift: 1.710 MN
+Wing inertia relief: 0.231 MN
+Fuel inertia relief: 0.473 MN
+Engine point load: 0.129 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 1g ---
+Root shear force: 0.877 MN
+Root bending moment: 15.661 MNm
+Root torque: 1.793 MNm
+Hinge shear force: 0.038 MN
+Hinge bending moment: 0.046 MNm
+Hinge torque: 0.002 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 1g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 122.0 cm^2
+Spar web thick: 3.00 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (29.7%)
+Spar caps (×4): 4220 kg (57.0%)
+Spar webs (×2): 980 kg (13.2%)
+Primary total: 7400 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 2590 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 163 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 11490 kg
+Wing mass fraction MTOM: 3.30%
+[B777F reference: ~34000 kg]
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: neg1g ---
+n_limit = 1.0 | n_ult = 1.50
+Semi-wing lift: 1.710 MN
+Wing inertia relief: 0.231 MN
+Fuel inertia relief: 0.473 MN
+Engine point load: 0.129 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: neg1g ---
+Root shear force: 0.877 MN
+Root bending moment: 15.661 MNm
+Root torque: 1.793 MNm
+Hinge shear force: 0.038 MN
+Hinge bending moment: 0.046 MNm
+Hinge torque: 0.002 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: neg1g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.00 mm
+Spar cap area: 122.0 cm^2
+Spar web thick: 3.00 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 1.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2200 kg (29.7%)
+Spar caps (×4): 4220 kg (57.0%)
+Spar webs (×2): 980 kg (13.2%)
+Primary total: 7400 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 2590 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 163 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 11490 kg
+Wing mass fraction MTOM: 3.30%
+[B777F reference: ~34000 kg]
+Panel 5: Material comparison ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 36534 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18267 kg
+Hinge penalty: 1500 kg
+TOTAL: 19767 kg ( 5.7% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -41.9%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.152 MNm
+Root torque: 4.481 MNm
+Hinge shear force: 0.095 MN
+Hinge bending moment: 0.116 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.40 mm
+Spar cap area: 305.1 cm^2
+Spar web thick: 4.93 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2248 kg (15.8%)
+Spar caps (×4): 10540 kg (74.0%)
+Spar webs (×2): 1451 kg (10.2%)
+Primary total: 14239 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4984 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 166 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 20722 kg
+Wing mass fraction MTOM: 5.94%
+[B777F reference: ~34000 kg]
+
+--- Class I/II Empirical Wing Mass: CFRP ---
+Raymer (2018): 36534 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 12731 kg
+Hinge penalty: 1500 kg
+TOTAL: 14231 kg ( 4.1% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -58.1%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.152 MNm
+Root torque: 4.481 MNm
+Hinge shear force: 0.095 MN
+Hinge bending moment: 0.116 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (CFRP (quasi-isotropic)) ---
+Allowable stress: 220 MPa
+Allowable shear: 110 MPa
+Root:
+Skin thickness: 3.46 mm
+Spar cap area: 381.4 cm^2
+Spar web thick: 7.12 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 4.1 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: CF (CFRP (quasi-isotropic)) ---
+PRIMARY WINGBOX
+Skin (top+bot): 1451 kg (14.6%)
+Spar caps (×4): 7345 kg (73.9%)
+Spar webs (×2): 1140 kg (11.5%)
+Primary total: 9935 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 3477 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 94 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 14912 kg
+Wing mass fraction MTOM: 4.28%
+[B777F reference: ~34000 kg]
+Panel 6: Fidelity ladder ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+Raymer (2018): 36534 kg (10.5% MTOM)
+Torenbeek (2013): 0 kg ( 0.0% MTOM)
+Average (primary): 18267 kg
+Hinge penalty: 1500 kg
+TOTAL: 19767 kg ( 5.7% MTOM)
+[B777F reference: ~34,000 kg (~9.8% MTOM)]
+Validation error vs B777F: -41.9%
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+n_limit = 2.5 | n_ult = 3.75
+Semi-wing lift: 4.274 MN
+Wing inertia relief: 0.577 MN
+Fuel inertia relief: 1.182 MN
+Engine point load: 0.322 MN
+Relief as % of lift: 41.1%
+
+--- SMT Integration: 2.5g ---
+Root shear force: 2.194 MN
+Root bending moment: 39.152 MNm
+Root torque: 4.481 MNm
+Hinge shear force: 0.095 MN
+Hinge bending moment: 0.116 MNm
+Hinge torque: 0.006 MNm
+BM hinge / BM root: 0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+Allowable stress: 275 MPa
+Allowable shear: 159 MPa
+Root:
+Skin thickness: 2.40 mm
+Spar cap area: 305.1 cm^2
+Spar web thick: 4.93 mm
+Hinge (y=32.5m):
+Skin thickness: 2.00 mm
+Spar cap area: 3.3 cm^2
+Spar web thick: 3.00 mm
+Tip:
+Skin thickness: 2.00 mm (min gauge)
+Spar cap area: 1.0 cm^2 (min gauge)
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+PRIMARY WINGBOX
+Skin (top+bot): 2248 kg (15.8%)
+Spar caps (×4): 10540 kg (74.0%)
+Spar webs (×2): 1451 kg (10.2%)
+Primary total: 14239 kg
+SECONDARY STRUCTURE
+Secondary (35% of primary): 4984 kg
+FOLDING HINGE MECHANISM
+Outer panel primary: 166 kg
+Hinge penalty (10%): 1500 kg
+-----------------------------------------------
+TOTAL WING MASS: 20722 kg
+Wing mass fraction MTOM: 5.94%
+[B777F reference: ~34000 kg]
+
+Generating SMT comparison figure ...
+
+--- Wing Geometry ---
+Semi-span: 36.00 m
+Root chord: 9.33 m
+Tip chord: 2.80 m
+Aspect ratio: 11.87
+Taper ratio: 0.30
+LE sweep: 34.0 deg
+c/2 sweep: 28.0 deg
+t/c root: 0.150
+t/c tip: 0.110
+Wingbox frac: 0.45 (15%-60% chord)
+Fold hinge @ y = 32.5 m (station 15)
+Engine @ y = 12.6 m (station 98)
+Stations: 150 (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Semi-wing lift:         4.274 MN
+  Wing inertia relief:    0.577 MN
+  Fuel  inertia relief:   1.182 MN
+  Engine point load:      0.322 MN
+  Relief as % of lift:   41.1%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.194 MN
+  Root bending moment:       39.152 MNm
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.095 MN
+  Hinge bending moment:       0.116 MNm
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Load Distribution: 1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Semi-wing lift:         1.710 MN
+  Wing inertia relief:    0.231 MN
+  Fuel  inertia relief:   0.473 MN
+  Engine point load:      0.129 MN
+  Relief as % of lift:   41.1%
+
+--- SMT Integration: 1g ---
+  Root shear force:           0.877 MN
+  Root bending moment:       15.661 MNm
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.038 MN
+  Hinge bending moment:       0.046 MNm
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+--- Load Distribution: neg1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Semi-wing lift:         1.710 MN
+  Wing inertia relief:    0.231 MN
+  Fuel  inertia relief:   0.473 MN
+  Engine point load:      0.129 MN
+  Relief as % of lift:   41.1%
+
+--- SMT Integration: neg1g ---
+  Root shear force:           0.877 MN
+  Root bending moment:       15.661 MNm
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.038 MN
+  Hinge bending moment:       0.046 MNm
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+Sensitivity study complete.
+
+=========================================================
+  FINAL SUMMARY — DESIGN POINT
+  Unconventional: wide-body + folding wingtip
+  Span=72.0m  MTOM=349t  AR=11.9  Material=Al 7075-T6
+=========================================================
+  Class I/II wing mass:        19767 kg  (5.7% MTOM)
+  Class II.5 wing mass:        20722 kg  (5.9% MTOM)
+  CFRP saving (vs Al II.5):     5810 kg  (28.0%)
+  EI at root:                4.9459e+09 Nm^2
+  GJ at root:                7.9610e+08 Nm^2
+  EI at fold hinge:          1.9936e+07 Nm^2
+  GJ at fold hinge:          1.9900e+07 Nm^2
+========================================================
