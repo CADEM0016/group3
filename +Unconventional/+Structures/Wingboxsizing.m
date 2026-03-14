@@ -1,15 +1,11 @@
 function W = WingboxSizing(p, G, S, material)
 % =========================================================================
-% WingboxSizing.m  —  +Structures package
 % Size wingbox cross-section at every spanwise station from SMT loads.
 %
 % Three sizing criteria applied at each station:
 %   (a) Spar caps  ← bending moment M  (Megson §12 idealised wingbox)
 %   (b) Skin       ← torque T          (Bredt-Batho thin-wall torsion)
 %   (c) Spar webs  ← shear force Q     (thin-wall shear flow)
-%
-% Additional check:
-%   (d) Minimum gauge enforced (manufacturing constraint)
 %
 % INPUT:
 %   p        — AircraftParams struct
@@ -28,7 +24,6 @@ function W = WingboxSizing(p, G, S, material)
 %   W.sig_all   [Pa]   allowable stress used
 %   W.tau_all   [Pa]   allowable shear stress used
 %
-% NO external dependencies.
 % =========================================================================
 
 arguments
@@ -82,13 +77,6 @@ for i = 1:N
 
     % -----------------------------------------------------------------
     %  (a) SPAR CAP AREA — from bending moment
-    %
-    %  Idealised wingbox model (Megson Chapter 12):
-    %    All bending carried by concentrated spar cap areas.
-    %    σ = M * z / I
-    %    For symmetric box: I ≈ 2 * A_cap * (h/2)^2  (caps at ±h/2)
-    %    σ_max = M * (h/2) / I = M / (2 * A_cap * h/2) = M / (A_cap * h)
-    %    → A_cap = M / (σ_all * h)
     % -----------------------------------------------------------------
     if h > 1e-6 && Mi > 0
         % IMPROVED (caps carry 60%, skin carries 40%):
@@ -98,11 +86,6 @@ for i = 1:N
 
     % -----------------------------------------------------------------
     %  (b) SKIN THICKNESS — from torque (Bredt-Batho)
-    %
-    %  Closed thin-walled section (Cooper slide 23, Megson §17):
-    %    q = T / (2 * A_enclosed)      [shear flow, N/m]
-    %    τ = q / t                     [shear stress]
-    %    t = T / (2 * A_enc * τ_all)
     % -----------------------------------------------------------------
     if Ae > 1e-8 && Ti > 0
         t_skin(i) = Ti / (2 * Ae * tau_all);
@@ -111,14 +94,6 @@ for i = 1:N
 
     % -----------------------------------------------------------------
     %  (c) SPAR WEB THICKNESS — from shear force
-    %
-    %  Two spar webs carry vertical shear equally (symmetric loading).
-    %  Simplified uniform shear stress:
-    %    τ = Q / (2 * h * t_web)
-    %    → t_web = Q / (2 * h * τ_all)
-    %
-    %  Note: this is a lower bound. Refined rib spacing / shear lag
-    %        effects handled in Sprint 3 refinement.
     % -----------------------------------------------------------------
     if h > 1e-6 && Qi > 0
         t_web(i) = Qi / (2 * h * tau_all);

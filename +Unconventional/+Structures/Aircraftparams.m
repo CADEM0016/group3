@@ -1,11 +1,4 @@
 function p = AircraftParams()
-% =========================================================================
-% AircraftParams.m  —  +Structures package
-% Single source of truth for ALL parameters used across every module.
-% Edit values HERE only. Every other file reads from this struct.
-%
-% NO external dependencies — runs completely standalone.
-% =========================================================================
 
 % -------------------------------------------------------------------------
 %  TOP-LEVEL AIRCRAFT REQUIREMENTS
@@ -24,7 +17,7 @@ p.Range       = 9200e3;     % Design range [m]  (9200 km)
 p.Span        = 72.0;       % Total FLIGHT wingspan [m]  (Code F ≤ 80 m)
 p.Span_taxi   = 65.0;       % Max TAXI wingspan [m]      (Code E ≤ 65 m)
 p.y_hinge     = 32.5;       % Fold hinge semi-span position [m from CL]
-%   Taxi span check: 2 * y_hinge = 65 m  ✓  Code E compliant
+%   Taxi span check: 2 * y_hinge = 65 m  Code E compliant
 
 p.WingArea    = 436.8;      % Reference wing area [m^2]  — B777F value
 p.AR          = p.Span^2 / p.WingArea;   % Aspect ratio [-]
@@ -35,7 +28,7 @@ p.sweep_c2_deg = 28.0;      % Half-chord sweep [deg]
 p.tc_root     = 0.150;      % Root thickness-to-chord ratio [-]
 p.tc_tip      = 0.110;      % Tip  thickness-to-chord ratio [-]
 p.KinkPos     = 10.0;       % TE kink position [m from CL]  — planform kink
-%   NOTE: fold hinge (y_hinge=32.5 m) is OUTBOARD of TE kink (10 m)
+
 
 % Derived chord lengths
 p.c_root = 2 * p.WingArea / (p.Span * (1 + p.lambda));  % root chord [m]
@@ -109,7 +102,7 @@ p.m_hinge_min  = 1500;    % kg minimum per aircraft (both wings)
 % -------------------------------------------------------------------------
 %  DISCRETISATION
 % -------------------------------------------------------------------------
-p.N_stations  = 150;        % Spanwise integration stations (tip → root)
+p.N_stations  = 150;        % Spanwise integration stations (Spars & Stringers Integration) (tip → root)
 
 % -------------------------------------------------------------------------
 %  ATMOSPHERE (ISA standard — private copy, no cast.atmos dependency)

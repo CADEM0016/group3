@@ -1,6 +1,5 @@
 function Plots(p, G, L, S, W, D, MB)
 % =========================================================================
-% Plots.m  —  +Structures package
 % Generate all structural analysis plots for a single load case.
 %
 % Called by run_all.m after the full analysis chain.
@@ -17,8 +16,6 @@ function Plots(p, G, L, S, W, D, MB)
 %   W  — WingboxSizing struct
 %   D  — StiffnessDistribution struct
 %   MB — MassBuildup struct
-%
-% NO external dependencies.
 % =========================================================================
 
 % Reorder arrays from tip→root to root→tip for x-axis = 0 at root

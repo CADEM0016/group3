@@ -1,15 +1,5 @@
 %% =========================================================================
-%  run_all.m  —  +Structures package
 %  MASTER RUN SCRIPT — Wing Structural Analysis, MDO Development Phase
-%  CADEM0016 Group Design Project, University of Bristol 2025-26
-%
-%  HOW TO RUN:
-%    1. In MATLAB, navigate to:
-%         GitHub/group3/Unconventional/
-%    2. Run this file:
-%         run('+Structures/run_all.m')
-%       OR add the Unconventional folder to your path and type:
-%         Unconventional.Structures.run_all   % if converted to a function later
 %
 %  WHAT THIS SCRIPT DOES (in order):
 %    Step 0 — Load aircraft parameters (single source of truth)
@@ -25,8 +15,6 @@
 %    Step 10 — Sensitivity studies (AR, MTOM, wingspan, material)
 %
 %  ALL FUNCTIONS are inside +Structures — ZERO external dependencies.
-%  This script runs completely standalone from the rest of the repo.
-%
 %  OUTPUT VARIABLES (available in workspace after running):
 %    p      — all aircraft parameters
 %    G      — wing geometry at all stations
@@ -41,8 +29,7 @@
 clear; clc; close all;
 
 % ---- Set path so MATLAB finds the +Structures package
-% Run from: GitHub/group3/Unconventional/
-% If already in the right folder this line does nothing harmful
+
 this_dir = fileparts(mfilename('fullpath'));
 parent   = fileparts(this_dir);   % = GitHub/group3/Unconventional
 addpath(parent);

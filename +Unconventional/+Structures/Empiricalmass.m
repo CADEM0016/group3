@@ -1,21 +1,10 @@
 function E = EmpiricalMass(p, material)
 % =========================================================================
-% +Structures/EmpiricalMass.m
 % Class I/II empirical wing mass estimation.
 %
 % Implements two independent methods and averages the result:
 %   (1) Raymer (2018) Eq 15.25  — US customary, converted to SI here
 %   (2) Torenbeek (2013) Eq 8.27 — native SI
-%
-% Call as:
-%   E = Unconventional.Structures.EmpiricalMass(p)        % Aluminium
-%   E = Unconventional.Structures.EmpiricalMass(p, 'CF')  % CFRP
-%
-% Expected output (Aluminium, B777F-class inputs):
-%   Raymer:     ~28,000 kg
-%   Torenbeek:  ~30,000 kg
-%   Average:    ~29,000 kg  (~8.3% MTOM)
-% =========================================================================
 
 arguments
     p        struct
@@ -24,7 +13,6 @@ end
 
 % -------------------------------------------------------------------------
 %  EXTRACT ALL INPUTS AS EXPLICIT SCALAR DOUBLES
-%  (prevents any struct field shadowing or type issues)
 % -------------------------------------------------------------------------
 MTOM   = double(p.MTOM);           % [kg]  max take-off mass
 b      = double(p.Span);           % [m]   full wingspan
@@ -39,19 +27,6 @@ sw     = deg2rad(sw_deg);          % [rad]
 
 % =========================================================================
 %  METHOD 1 — RAYMER (2018) EQUATION 15.25
-%
-%  IMPORTANT: Raymer's equation is calibrated in US customary units.
-%  All inputs MUST be converted to lb and ft^2 before applying.
-%  Result is in lb and must be converted back to kg.
-%
-%  W_w [lb] = 0.0051
-%             × (W_dg [lb] × N_z)^0.557
-%             × S_w  [ft^2]^0.649
-%             × AR^0.5
-%             × (t/c)^-0.4
-%             × (1 + lambda)^0.1
-%             × cos(Lambda_half_chord)^-1
-%             × S_csw [ft^2]^0.1
 %
 %  Where S_csw = control surface area (assumed 15% of S_w here)
 % =========================================================================
@@ -122,14 +97,6 @@ m_avg = (m_raymer + m_torenbeek) / 2.0;
 
 % =========================================================================
 %  MATERIAL CORRECTION FOR CFRP
-%
-%  Scales by specific strength ratio (strength per unit density):
-%    m_CF = m_Al × (sigma_Al / rho_Al) / (sigma_CF / rho_CF)
-%
-%  This captures the mass benefit of higher allowable stress per unit weight.
-%  Note: CFRP allowable should include damage tolerance knockdowns.
-%  p.CF.sig_all should be set to ~220 MPa (post-BVID per CS-25.571),
-%  NOT the undamaged value of 400+ MPa.
 % =========================================================================
 if strcmpi(material, 'CF')
     ssp_Al   = p.Al.sig_all / p.Al.rho;   % specific strength Al [Pa·m^3/kg]
@@ -142,10 +109,6 @@ end
 
 % =========================================================================
 %  FOLDING HINGE MECHANISM PENALTY
-%
-%  Base: 10% of outer panel primary mass
-%  Floor: p.m_hinge_min (if defined) — recommended 1500 kg minimum
-%         based on 777X programme data (~3000 kg per wing)
 % =========================================================================
 b_semi  = p.Span / 2.0;                      % semi-span [m]
 b_outer = b_semi - p.y_hinge;                % outer panel span [m] = 3.5m

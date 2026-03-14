@@ -1,6 +1,5 @@
 function L = LoadDistribution(p, G, loadcase)
 % =========================================================================
-% LoadDistribution.m  —  +Structures package
 % Compute spanwise distributed loads for a given load case.
 %
 % Covers three CS-25 load cases:
@@ -31,7 +30,6 @@ function L = LoadDistribution(p, G, loadcase)
 %   L.L_root       [N/m]  lift intensity at root
 %   L.loadcase     string
 %
-% NO external dependencies.
 % =========================================================================
 
 arguments
@@ -70,16 +68,6 @@ end
 
 % -------------------------------------------------------------------------
 %  2.  AERODYNAMIC LIFT DISTRIBUTION
-%  Modified elliptical distribution (suitable for swept tapered wing).
-%  Cooper slide 18: use elliptical as baseline for initial load estimate.
-%
-%  l(eta) = l_0 * sqrt(1 - eta^2)   where eta = y/s, 0=root, 1=tip
-%
-%  BUT our G.eta = 0 at TIP, 1 at root — need to remap:
-%  Let eta_aero = 1 - G.eta  (0 at root, 1 at tip, standard convention)
-%
-%  Normalised so: integral_0^s l(y) dy = L_semi
-%                 L_semi = n_lim * MTOM * g / 2  (one semi-wing)
 % -------------------------------------------------------------------------
 L_semi     = n_lim * p.MTOM * g / 2;          % total semi-wing lift [N]
 
@@ -96,11 +84,7 @@ lift_dist = lift_shape .* (L_semi / integral_shape);   % [N/m], tip→root
 
 % -------------------------------------------------------------------------
 %  3.  WING SELF-WEIGHT INERTIA RELIEF
-%  Distribute wing mass proportional to local chord (heavier inboard).
 %  Class I/II estimate used here; replaced by II.5 value in refinement.
-%
-%  Rough wing mass for relief calculation:
-%    m_wing_est ≈ 0.09 * MTOM  (typical 9% for transport a/c)
 % -------------------------------------------------------------------------
 m_wing_semi  = 0.09 * p.MTOM / 2;             % per semi-wing [kg]
 
@@ -113,10 +97,6 @@ w_wing_load  = n_ult * w_wing * g;            % [N/m] inertia load (ult)
 % -------------------------------------------------------------------------
 %  4.  FUEL INERTIA RELIEF
 %  ~97% of fuel in wing tanks (B777-class integral tank).
-%  Distribute proportional to wingbox cross-section area (= fuel volume).
-%
-%  This is the DOMINANT relief load at 2.5g MTOW:
-%    Fuel = 0.19 * 348700 = 66,253 kg → 66 t × 2.5g = 1.6 MN per semi-wing
 % -------------------------------------------------------------------------
 m_fuel_semi  = 0.97 * p.M_fuel / 2;           % per semi-wing [kg]
 
@@ -129,20 +109,12 @@ w_fuel_load  = n_ult * w_fuel * g;             % [N/m] inertia load (ult)
 
 % -------------------------------------------------------------------------
 %  5.  NET DISTRIBUTED LOAD
-%  Sign convention (Cooper slide 17):
-%    Upward force on wing = positive
-%    2.5g: lift up (+), weight/fuel down (−)  → net = lift − relief
-%    neg1g: lift down (−), weight/fuel up (+) → net = −lift + relief
 % -------------------------------------------------------------------------
 net_dist = sign_lift * lift_dist + sign_relief * (w_wing_load + w_fuel_load);
 
 % -------------------------------------------------------------------------
 %  6.  ENGINE POINT LOAD
 %  One engine per semi-wing at y_engine.
-%  Acts DOWNWARD in both positive and negative manoeuvres (mass × n × g).
-%  In 2.5g: acts downward → RELIEVES root BM (engine outboard of root)
-%  In neg1g: also acts downward → but wing bends down, so engine adds to BM
-%  Store as unsigned scalar; SMT module applies correct sign.
 % -------------------------------------------------------------------------
 P_engine = n_ult * p.m_engine_each * g;        % [N], magnitude
 

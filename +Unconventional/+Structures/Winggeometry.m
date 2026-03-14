@@ -1,11 +1,6 @@
 function G = WingGeometry(p, N_override)
 % =========================================================================
-% WingGeometry.m  —  +Structures package
 % Compute wing geometry at every spanwise station.
-%
-% Produces the geometric foundation used by ALL downstream modules:
-%   LoadDistribution, SMT, WingboxSizing, StiffnessDistribution
-%
 % INPUT:
 %   p          — parameter struct from AircraftParams()
 %   N_override — (optional) override number of stations
@@ -27,8 +22,6 @@ function G = WingGeometry(p, N_override)
 %   G.dy       [m]    station spacing
 %   G.i_hinge  [-]    station index nearest to fold hinge
 %   G.i_engine [-]    station index nearest to engine
-%
-% NO external dependencies.
 % =========================================================================
 
 arguments
@@ -43,16 +36,12 @@ s  = p.Span / 2;                    % semi-span [m]
 dy = s / (N - 1);                   % station spacing [m]
 
 % Spanwise stations: tip (y=s) → root (y=0)
-% This is the integration convention from Cooper lecture notes:
-% "Start at wing tip where boundary conditions are known (Q=M=T=0)"
 y   = linspace(s, 0, N);
 eta = 1 - y/s;                      % normalised: 0 at tip, 1 at root
 
 % -------------------------------------------------------------------------
 %  CHORD  —  linear taper
 % -------------------------------------------------------------------------
-% c(y) = c_root - (c_root - c_tip) * (1 - eta)
-%      = c_tip  + (c_root - c_tip) * eta
 chord = p.c_tip + (p.c_root - p.c_tip) .* eta;
 
 % -------------------------------------------------------------------------
@@ -69,31 +58,23 @@ A_enc = h_wb  .* w_wb;                       % enclosed area [m^2]
 
 % -------------------------------------------------------------------------
 %  SWEEP OFFSETS
-%  x measured chordwise from root leading edge, positive aft
 % -------------------------------------------------------------------------
 sweep_LE = deg2rad(p.sweep_LE_deg);
 sweep_c2 = deg2rad(p.sweep_c2_deg);
 sweep_c4 = deg2rad(p.sweep_c4_deg);
 
 % x-coordinate of local leading edge relative to root LE
-% As we move outboard (y decreases from s to 0 in our array),
-% the LE moves aft by tan(sweep_LE) per metre of span
 x_LE = (s - y) .* tan(sweep_LE);
 
 % Aerodynamic centre at quarter chord (subsonic thin aerofoil theory)
 x_ac = x_LE + 0.25 .* chord;
 
 % Flexural axis (elastic axis) position
-% Cooper slide 18: FA lies at ~50% chord at root, ~25% chord at mid-span
-% Use linear interpolation over full span:
-%   eta=0 (tip):      FA at 25% chord
-%   eta=1 (root):     FA at 50% chord
 fa_frac = 0.25 + 0.25 .* eta;          % fraction of local chord
 x_fa    = x_LE + fa_frac .* chord;
 
 % Offset between AC and FA (drives torque calculation)
 e_ac_fa = x_ac - x_fa;                 % positive when AC is AFT of FA
-%   Positive e → nose-down pitching moment → positive torque in our sign conv.
 
 % -------------------------------------------------------------------------
 %  NEAREST STATION INDICES

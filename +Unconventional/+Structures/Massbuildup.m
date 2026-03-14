@@ -1,6 +1,5 @@
 function MB = MassBuildup(p, G, W)
 % =========================================================================
-% MassBuildup.m  —  +Structures package
 % Estimate total wing structural mass from sized cross-sections.
 %
 % Method:
@@ -8,13 +7,6 @@ function MB = MassBuildup(p, G, W)
 %   2. Multiply by material density → primary structural mass
 %   3. Add secondary structure allowance (ribs, LE, TE, ctrl surfaces)
 %   4. Add folding wingtip hinge mechanism penalty
-%
-% Structure of wingbox at each station:
-%   - Top skin    : t_skin × w_wb  [area per unit span]
-%   - Bottom skin : t_skin × w_wb
-%   - Two spar webs: each  t_web × h_wb
-%   - 4 spar caps : each A_cap  (front top/bot, rear top/bot)
-%   Both wings (×2 for full aircraft)
 %
 % INPUT:
 %   p  — AircraftParams struct
@@ -32,8 +24,6 @@ function MB = MassBuildup(p, G, W)
 %   MB.m_frac_MTOM  [-]   wing mass as fraction of MTOM
 %   MB.m_skin_dist  [kg/m] skin mass per unit span (one semi-wing)
 %   MB.m_total_dist [kg/m] total primary mass per unit span
-%
-% NO external dependencies.
 % =========================================================================
 
 N   = G.N;
@@ -87,14 +77,6 @@ m_secondary = p.f_secondary * m_primary;
 
 % -------------------------------------------------------------------------
 %  FOLDING WINGTIP HINGE MECHANISM PENALTY
-%  The hinge joint introduces:
-%   - Structural doublers around the hinge cut-out
-%   - Actuator and lock mechanism
-%   - Fairing and seal
-%  Estimated as f_hinge × outer panel primary mass.
-%
-%  Outer panel: from hinge (G.i_hinge) to tip (station 1)
-%  Note: G.y is tip→root, so outer panel = stations 1 : i_hinge
 % -------------------------------------------------------------------------
 ih = G.i_hinge;
 % Outer panel semi-span primary mass

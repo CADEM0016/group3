@@ -1,6 +1,5 @@
 function SensitivityStudy(p_base)
 % =========================================================================
-% SensitivityStudy.m  —  +Structures package
 % Parametric sensitivity studies for wing structural mass.
 %
 % Produces 6-panel figure covering:
@@ -15,8 +14,6 @@ function SensitivityStudy(p_base)
 %
 % INPUT:
 %   p_base — AircraftParams struct (baseline design point)
-%
-% NO external dependencies (calls other +Structures functions only).
 % =========================================================================
 
 fprintf('\n========================================\n');
