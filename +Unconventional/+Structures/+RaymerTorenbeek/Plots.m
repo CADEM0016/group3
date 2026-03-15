@@ -124,9 +124,9 @@ p_nf.M_fuel  = 0;
 p_nf.Mf_fuel = 0;
 p_nofuel         = p;
 p_nofuel.M_fuel  = 0;       % zero out fuel
-G_nf = Unconventional.Structures.WingGeometry(p_nf);
-L_nf = Unconventional.Structures.LoadDistribution(p_nf, G_nf, lc);
-S_nf = Unconventional.Structures.SMT(p_nf, G_nf, L_nf);
+G_nf = Unconventional.Structures.RaymerTorenbeek.WingGeometry(p_nf);
+L_nf = Unconventional.Structures.RaymerTorenbeek.LoadDistribution(p_nf, G_nf, lc);
+S_nf = Unconventional.Structures.RaymerTorenbeek.SMT(p_nf, G_nf, L_nf);
 
 plot(y, flip_arr(S_nf.M)/1e6, '--','Color',[0.6 0.6 0.6],'LineWidth',1.5,...
      'DisplayName','No fuel relief');

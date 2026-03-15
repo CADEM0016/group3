@@ -46,7 +46,7 @@ for k = 1:numel(ARs)
     pk.c_tip   = pk.lambda * pk.c_root;
     pk.y_engine= 0.35 * pk.Span/2;
 
-    E_k       = Unconventional.Structures.EmpiricalMass(pk);
+    E_k       = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(pk);
     m_emp(k)  = E_k.m_total;
     m_II5(k)  = local_II5mass(pk, '2.5g', 'Al');
 end
@@ -74,7 +74,7 @@ for k = 1:numel(MTOMs)
     pk.MTOM   = MTOMs(k);
     pk.M_fuel = pk.Mf_fuel * pk.MTOM;
 
-    E_k        = Unconventional.Structures.EmpiricalMass(pk);
+    E_k        = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(pk);
     m2_emp(k)  = E_k.m_total;
     m2_II5(k)  = local_II5mass(pk, '2.5g', 'Al');
 end
@@ -106,7 +106,7 @@ for k = 1:numel(spans)
     pk.c_tip   = pk.lambda * pk.c_root;
     pk.y_engine= 0.35 * pk.Span/2;
 
-    E_k        = Unconventional.Structures.EmpiricalMass(pk);
+    E_k        = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(pk);
     m3_emp(k)  = E_k.m_total;
     m3_II5(k)  = local_II5mass(pk, '2.5g', 'Al');
 end
@@ -158,7 +158,7 @@ mat_lbls = {'Al 7075-T6', 'CFRP'};
 m5_emp   = zeros(1,2);
 m5_II5   = zeros(1,2);
 for k = 1:2
-    E_k       = Unconventional.Structures.EmpiricalMass(p_base, mats{k});
+    E_k       = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(p_base, mats{k});
     m5_emp(k) = E_k.m_total;
     m5_II5(k) = local_II5mass(p_base, '2.5g', mats{k});
 end
@@ -180,7 +180,7 @@ text(1.5, max(m5_emp)/1e3*0.5, sprintf('CFRP saves\n%.0f%%', saving_pct), ...
 %  PANEL 6: Fidelity ladder at design point
 % -------------------------------------------------------------------------
 fprintf('  Panel 6: Fidelity ladder ...\n');
-E_dp  = Unconventional.Structures.EmpiricalMass(p_base, 'Al');
+E_dp  = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(p_base, 'Al');
 m_II5_dp = local_II5mass(p_base, '2.5g', 'Al');
 
 fid_vals = [E_dp.m_raymer, E_dp.m_torenbeek, E_dp.m_total, m_II5_dp] / 1e3;
@@ -204,7 +204,7 @@ end
 %  FIGURE 2 — SMT COMPARISON: THREE LOAD CASES
 % =========================================================================
 fprintf('\n  Generating SMT comparison figure ...\n');
-G = Unconventional.Structures.WingGeometry(p_base);
+G = Unconventional.Structures.RaymerTorenbeek.WingGeometry(p_base);
 
 cases    = {'2.5g','1g','neg1g'};
 lc_names = {'2.5g manoeuvre','1g level','−1g inverted'};
@@ -224,8 +224,8 @@ ax_T = nexttile(3); hold(ax_T,'on');
 y_plot = fliplr(G.y);   % root → tip for x-axis
 
 for k = 1:3
-    Lk = Unconventional.Structures.LoadDistribution(p_base, G, cases{k});
-    Sk = Unconventional.Structures.SMT(p_base, G, Lk);
+    Lk = Unconventional.Structures.RaymerTorenbeek.LoadDistribution(p_base, G, cases{k});
+    Sk = Unconventional.Structures.RaymerTorenbeek.SMT(p_base, G, Lk);
 
     % Reorder tip→root to root→tip for plotting
     Q_plot = fliplr(Sk.Q);
@@ -262,10 +262,10 @@ end
 %  Kept here so SensitivityStudy.m has no loop boilerplate
 % =========================================================================
 function m = local_II5mass(p, lc, mat)
-    Gk  = Unconventional.Structures.WingGeometry(p);
-    Lk  = Unconventional.Structures.LoadDistribution(p, Gk, lc);
-    Sk  = Unconventional.Structures.SMT(p, Gk, Lk);
-    Wk  = Unconventional.Structures.WingboxSizing(p, Gk, Sk, mat);
-    MBk = Unconventional.Structures.MassBuildup(p, Gk, Wk);
+    Gk  = Unconventional.Structures.RaymerTorenbeek.WingGeometry(p);
+    Lk  = Unconventional.Structures.RaymerTorenbeek.LoadDistribution(p, Gk, lc);
+    Sk  = Unconventional.Structures.RaymerTorenbeek.SMT(p, Gk, Lk);
+    Wk  = Unconventional.Structures.RaymerTorenbeek.WingboxSizing(p, Gk, Sk, mat);
+    MBk = Unconventional.Structures.RaymerTorenbeek.MassBuildup(p, Gk, Wk);
     m   = MBk.m_total;
 end

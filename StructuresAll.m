@@ -44,7 +44,7 @@ fprintf('=========================================================\n\n');
 %  STEP 0 — AIRCRAFT PARAMETERS
 % =========================================================================
 fprintf('STEP 0: Loading aircraft parameters ...\n');
-p = Unconventional.Structures.AircraftParams();
+p = Unconventional.Structures.RaymerTorenbeek.AircraftParams();
 
 fprintf('  MTOM:        %.0f kg  (%.1f t)\n', p.MTOM, p.MTOM/1e3);
 fprintf('  Span:        %.1f m  (flight)\n',  p.Span);
@@ -61,8 +61,8 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 1: Class I/II Empirical Wing Mass\n');
 fprintf('=========================================================\n');
 
-E_Al = Unconventional.Structures.EmpiricalMass(p, 'Al');
-E_CF = Unconventional.Structures.EmpiricalMass(p, 'CF');
+E_Al = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(p, 'Al');
+E_CF = Unconventional.Structures.RaymerTorenbeek.EmpiricalMass(p, 'CF');
 
 fprintf('\n  Aluminium:  %.0f kg  (%.1f%% MTOM)\n', E_Al.m_total, E_Al.m_frac_MTOM*100);
 fprintf('  CFRP:       %.0f kg  (%.1f%% MTOM)\n',   E_CF.m_total, E_CF.m_frac_MTOM*100);
@@ -77,7 +77,7 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 2: Wing Geometry\n');
 fprintf('=========================================================\n');
 
-G = Unconventional.Structures.WingGeometry(p);
+G = Unconventional.Structures.RaymerTorenbeek.WingGeometry(p);
 
 % =========================================================================
 %  STEP 3 — LOAD DISTRIBUTIONS (all three CS-25 cases)
@@ -86,9 +86,9 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 3: Load Distributions\n');
 fprintf('=========================================================\n');
 
-L_25g = Unconventional.Structures.LoadDistribution(p, G, '2.5g');
-L_1g  = Unconventional.Structures.LoadDistribution(p, G, '1g');
-L_n1g = Unconventional.Structures.LoadDistribution(p, G, 'neg1g');
+L_25g = Unconventional.Structures.RaymerTorenbeek.LoadDistribution(p, G, '2.5g');
+L_1g  = Unconventional.Structures.RaymerTorenbeek.LoadDistribution(p, G, '1g');
+L_n1g = Unconventional.Structures.RaymerTorenbeek.LoadDistribution(p, G, 'neg1g');
 
 % =========================================================================
 %  STEP 4 — SMT INTEGRATION
@@ -97,9 +97,9 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 4: SMT Integration\n');
 fprintf('=========================================================\n');
 
-S_25g = Unconventional.Structures.SMT(p, G, L_25g);
-S_1g  = Unconventional.Structures.SMT(p, G, L_1g);
-S_n1g = Unconventional.Structures.SMT(p, G, L_n1g);
+S_25g = Unconventional.Structures.RaymerTorenbeek.SMT(p, G, L_25g);
+S_1g  = Unconventional.Structures.RaymerTorenbeek.SMT(p, G, L_1g);
+S_n1g = Unconventional.Structures.RaymerTorenbeek.SMT(p, G, L_n1g);
 
 fprintf('\n  Root bending moments:\n');
 fprintf('    2.5g:   %.2f MNm\n', abs(S_25g.M_root)/1e6);
@@ -115,9 +115,9 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 5: Wingbox Sizing\n');
 fprintf('=========================================================\n');
 
-W_25g  = Unconventional.Structures.WingboxSizing(p, G, S_25g,  'Al');
-W_n1g  = Unconventional.Structures.WingboxSizing(p, G, S_n1g,  'Al');
-W_25g_CF = Unconventional.Structures.WingboxSizing(p, G, S_25g, 'CF');
+W_25g  = Unconventional.Structures.RaymerTorenbeek.WingboxSizing(p, G, S_25g,  'Al');
+W_n1g  = Unconventional.Structures.RaymerTorenbeek.WingboxSizing(p, G, S_n1g,  'Al');
+W_25g_CF = Unconventional.Structures.RaymerTorenbeek.WingboxSizing(p, G, S_25g, 'CF');
 
 % =========================================================================
 %  STEP 6 — STIFFNESS DISTRIBUTIONS EI(y) AND GJ(y)
@@ -126,8 +126,8 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 6: Stiffness Distributions EI(y) and GJ(y)\n');
 fprintf('=========================================================\n');
 
-D_25g    = Unconventional.Structures.StiffnessDistribution(p, G, W_25g);
-D_25g_CF = Unconventional.Structures.StiffnessDistribution(p, G, W_25g_CF);
+D_25g    = Unconventional.Structures.RaymerTorenbeek.StiffnessDistribution(p, G, W_25g);
+D_25g_CF = Unconventional.Structures.RaymerTorenbeek.StiffnessDistribution(p, G, W_25g_CF);
 
 % =========================================================================
 %  STEP 7 — MASS BUILDUP
@@ -136,8 +136,8 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 7: Mass Buildup\n');
 fprintf('=========================================================\n');
 
-MB_25g    = Unconventional.Structures.MassBuildup(p, G, W_25g);
-MB_25g_CF = Unconventional.Structures.MassBuildup(p, G, W_25g_CF);
+MB_25g    = Unconventional.Structures.RaymerTorenbeek.MassBuildup(p, G, W_25g);
+MB_25g_CF = Unconventional.Structures.RaymerTorenbeek.MassBuildup(p, G, W_25g_CF);
 
 % =========================================================================
 %  STEP 8 — FIDELITY COMPARISON TABLE
@@ -172,7 +172,7 @@ fprintf('STEP 9: Generating Plots\n');
 fprintf('=========================================================\n');
 
 % Main analysis plots for the critical load case (2.5g, Al)
-Unconventional.Structures.Plots(p, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
+Unconventional.Structures.RaymerTorenbeek.Plots(p, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
 
 % =========================================================================
 %  STEP 10 — SENSITIVITY STUDIES
@@ -181,7 +181,7 @@ fprintf('\n=========================================================\n');
 fprintf('STEP 10: Sensitivity Studies\n');
 fprintf('=========================================================\n');
 
-Unconventional.Structures.SensitivityStudy(p);
+Unconventional.Structures.RaymerTorenbeek.SensitivityStudy(p);
 
 % =========================================================================
 %  FINAL SUMMARY
