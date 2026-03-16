@@ -1,0 +1,3377 @@
+=========================================================
+  Wing Structural Analysis — CADEM0016 Group 3
+  Unconventional: wide-body freighter + folding wingtips
+=========================================================
+
+STEP 0: Aircraft parameters
+  MTOM:        348700 kg  (348.7 t)
+  OEM:         145000 kg
+  Payload:     103000 kg
+  Useful load: 203700 kg  (MTOM - OEM)
+  Fuel:        66253 kg  (19% MTOM)
+  Reserve:     3313 kg  (5% of fuel)
+  Span:        72.0 m  flight  /  65.0 m  taxi (Code E)
+  Fold hinge:  y = 32.5 m from CL
+  AR:          11.87
+  MAC:         6.65 m
+  q_cruise:    11660 Pa  (M=0.84 at 10668 m)
+
+=========================================================
+STEP 1: Class I/II Empirical Wing Mass
+=========================================================
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     36534 kg  (10.5% MTOM)
+  Torenbeek(2013):     15189 kg  ( 4.4% MTOM)
+  USAF:                67332 kg  (19.3% MTOM)
+  Three-method avg:    39685 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               41185 kg  (11.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +21.1%
+
+--- Class I/II Empirical Wing Mass: CFRP ---
+  Raymer   (2018):     36534 kg  (10.5% MTOM)
+  Torenbeek(2013):     15189 kg  ( 4.4% MTOM)
+  USAF:                67332 kg  (19.3% MTOM)
+  Three-method avg:    27658 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               29158 kg  ( 8.4% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -14.2%
+
+  Aluminium:   41185 kg  (11.8% MTOM)
+  CFRP:        29158 kg  (8.4% MTOM)
+  CFRP saving: 12027 kg  (29.2%)
+
+=========================================================
+STEP 2: Wing Geometry
+=========================================================
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+=========================================================
+STEP 3: Load Distributions  (CS-25 cases)
+=========================================================
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          39.8%
+
+--- Load Distribution: 1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Total aircraft lift:         3.420 MN
+  Semi-wing lift:              1.710 MN
+  Snorri M_root check:        30.776 MNm  (Lb/8)
+  Wing inertia relief:         0.231 MN
+  Fuel  inertia relief:        0.449 MN
+  Engine point load:           0.129 MN
+  Tip panel lift (Snorri):   332.459 kN
+  Total relief / lift:          39.8%
+
+--- Load Distribution: neg1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Total aircraft lift:         3.420 MN
+  Semi-wing lift:              1.710 MN
+  Snorri M_root check:        30.776 MNm  (Lb/8)
+  Wing inertia relief:         0.231 MN
+  Fuel  inertia relief:        0.449 MN
+  Engine point load:           0.129 MN
+  Tip panel lift (Snorri):   332.459 kN
+  Total relief / lift:          39.8%
+
+  Total aircraft lift at 2.5g:  8.549 MN  (= n*MTOM*g)
+  Snorri M_root check (L*b/8):  76.941 MNm
+  Folding tip lift per panel:   831.148 kN  (Snorri: 2L/b * delta_b)
+
+=========================================================
+STEP 4: SMT Integration
+=========================================================
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.829 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.118 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- SMT Integration: 1g ---
+  Root shear force:           0.901 MN
+  Root bending moment:       15.932 MNm
+  Root bending (Snorri):     30.776 MNm  (L*b/8 check)
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.039 MN
+  Hinge bending (SMT):        0.047 MNm
+  Hinge bending (Snorri):     0.582 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+--- SMT Integration: neg1g ---
+  Root shear force:           0.901 MN
+  Root bending moment:       15.932 MNm
+  Root bending (Snorri):     30.776 MNm  (L*b/8 check)
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.039 MN
+  Hinge bending (SMT):        0.047 MNm
+  Hinge bending (Snorri):     0.582 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+  Root bending moments:
+    2.5g:   39.83 MNm
+    1g:     15.93 MNm
+    neg1g:  15.93 MNm
+  Critical case: 2.5g
+
+=========================================================
+STEP 5: Wingbox Sizing
+         (bending / Bredt-Batho torsion / buckling / Jourawski shear)
+=========================================================
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    310.4 cm^2
+    Spar web thick:   7.59 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Wingbox Sizing: neg1g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    124.1 cm^2
+    Spar web thick:   3.04 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Wingbox Sizing: 2.5g (CFRP (quasi-isotropic)) ---
+  Allowable stress:   220 MPa
+  Allowable shear:    110 MPa
+  Buckling skin t:    20.59 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   20.59 mm
+    Spar cap area:    387.9 cm^2
+    Spar web thick:   10.97 mm
+  Hinge (y=32.5m):
+    Skin thickness:   20.59 mm
+    Spar cap area:    4.1 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   20.59 mm
+    Spar cap area:    1.0 cm^2
+
+=========================================================
+STEP 6: Stiffness Distributions  EI(y) and GJ(y)
+=========================================================
+
+--- Stiffness Distributions (Aluminium 7075-T6) ---
+  EI at root:          9.9982e+09 Nm^2
+  EI at hinge (32.5m): 1.6339e+08 Nm^2
+  EI at tip:           8.3137e+07 Nm^2
+  EI_tip / EI_root:    0.00832
+  GJ at root:          6.4552e+09 Nm^2
+  GJ at hinge (32.5m): 1.9337e+08 Nm^2
+  GJ at tip:           1.0042e+08 Nm^2
+  GJ_tip / GJ_root:    0.01556
+
+--- Stiffness Distributions (CFRP (quasi-isotropic)) ---
+  EI at root:          8.1387e+09 Nm^2
+  EI at hinge (32.5m): 1.2388e+08 Nm^2
+  EI at tip:           6.2762e+07 Nm^2
+  EI_tip / EI_root:    0.00771
+  GJ at root:          4.7660e+09 Nm^2
+  GJ at hinge (32.5m): 1.4277e+08 Nm^2
+  GJ at tip:           7.4145e+07 Nm^2
+  GJ_tip / GJ_root:    0.01556
+
+=========================================================
+STEP 7: Mass Buildup  (rho*V per component + CG + inertia)
+=========================================================
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (62.5%)
+    Spar caps (x4):     10677 kg  (31.2%)
+    Spar webs (x2):      2153 kg  ( 6.3%)
+    Primary total:      34212 kg
+  SECONDARY (35%):   11974 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      47686 kg  (13.68% MTOM)
+  Wing CG spanwise:     13.09 m  from centreline
+  Wing roll inertia:  8.8552e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Mass Buildup: CF (CFRP (quasi-isotropic)) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     12627 kg  (58.0%)
+    Spar caps (x4):      7441 kg  (34.2%)
+    Spar webs (x2):      1716 kg  ( 7.9%)
+    Primary total:      21784 kg
+  SECONDARY (35%):    7624 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      30908 kg  (8.86% MTOM)
+  Wing CG spanwise:     12.89 m  from centreline
+  Wing roll inertia:  5.4829e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+=========================================================
+STEP 8: Fidelity Comparison
+=========================================================
+
+  +----------------------------------+----------+-----------+
+  | Method                           | Mass [kg]|  % MTOM  |
+  +----------------------------------+----------+-----------+
+  | Class I/II  Raymer               |    36534 |  10.48%   |
+  | Class I/II  Torenbeek            |    15189 |   4.36%   |
+  | Class I/II  USAF                 |    67332 |  19.31%   |
+  | Class I/II  3-method avg  (Al)   |    41185 |  11.81%   |
+  | Class I/II  3-method avg  (CF)   |    29158 |   8.36%   |
+  +----------------------------------+----------+-----------+
+  | Class II.5  2.5g  (Al)           |    47686 |  13.68%   |
+  | Class II.5  2.5g  (CFRP)         |    30908 |   8.86%   |
+  +----------------------------------+----------+-----------+
+  | B777F reference                  |    34000 |   9.76%  |
+  +----------------------------------+----------+-----------+
+
+  I/II vs II.5 difference (Al): +6501 kg  (+15.8%)
+
+=========================================================
+STEP 9: Plots
+=========================================================
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        0.000 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          13.5%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           3.375 MN
+  Root bending moment:       52.682 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.117 MN
+  Hinge bending (SMT):        0.150 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+=========================================================
+STEP 10: Sensitivity Studies
+=========================================================
+
+========================================
+  SENSITIVITY STUDY — Wing Structural Mass
+========================================
+  Panel 1: AR sweep ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     28058 kg  ( 8.0% MTOM)
+  Torenbeek(2013):     10962 kg  ( 3.1% MTOM)
+  USAF:                49835 kg  (14.3% MTOM)
+  Three-method avg:    29618 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               31118 kg  ( 8.9% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -8.5%
+
+--- Wing Geometry ---
+  Span (flight):    55.30 m
+  Semi-span:        27.65 m
+  Root chord:       12.15 m
+  Tip  chord:       3.65 m
+  MAC:              8.66 m
+  AR:               7.00
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.8392
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 9.7 m  (station 98)
+  Stations:         150  (dy = 0.186 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        59.090 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -1500.349 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       30.588 MNm
+  Root bending (Snorri):     59.090 MNm  (L*b/8 check)
+  Root torque:                5.835 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     3.640 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    183.1 cm^2
+    Spar web thick:   5.83 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (76.6%)
+    Spar caps (x4):      4838 kg  (17.3%)
+    Spar webs (x2):      1678 kg  ( 6.0%)
+    Primary total:      27898 kg
+  SECONDARY (35%):    9764 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      39162 kg  (11.23% MTOM)
+  Wing CG spanwise:     10.57 m  from centreline
+  Wing roll inertia:  4.6454e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     29363 kg  ( 8.4% MTOM)
+  Torenbeek(2013):     11593 kg  ( 3.3% MTOM)
+  USAF:                52487 kg  (15.1% MTOM)
+  Three-method avg:    31148 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               32648 kg  ( 9.4% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -4.0%
+
+--- Wing Geometry ---
+  Span (flight):    57.87 m
+  Semi-span:        28.93 m
+  Root chord:       11.61 m
+  Tip  chord:       3.48 m
+  MAC:              8.28 m
+  AR:               7.67
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.8200
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 10.1 m  (station 98)
+  Stations:         150  (dy = 0.194 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        61.840 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -1053.488 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       32.012 MNm
+  Root bending (Snorri):     61.840 MNm  (L*b/8 check)
+  Root torque:                5.576 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     1.878 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    200.5 cm^2
+    Spar web thick:   6.10 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (74.6%)
+    Spar caps (x4):      5545 kg  (19.3%)
+    Spar webs (x2):      1751 kg  ( 6.1%)
+    Primary total:      28677 kg
+  SECONDARY (35%):   10037 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      40214 kg  (11.53% MTOM)
+  Wing CG spanwise:     10.99 m  from centreline
+  Wing roll inertia:  5.1659e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     30613 kg  ( 8.8% MTOM)
+  Torenbeek(2013):     12204 kg  ( 3.5% MTOM)
+  USAF:                55042 kg  (15.8% MTOM)
+  Three-method avg:    32620 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               34120 kg  ( 9.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +0.4%
+
+--- Wing Geometry ---
+  Span (flight):    60.33 m
+  Semi-span:        30.17 m
+  Root chord:       11.14 m
+  Tip  chord:       3.34 m
+  MAC:              7.94 m
+  AR:               8.33
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.8013
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 10.6 m  (station 98)
+  Stations:         150  (dy = 0.202 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        64.472 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -661.385 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       33.375 MNm
+  Root bending (Snorri):     64.472 MNm  (L*b/8 check)
+  Root torque:                5.348 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     0.772 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    217.9 cm^2
+    Spar web thick:   6.36 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (72.5%)
+    Spar caps (x4):      6284 kg  (21.3%)
+    Spar webs (x2):      1820 kg  ( 6.2%)
+    Primary total:      29485 kg
+  SECONDARY (35%):   10320 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      41305 kg  (11.85% MTOM)
+  Wing CG spanwise:     11.37 m  from centreline
+  Wing roll inertia:  5.7031e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     31814 kg  ( 9.1% MTOM)
+  Torenbeek(2013):     12798 kg  ( 3.7% MTOM)
+  USAF:                57510 kg  (16.5% MTOM)
+  Three-method avg:    34041 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               35541 kg  (10.2% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +4.5%
+
+--- Wing Geometry ---
+  Span (flight):    62.70 m
+  Semi-span:        31.35 m
+  Root chord:       10.72 m
+  Tip  chord:       3.22 m
+  MAC:              7.64 m
+  AR:               9.00
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7831
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 11.0 m  (station 98)
+  Stations:         150  (dy = 0.210 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        67.002 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -313.699 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       34.684 MNm
+  Root bending (Snorri):     67.002 MNm  (L*b/8 check)
+  Root torque:                5.146 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     0.180 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    235.4 cm^2
+    Spar web thick:   6.61 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (70.5%)
+    Spar caps (x4):      7052 kg  (23.3%)
+    Spar webs (x2):      1887 kg  ( 6.2%)
+    Primary total:      30321 kg
+  SECONDARY (35%):   10612 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      42433 kg  (12.17% MTOM)
+  Wing CG spanwise:     11.73 m  from centreline
+  Wing roll inertia:  6.2576e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     32972 kg  ( 9.5% MTOM)
+  Torenbeek(2013):     13376 kg  ( 3.8% MTOM)
+  USAF:                59901 kg  (17.2% MTOM)
+  Three-method avg:    35416 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               36916 kg  (10.6% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +8.6%
+
+--- Wing Geometry ---
+  Span (flight):    64.98 m
+  Semi-span:        32.49 m
+  Root chord:       10.34 m
+  Tip  chord:       3.10 m
+  MAC:              7.37 m
+  AR:               9.67
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7654
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 11.4 m  (station 98)
+  Stations:         150  (dy = 0.218 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        69.439 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):    -2.632 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       35.945 MNm
+  Root bending (Snorri):     69.439 MNm  (L*b/8 check)
+  Root torque:                4.966 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     0.000 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    252.8 cm^2
+    Spar web thick:   6.85 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (68.6%)
+    Spar caps (x4):      7850 kg  (25.2%)
+    Spar webs (x2):      1952 kg  ( 6.3%)
+    Primary total:      31183 kg
+  SECONDARY (35%):   10914 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      43598 kg  (12.50% MTOM)
+  Wing CG spanwise:     12.08 m  from centreline
+  Wing roll inertia:  6.8301e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     34090 kg  ( 9.8% MTOM)
+  Torenbeek(2013):     13939 kg  ( 4.0% MTOM)
+  USAF:                62222 kg  (17.8% MTOM)
+  Three-method avg:    36750 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               38250 kg  (11.0% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +12.5%
+
+--- Wing Geometry ---
+  Span (flight):    67.18 m
+  Semi-span:        33.59 m
+  Root chord:       10.00 m
+  Tip  chord:       3.00 m
+  MAC:              7.13 m
+  AR:               10.33
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7480
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 6)
+  Engine:           y = 11.8 m  (station 98)
+  Stations:         150  (dy = 0.225 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        71.793 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   277.825 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       37.164 MNm
+  Root bending (Snorri):     71.793 MNm  (L*b/8 check)
+  Root torque:                4.803 MNm
+  Hinge shear force:          0.015 MN
+  Hinge bending (SMT):        0.005 MNm
+  Hinge bending (Snorri):     0.152 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    270.2 cm^2
+    Spar web thick:   7.08 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (66.7%)
+    Spar caps (x4):      8675 kg  (27.0%)
+    Spar webs (x2):      2015 kg  ( 6.3%)
+    Primary total:      32072 kg
+  SECONDARY (35%):   11225 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      44797 kg  (12.85% MTOM)
+  Wing CG spanwise:     12.40 m  from centreline
+  Wing roll inertia:  7.4211e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     35172 kg  (10.1% MTOM)
+  Torenbeek(2013):     14490 kg  ( 4.2% MTOM)
+  USAF:                64479 kg  (18.5% MTOM)
+  Three-method avg:    38047 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               39547 kg  (11.3% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +16.3%
+
+--- Wing Geometry ---
+  Span (flight):    69.32 m
+  Semi-span:        34.66 m
+  Root chord:       9.69 m
+  Tip  chord:       2.91 m
+  MAC:              6.91 m
+  AR:               11.00
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7309
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 10)
+  Engine:           y = 12.1 m  (station 98)
+  Stations:         150  (dy = 0.233 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        74.073 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   532.382 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       38.344 MNm
+  Root bending (Snorri):     74.073 MNm  (L*b/8 check)
+  Root torque:                4.655 MNm
+  Hinge shear force:          0.045 MN
+  Hinge bending (SMT):        0.032 MNm
+  Hinge bending (Snorri):     0.575 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.1%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    287.7 cm^2
+    Spar web thick:   7.31 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (64.8%)
+    Spar caps (x4):      9528 kg  (28.9%)
+    Spar webs (x2):      2076 kg  ( 6.3%)
+    Primary total:      32985 kg
+  SECONDARY (35%):   11545 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      46030 kg  (13.20% MTOM)
+  Wing CG spanwise:     12.71 m  from centreline
+  Wing roll inertia:  8.0312e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     36222 kg  (10.4% MTOM)
+  Torenbeek(2013):     15028 kg  ( 4.3% MTOM)
+  USAF:                66679 kg  (19.1% MTOM)
+  Three-method avg:    39310 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               40810 kg  (11.7% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +20.0%
+
+--- Wing Geometry ---
+  Span (flight):    71.39 m
+  Semi-span:        35.69 m
+  Root chord:       9.41 m
+  Tip  chord:       2.82 m
+  MAC:              6.71 m
+  AR:               11.67
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7142
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 14)
+  Engine:           y = 12.5 m  (station 98)
+  Stations:         150  (dy = 0.240 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.285 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   764.796 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.489 MNm
+  Root bending (Snorri):     76.285 MNm  (L*b/8 check)
+  Root torque:                4.520 MNm
+  Hinge shear force:          0.085 MN
+  Hinge bending (SMT):        0.095 MNm
+  Hinge bending (Snorri):     1.221 MNm  (L_tip*d)
+  Hinge torque:               0.005 MNm
+  BM hinge / BM root:           0.2%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    305.1 cm^2
+    Spar web thick:   7.52 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    2.7 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (63.0%)
+    Spar caps (x4):     10407 kg  (30.7%)
+    Spar webs (x2):      2135 kg  ( 6.3%)
+    Primary total:      33923 kg
+  SECONDARY (35%):   11873 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      47297 kg  (13.56% MTOM)
+  Wing CG spanwise:     13.01 m  from centreline
+  Wing roll inertia:  8.6609e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     37243 kg  (10.7% MTOM)
+  Torenbeek(2013):     15556 kg  ( 4.5% MTOM)
+  USAF:                68824 kg  (19.7% MTOM)
+  Three-method avg:    40541 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               42041 kg  (12.1% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +23.7%
+
+--- Wing Geometry ---
+  Span (flight):    73.40 m
+  Semi-span:        36.70 m
+  Root chord:       9.16 m
+  Tip  chord:       2.75 m
+  MAC:              6.53 m
+  AR:               12.33
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.6979
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 18)
+  Engine:           y = 12.8 m  (station 98)
+  Stations:         150  (dy = 0.246 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        78.434 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   978.101 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       40.602 MNm
+  Root bending (Snorri):     78.434 MNm  (L*b/8 check)
+  Root torque:                4.396 MNm
+  Hinge shear force:          0.133 MN
+  Hinge bending (SMT):        0.204 MNm
+  Hinge bending (Snorri):     2.053 MNm  (L_tip*d)
+  Hinge torque:               0.010 MNm
+  BM hinge / BM root:           0.5%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    322.5 cm^2
+    Spar web thick:   7.74 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    5.6 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (61.3%)
+    Spar caps (x4):     11311 kg  (32.4%)
+    Spar webs (x2):      2193 kg  ( 6.3%)
+    Primary total:      34885 kg
+  SECONDARY (35%):   12210 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      48595 kg  (13.94% MTOM)
+  Wing CG spanwise:     13.29 m  from centreline
+  Wing roll inertia:  9.3108e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     38236 kg  (11.0% MTOM)
+  Torenbeek(2013):     16073 kg  ( 4.6% MTOM)
+  USAF:                70921 kg  (20.3% MTOM)
+  Three-method avg:    41743 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               43243 kg  (12.4% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +27.2%
+
+--- Wing Geometry ---
+  Span (flight):    75.36 m
+  Semi-span:        37.68 m
+  Root chord:       8.92 m
+  Tip  chord:       2.68 m
+  MAC:              6.36 m
+  AR:               13.00
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.6817
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 21)
+  Engine:           y = 13.2 m  (station 98)
+  Stations:         150  (dy = 0.253 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        80.526 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  1174.780 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       41.685 MNm
+  Root bending (Snorri):     80.526 MNm  (L*b/8 check)
+  Root torque:                4.282 MNm
+  Hinge shear force:          0.172 MN
+  Hinge bending (SMT):        0.325 MNm
+  Hinge bending (Snorri):     3.041 MNm  (L_tip*d)
+  Hinge torque:               0.015 MNm
+  BM hinge / BM root:           0.8%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    340.0 cm^2
+    Spar web thick:   7.94 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    8.8 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (59.6%)
+    Spar caps (x4):     12240 kg  (34.1%)
+    Spar webs (x2):      2249 kg  ( 6.3%)
+    Primary total:      35871 kg
+  SECONDARY (35%):   12555 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      49925 kg  (14.32% MTOM)
+  Wing CG spanwise:     13.56 m  from centreline
+  Wing roll inertia:  9.9814e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+  Panel 2: MTOM sweep ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     26805 kg  (13.4% MTOM)
+  Torenbeek(2013):     10293 kg  ( 5.1% MTOM)
+  USAF:                46914 kg  (23.5% MTOM)
+  Three-method avg:    28004 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               29504 kg  (14.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -13.2%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         4.903 MN
+  Semi-wing lift:              2.452 MN
+  Snorri M_root check:        44.130 MNm  (Lb/8)
+  Wing inertia relief:         0.331 MN
+  Fuel  inertia relief:        0.644 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   476.712 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           1.155 MN
+  Root bending moment:       21.101 MNm
+  Root bending (Snorri):     44.130 MNm  (L*b/8 check)
+  Root torque:                2.570 MNm
+  Hinge shear force:          0.055 MN
+  Hinge bending (SMT):        0.067 MNm
+  Hinge bending (Snorri):     0.834 MNm  (L_tip*d)
+  Hinge torque:               0.003 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    164.4 cm^2
+    Spar web thick:   3.89 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.9 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (75.1%)
+    Spar caps (x4):      5906 kg  (20.7%)
+    Spar webs (x2):      1199 kg  ( 4.2%)
+    Primary total:      28486 kg
+  SECONDARY (35%):    9970 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      39957 kg  (19.98% MTOM)
+  Wing CG spanwise:     13.74 m  from centreline
+  Wing roll inertia:  8.0022e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     28584 kg  (12.7% MTOM)
+  Torenbeek(2013):     11158 kg  ( 5.0% MTOM)
+  USAF:                50565 kg  (22.5% MTOM)
+  Three-method avg:    30102 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               31602 kg  (14.1% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -7.1%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         5.503 MN
+  Semi-wing lift:              2.751 MN
+  Snorri M_root check:        49.524 MNm  (Lb/8)
+  Wing inertia relief:         0.371 MN
+  Fuel  inertia relief:        0.723 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   534.977 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           1.335 MN
+  Root bending moment:       24.180 MNm
+  Root bending (Snorri):     49.524 MNm  (L*b/8 check)
+  Root torque:                2.885 MNm
+  Hinge shear force:          0.062 MN
+  Hinge bending (SMT):        0.076 MNm
+  Hinge bending (Snorri):     0.936 MNm  (L_tip*d)
+  Hinge torque:               0.004 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    188.4 cm^2
+    Spar web thick:   4.50 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    2.1 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (72.7%)
+    Spar caps (x4):      6690 kg  (22.7%)
+    Spar webs (x2):      1352 kg  ( 4.6%)
+    Primary total:      29423 kg
+  SECONDARY (35%):   10298 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      41222 kg  (18.37% MTOM)
+  Wing CG spanwise:     13.62 m  from centreline
+  Wing roll inertia:  8.1395e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     30278 kg  (12.2% MTOM)
+  Torenbeek(2013):     11995 kg  ( 4.8% MTOM)
+  USAF:                54080 kg  (21.7% MTOM)
+  Three-method avg:    32118 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               33618 kg  (13.5% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -1.1%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         6.102 MN
+  Semi-wing lift:              3.051 MN
+  Snorri M_root check:        54.917 MNm  (Lb/8)
+  Wing inertia relief:         0.412 MN
+  Fuel  inertia relief:        0.801 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   593.242 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           1.516 MN
+  Root bending moment:       27.258 MNm
+  Root bending (Snorri):     54.917 MNm  (L*b/8 check)
+  Root torque:                3.199 MNm
+  Hinge shear force:          0.069 MN
+  Hinge bending (SMT):        0.084 MNm
+  Hinge bending (Snorri):     1.038 MNm  (L_tip*d)
+  Hinge torque:               0.004 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    212.4 cm^2
+    Spar web thick:   5.11 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    2.4 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (70.4%)
+    Spar caps (x4):      7475 kg  (24.6%)
+    Spar webs (x2):      1507 kg  ( 5.0%)
+    Primary total:      30363 kg
+  SECONDARY (35%):   10627 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      42490 kg  (17.07% MTOM)
+  Wing CG spanwise:     13.50 m  from centreline
+  Wing roll inertia:  8.2784e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     31900 kg  (11.7% MTOM)
+  Torenbeek(2013):     12808 kg  ( 4.7% MTOM)
+  USAF:                57475 kg  (21.0% MTOM)
+  Three-method avg:    34061 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               35561 kg  (13.0% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +4.6%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         6.701 MN
+  Semi-wing lift:              3.351 MN
+  Snorri M_root check:        60.311 MNm  (Lb/8)
+  Wing inertia relief:         0.452 MN
+  Fuel  inertia relief:        0.880 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   651.507 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           1.696 MN
+  Root bending moment:       30.337 MNm
+  Root bending (Snorri):     60.311 MNm  (L*b/8 check)
+  Root torque:                3.513 MNm
+  Hinge shear force:          0.076 MN
+  Hinge bending (SMT):        0.092 MNm
+  Hinge bending (Snorri):     1.140 MNm  (L_tip*d)
+  Hinge torque:               0.005 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    236.4 cm^2
+    Spar web thick:   5.71 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    2.6 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (68.3%)
+    Spar caps (x4):      8259 kg  (26.4%)
+    Spar webs (x2):      1663 kg  ( 5.3%)
+    Primary total:      31304 kg
+  SECONDARY (35%):   10956 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      43760 kg  (16.01% MTOM)
+  Wing CG spanwise:     13.39 m  from centreline
+  Wing roll inertia:  8.4185e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     33459 kg  (11.2% MTOM)
+  Torenbeek(2013):     13600 kg  ( 4.6% MTOM)
+  USAF:                60766 kg  (20.4% MTOM)
+  Three-method avg:    35941 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               37441 kg  (12.6% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +10.1%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         7.301 MN
+  Semi-wing lift:              3.650 MN
+  Snorri M_root check:        65.705 MNm  (Lb/8)
+  Wing inertia relief:         0.493 MN
+  Fuel  inertia relief:        0.959 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   709.771 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           1.877 MN
+  Root bending moment:       33.416 MNm
+  Root bending (Snorri):     65.705 MNm  (L*b/8 check)
+  Root torque:                3.827 MNm
+  Hinge shear force:          0.082 MN
+  Hinge bending (SMT):        0.100 MNm
+  Hinge bending (Snorri):     1.242 MNm  (L_tip*d)
+  Hinge torque:               0.005 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    260.4 cm^2
+    Spar web thick:   6.32 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    2.8 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (66.3%)
+    Spar caps (x4):      9043 kg  (28.0%)
+    Spar webs (x2):      1821 kg  ( 5.6%)
+    Primary total:      32246 kg
+  SECONDARY (35%):   11286 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      45032 kg  (15.12% MTOM)
+  Wing CG spanwise:     13.29 m  from centreline
+  Wing roll inertia:  8.5595e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     34962 kg  (10.9% MTOM)
+  Torenbeek(2013):     14372 kg  ( 4.5% MTOM)
+  USAF:                63963 kg  (19.9% MTOM)
+  Three-method avg:    37766 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               39266 kg  (12.2% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +15.5%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         7.900 MN
+  Semi-wing lift:              3.950 MN
+  Snorri M_root check:        71.098 MNm  (Lb/8)
+  Wing inertia relief:         0.533 MN
+  Fuel  inertia relief:        1.037 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   768.036 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.057 MN
+  Root bending moment:       36.494 MNm
+  Root bending (Snorri):     71.098 MNm  (L*b/8 check)
+  Root torque:                4.141 MNm
+  Hinge shear force:          0.089 MN
+  Hinge bending (SMT):        0.109 MNm
+  Hinge bending (Snorri):     1.344 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    284.4 cm^2
+    Spar web thick:   6.93 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.1 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (64.4%)
+    Spar caps (x4):      9828 kg  (29.6%)
+    Spar webs (x2):      1980 kg  ( 6.0%)
+    Primary total:      33189 kg
+  SECONDARY (35%):   11616 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      46306 kg  (14.37% MTOM)
+  Wing CG spanwise:     13.19 m  from centreline
+  Wing roll inertia:  8.7012e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     36415 kg  (10.5% MTOM)
+  Torenbeek(2013):     15127 kg  ( 4.4% MTOM)
+  USAF:                67077 kg  (19.3% MTOM)
+  Three-method avg:    39540 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               41040 kg  (11.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +20.7%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.499 MN
+  Semi-wing lift:              4.250 MN
+  Snorri M_root check:        76.492 MNm  (Lb/8)
+  Wing inertia relief:         0.574 MN
+  Fuel  inertia relief:        1.116 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   826.301 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.238 MN
+  Root bending moment:       39.573 MNm
+  Root bending (Snorri):     76.492 MNm  (L*b/8 check)
+  Root torque:                4.455 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.117 MNm
+  Hinge bending (Snorri):     1.446 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    308.4 cm^2
+    Spar web thick:   7.54 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (62.6%)
+    Spar caps (x4):     10612 kg  (31.1%)
+    Spar webs (x2):      2140 kg  ( 6.3%)
+    Primary total:      34133 kg
+  SECONDARY (35%):   11947 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      47580 kg  (13.72% MTOM)
+  Wing CG spanwise:     13.10 m  from centreline
+  Wing roll inertia:  8.8433e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     37824 kg  (10.2% MTOM)
+  Torenbeek(2013):     15866 kg  ( 4.3% MTOM)
+  USAF:                70115 kg  (18.9% MTOM)
+  Three-method avg:    41268 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               42768 kg  (11.5% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +25.8%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         9.098 MN
+  Semi-wing lift:              4.549 MN
+  Snorri M_root check:        81.886 MNm  (Lb/8)
+  Wing inertia relief:         0.614 MN
+  Fuel  inertia relief:        1.195 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   884.566 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.418 MN
+  Root bending moment:       42.651 MNm
+  Root bending (Snorri):     81.886 MNm  (L*b/8 check)
+  Root torque:                4.769 MNm
+  Hinge shear force:          0.103 MN
+  Hinge bending (SMT):        0.125 MNm
+  Hinge bending (Snorri):     1.548 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    332.3 cm^2
+    Spar web thick:   8.15 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.5 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (61.0%)
+    Spar caps (x4):     11396 kg  (32.5%)
+    Spar webs (x2):      2299 kg  ( 6.6%)
+    Primary total:      35077 kg
+  SECONDARY (35%):   12277 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      48854 kg  (13.16% MTOM)
+  Wing CG spanwise:     13.01 m  from centreline
+  Wing roll inertia:  8.9859e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     39192 kg  ( 9.9% MTOM)
+  Torenbeek(2013):     16590 kg  ( 4.2% MTOM)
+  USAF:                73083 kg  (18.5% MTOM)
+  Three-method avg:    42955 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               44455 kg  (11.2% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +30.7%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         9.698 MN
+  Semi-wing lift:              4.849 MN
+  Snorri M_root check:        87.279 MNm  (Lb/8)
+  Wing inertia relief:         0.655 MN
+  Fuel  inertia relief:        1.273 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   942.831 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.599 MN
+  Root bending moment:       45.730 MNm
+  Root bending (Snorri):     87.279 MNm  (L*b/8 check)
+  Root torque:                5.084 MNm
+  Hinge shear force:          0.109 MN
+  Hinge bending (SMT):        0.133 MNm
+  Hinge bending (Snorri):     1.650 MNm  (L_tip*d)
+  Hinge torque:               0.007 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    356.3 cm^2
+    Spar web thick:   8.76 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.7 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (59.4%)
+    Spar caps (x4):     12181 kg  (33.8%)
+    Spar webs (x2):      2460 kg  ( 6.8%)
+    Primary total:      36022 kg
+  SECONDARY (35%):   12608 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      50130 kg  (12.67% MTOM)
+  Wing CG spanwise:     12.93 m  from centreline
+  Wing roll inertia:  9.1289e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     40523 kg  ( 9.6% MTOM)
+  Torenbeek(2013):     17302 kg  ( 4.1% MTOM)
+  USAF:                75988 kg  (18.1% MTOM)
+  Three-method avg:    44604 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               46104 kg  (11.0% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +35.6%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:        10.297 MN
+  Semi-wing lift:              5.148 MN
+  Snorri M_root check:        92.673 MNm  (Lb/8)
+  Wing inertia relief:         0.695 MN
+  Fuel  inertia relief:        1.352 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  1001.096 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.779 MN
+  Root bending moment:       48.808 MNm
+  Root bending (Snorri):     92.673 MNm  (L*b/8 check)
+  Root torque:                5.398 MNm
+  Hinge shear force:          0.116 MN
+  Hinge bending (SMT):        0.142 MNm
+  Hinge bending (Snorri):     1.752 MNm  (L_tip*d)
+  Hinge torque:               0.007 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    380.3 cm^2
+    Spar web thick:   9.36 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    4.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (57.8%)
+    Spar caps (x4):     12965 kg  (35.1%)
+    Spar webs (x2):      2620 kg  ( 7.1%)
+    Primary total:      36967 kg
+  SECONDARY (35%):   12938 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      51405 kg  (12.24% MTOM)
+  Wing CG spanwise:     12.86 m  from centreline
+  Wing roll inertia:  9.2721e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+  Panel 3: Wingspan sweep ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     27908 kg  ( 8.0% MTOM)
+  Torenbeek(2013):     10890 kg  ( 3.1% MTOM)
+  USAF:                49531 kg  (14.2% MTOM)
+  Three-method avg:    29443 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               30943 kg  ( 8.9% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -9.0%
+
+--- Wing Geometry ---
+  Span (flight):    55.00 m
+  Semi-span:        27.50 m
+  Root chord:       12.22 m
+  Tip  chord:       3.67 m
+  MAC:              8.71 m
+  AR:               6.93
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.8414
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 9.6 m  (station 98)
+  Stations:         150  (dy = 0.185 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        58.774 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -1554.354 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       30.425 MNm
+  Root bending (Snorri):     58.774 MNm  (L*b/8 check)
+  Root torque:                5.867 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     3.886 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    181.1 cm^2
+    Spar web thick:   5.80 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (76.9%)
+    Spar caps (x4):      4761 kg  (17.1%)
+    Spar webs (x2):      1670 kg  ( 6.0%)
+    Primary total:      27812 kg
+  SECONDARY (35%):    9734 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      39047 kg  (11.20% MTOM)
+  Wing CG spanwise:     10.53 m  from centreline
+  Wing roll inertia:  4.5882e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     29176 kg  ( 8.4% MTOM)
+  Torenbeek(2013):     11502 kg  ( 3.3% MTOM)
+  USAF:                52106 kg  (14.9% MTOM)
+  Three-method avg:    30928 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               32428 kg  ( 9.3% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -4.6%
+
+--- Wing Geometry ---
+  Span (flight):    57.50 m
+  Semi-span:        28.75 m
+  Root chord:       11.69 m
+  Tip  chord:       3.51 m
+  MAC:              8.33 m
+  AR:               7.57
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.8228
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 10.1 m  (station 98)
+  Stations:         150  (dy = 0.193 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        61.446 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -1115.080 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       31.808 MNm
+  Root bending (Snorri):     61.446 MNm  (L*b/8 check)
+  Root torque:                5.612 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     2.091 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    197.9 cm^2
+    Spar web thick:   6.06 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (74.9%)
+    Spar caps (x4):      5440 kg  (19.0%)
+    Spar webs (x2):      1740 kg  ( 6.1%)
+    Primary total:      28562 kg
+  SECONDARY (35%):    9997 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      40058 kg  (11.49% MTOM)
+  Wing CG spanwise:     10.93 m  from centreline
+  Wing roll inertia:  5.0888e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     30445 kg  ( 8.7% MTOM)
+  Torenbeek(2013):     12121 kg  ( 3.5% MTOM)
+  USAF:                54696 kg  (15.7% MTOM)
+  Three-method avg:    32421 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               33921 kg  ( 9.7% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -0.2%
+
+--- Wing Geometry ---
+  Span (flight):    60.00 m
+  Semi-span:        30.00 m
+  Root chord:       11.20 m
+  Tip  chord:       3.36 m
+  MAC:              7.98 m
+  AR:               8.24
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.8039
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 10.5 m  (station 98)
+  Stations:         150  (dy = 0.201 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        64.117 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -712.412 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       33.191 MNm
+  Root bending (Snorri):     64.117 MNm  (L*b/8 check)
+  Root torque:                5.378 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     0.891 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    215.5 cm^2
+    Spar web thick:   6.32 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (72.8%)
+    Spar caps (x4):      6180 kg  (21.0%)
+    Spar webs (x2):      1811 kg  ( 6.2%)
+    Primary total:      29373 kg
+  SECONDARY (35%):   10280 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      41153 kg  (11.80% MTOM)
+  Wing CG spanwise:     11.32 m  from centreline
+  Wing roll inertia:  5.6283e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     31713 kg  ( 9.1% MTOM)
+  Torenbeek(2013):     12748 kg  ( 3.7% MTOM)
+  USAF:                57302 kg  (16.4% MTOM)
+  Three-method avg:    33921 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               35421 kg  (10.2% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +4.2%
+
+--- Wing Geometry ---
+  Span (flight):    62.50 m
+  Semi-span:        31.25 m
+  Root chord:       10.75 m
+  Tip  chord:       3.23 m
+  MAC:              7.66 m
+  AR:               8.94
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7847
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 10.9 m  (station 98)
+  Stations:         150  (dy = 0.210 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        66.789 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  -341.958 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       34.574 MNm
+  Root bending (Snorri):     66.789 MNm  (L*b/8 check)
+  Root torque:                5.163 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     0.214 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    233.9 cm^2
+    Spar web thick:   6.59 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (70.7%)
+    Spar caps (x4):      6985 kg  (23.1%)
+    Spar webs (x2):      1882 kg  ( 6.2%)
+    Primary total:      30248 kg
+  SECONDARY (35%):   10587 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      42335 kg  (12.14% MTOM)
+  Wing CG spanwise:     11.70 m  from centreline
+  Wing roll inertia:  6.2094e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     32982 kg  ( 9.5% MTOM)
+  Torenbeek(2013):     13381 kg  ( 3.8% MTOM)
+  USAF:                59922 kg  (17.2% MTOM)
+  Three-method avg:    35428 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               36928 kg  (10.6% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +8.6%
+
+--- Wing Geometry ---
+  Span (flight):    65.00 m
+  Semi-span:        32.50 m
+  Root chord:       10.34 m
+  Tip  chord:       3.10 m
+  MAC:              7.37 m
+  AR:               9.67
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7652
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 1)
+  Engine:           y = 11.4 m  (station 98)
+  Stations:         150  (dy = 0.218 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        69.460 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):     0.000 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       35.957 MNm
+  Root bending (Snorri):     69.460 MNm  (L*b/8 check)
+  Root torque:                4.964 MNm
+  Hinge shear force:          0.000 MN
+  Hinge bending (SMT):        0.000 MNm
+  Hinge bending (Snorri):     0.000 MNm  (L_tip*d)
+  Hinge torque:               0.000 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    252.9 cm^2
+    Spar web thick:   6.85 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (68.5%)
+    Spar caps (x4):      7857 kg  (25.2%)
+    Spar webs (x2):      1953 kg  ( 6.3%)
+    Primary total:      31191 kg
+  SECONDARY (35%):   10917 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      43608 kg  (12.51% MTOM)
+  Wing CG spanwise:     12.08 m  from centreline
+  Wing roll inertia:  6.8353e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     34250 kg  ( 9.8% MTOM)
+  Torenbeek(2013):     14021 kg  ( 4.0% MTOM)
+  USAF:                62556 kg  (17.9% MTOM)
+  Three-method avg:    36943 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               38443 kg  (11.0% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +13.1%
+
+--- Wing Geometry ---
+  Span (flight):    67.50 m
+  Semi-span:        33.75 m
+  Root chord:       9.96 m
+  Tip  chord:       2.99 m
+  MAC:              7.10 m
+  AR:               10.43
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7455
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 7)
+  Engine:           y = 11.8 m  (station 98)
+  Stations:         150  (dy = 0.227 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        72.132 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   316.628 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       37.339 MNm
+  Root bending (Snorri):     72.132 MNm  (L*b/8 check)
+  Root torque:                4.780 MNm
+  Hinge shear force:          0.021 MN
+  Hinge bending (SMT):        0.009 MNm
+  Hinge bending (Snorri):     0.198 MNm  (L_tip*d)
+  Hinge torque:               0.001 MNm
+  BM hinge / BM root:           0.0%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    272.8 cm^2
+    Spar web thick:   7.12 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (66.4%)
+    Spar caps (x4):      8798 kg  (27.3%)
+    Spar webs (x2):      2024 kg  ( 6.3%)
+    Primary total:      32204 kg
+  SECONDARY (35%):   11271 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      44975 kg  (12.90% MTOM)
+  Wing CG spanwise:     12.45 m  from centreline
+  Wing roll inertia:  7.5093e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     35519 kg  (10.2% MTOM)
+  Torenbeek(2013):     14667 kg  ( 4.2% MTOM)
+  USAF:                65204 kg  (18.7% MTOM)
+  Three-method avg:    38464 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               39964 kg  (11.5% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +17.5%
+
+--- Wing Geometry ---
+  Span (flight):    70.00 m
+  Semi-span:        35.00 m
+  Root chord:       9.60 m
+  Tip  chord:       2.88 m
+  MAC:              6.84 m
+  AR:               11.22
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7255
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 12)
+  Engine:           y = 12.2 m  (station 98)
+  Stations:         150  (dy = 0.235 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        74.803 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   610.639 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       38.722 MNm
+  Root bending (Snorri):     74.803 MNm  (L*b/8 check)
+  Root torque:                4.610 MNm
+  Hinge shear force:          0.064 MN
+  Hinge bending (SMT):        0.058 MNm
+  Hinge bending (Snorri):     0.763 MNm  (L_tip*d)
+  Hinge torque:               0.003 MNm
+  BM hinge / BM root:           0.1%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    293.4 cm^2
+    Spar web thick:   7.38 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.7 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (64.2%)
+    Spar caps (x4):      9812 kg  (29.5%)
+    Spar webs (x2):      2096 kg  ( 6.3%)
+    Primary total:      33289 kg
+  SECONDARY (35%):   11651 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      46441 kg  (13.32% MTOM)
+  Wing CG spanwise:     12.81 m  from centreline
+  Wing roll inertia:  8.2349e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     36787 kg  (10.5% MTOM)
+  Torenbeek(2013):     15320 kg  ( 4.4% MTOM)
+  USAF:                67866 kg  (19.5% MTOM)
+  Three-method avg:    39991 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               41491 kg  (11.9% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +22.0%
+
+--- Wing Geometry ---
+  Span (flight):    72.50 m
+  Semi-span:        36.25 m
+  Root chord:       9.27 m
+  Tip  chord:       2.78 m
+  MAC:              6.61 m
+  AR:               12.03
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7052
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 16)
+  Engine:           y = 12.7 m  (station 98)
+  Stations:         150  (dy = 0.243 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        77.475 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   884.374 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       40.105 MNm
+  Root bending (Snorri):     77.475 MNm  (L*b/8 check)
+  Root torque:                4.451 MNm
+  Hinge shear force:          0.108 MN
+  Hinge bending (SMT):        0.143 MNm
+  Hinge bending (Snorri):     1.658 MNm  (L_tip*d)
+  Hinge torque:               0.007 MNm
+  BM hinge / BM root:           0.4%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    314.7 cm^2
+    Spar web thick:   7.64 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    4.0 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (62.1%)
+    Spar caps (x4):     10901 kg  (31.6%)
+    Spar webs (x2):      2167 kg  ( 6.3%)
+    Primary total:      34450 kg
+  SECONDARY (35%):   12057 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      48007 kg  (13.77% MTOM)
+  Wing CG spanwise:     13.16 m  from centreline
+  Wing roll inertia:  9.0161e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     38056 kg  (10.9% MTOM)
+  Torenbeek(2013):     15979 kg  ( 4.6% MTOM)
+  USAF:                70540 kg  (20.2% MTOM)
+  Three-method avg:    41525 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               43025 kg  (12.3% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +26.5%
+
+--- Wing Geometry ---
+  Span (flight):    75.00 m
+  Semi-span:        37.50 m
+  Root chord:       8.96 m
+  Tip  chord:       2.69 m
+  MAC:              6.39 m
+  AR:               12.88
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.6847
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 21)
+  Engine:           y = 13.1 m  (station 98)
+  Stations:         150  (dy = 0.252 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        80.146 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  1139.860 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       41.488 MNm
+  Root bending (Snorri):     80.146 MNm  (L*b/8 check)
+  Root torque:                4.302 MNm
+  Hinge shear force:          0.172 MN
+  Hinge bending (SMT):        0.324 MNm
+  Hinge bending (Snorri):     2.850 MNm  (L_tip*d)
+  Hinge torque:               0.015 MNm
+  BM hinge / BM root:           0.8%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    336.8 cm^2
+    Spar web thick:   7.91 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    8.7 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (59.9%)
+    Spar caps (x4):     12068 kg  (33.8%)
+    Spar webs (x2):      2239 kg  ( 6.3%)
+    Primary total:      35688 kg
+  SECONDARY (35%):   12491 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      49679 kg  (14.25% MTOM)
+  Wing CG spanwise:     13.51 m  from centreline
+  Wing roll inertia:  9.8569e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     39325 kg  (11.3% MTOM)
+  Torenbeek(2013):     16644 kg  ( 4.8% MTOM)
+  USAF:                73227 kg  (21.0% MTOM)
+  Three-method avg:    43065 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               44565 kg  (12.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +31.1%
+
+--- Wing Geometry ---
+  Span (flight):    77.50 m
+  Semi-span:        38.75 m
+  Root chord:       8.67 m
+  Tip  chord:       2.60 m
+  MAC:              6.18 m
+  AR:               13.75
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.6639
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 25)
+  Engine:           y = 13.6 m  (station 98)
+  Stations:         150  (dy = 0.260 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        82.818 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  1378.862 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       42.871 MNm
+  Root bending (Snorri):     82.818 MNm  (L*b/8 check)
+  Root torque:                4.163 MNm
+  Hinge shear force:          0.230 MN
+  Hinge bending (SMT):        0.544 MNm
+  Hinge bending (Snorri):     4.309 MNm  (L_tip*d)
+  Hinge torque:               0.024 MNm
+  BM hinge / BM root:           1.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    359.6 cm^2
+    Spar web thick:   8.17 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    14.2 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (57.8%)
+    Spar caps (x4):     13315 kg  (36.0%)
+    Spar webs (x2):      2310 kg  ( 6.2%)
+    Primary total:      37007 kg
+  SECONDARY (35%):   12952 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      51459 kg  (14.76% MTOM)
+  Wing CG spanwise:     13.85 m  from centreline
+  Wing roll inertia:  1.0762e+07 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     40593 kg  (11.6% MTOM)
+  Torenbeek(2013):     17315 kg  ( 5.0% MTOM)
+  USAF:                75926 kg  (21.8% MTOM)
+  Three-method avg:    44611 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               46111 kg  (13.2% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +35.6%
+
+--- Wing Geometry ---
+  Span (flight):    80.00 m
+  Semi-span:        40.00 m
+  Root chord:       8.40 m
+  Tip  chord:       2.52 m
+  MAC:              5.99 m
+  AR:               14.65
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.6429
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 29)
+  Engine:           y = 14.0 m  (station 98)
+  Stations:         150  (dy = 0.268 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        85.489 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):  1602.928 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       44.254 MNm
+  Root bending (Snorri):     85.489 MNm  (L*b/8 check)
+  Root torque:                4.033 MNm
+  Hinge shear force:          0.293 MN
+  Hinge bending (SMT):        0.842 MNm
+  Hinge bending (Snorri):     6.011 MNm  (L_tip*d)
+  Hinge torque:               0.036 MNm
+  BM hinge / BM root:           1.9%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    383.2 cm^2
+    Spar web thick:   8.43 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    21.6 cm^2
+    Spar web thick:   3.24 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (55.7%)
+    Spar caps (x4):     14645 kg  (38.1%)
+    Spar webs (x2):      2382 kg  ( 6.2%)
+    Primary total:      38409 kg
+  SECONDARY (35%):   13443 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      53352 kg  (15.30% MTOM)
+  Wing CG spanwise:     14.18 m  from centreline
+  Wing roll inertia:  1.1735e+07 kg*m^2
+  [B777F reference:   ~34,000 kg]
+  Panel 4: Load case comparison ...
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.829 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.118 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    310.4 cm^2
+    Spar web thick:   7.59 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (62.5%)
+    Spar caps (x4):     10677 kg  (31.2%)
+    Spar webs (x2):      2153 kg  ( 6.3%)
+    Primary total:      34212 kg
+  SECONDARY (35%):   11974 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      47686 kg  (13.68% MTOM)
+  Wing CG spanwise:     13.09 m  from centreline
+  Wing roll inertia:  8.8552e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Total aircraft lift:         3.420 MN
+  Semi-wing lift:              1.710 MN
+  Snorri M_root check:        30.776 MNm  (Lb/8)
+  Wing inertia relief:         0.231 MN
+  Fuel  inertia relief:        0.449 MN
+  Engine point load:           0.129 MN
+  Tip panel lift (Snorri):   332.459 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 1g ---
+  Root shear force:           0.901 MN
+  Root bending moment:       15.932 MNm
+  Root bending (Snorri):     30.776 MNm  (L*b/8 check)
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.039 MN
+  Hinge bending (SMT):        0.047 MNm
+  Hinge bending (Snorri):     0.582 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 1g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    124.1 cm^2
+    Spar web thick:   3.04 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (80.2%)
+    Spar caps (x4):      4275 kg  (16.0%)
+    Spar webs (x2):       990 kg  ( 3.7%)
+    Primary total:      26646 kg
+  SECONDARY (35%):    9326 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      37472 kg  (10.75% MTOM)
+  Wing CG spanwise:     13.95 m  from centreline
+  Wing roll inertia:  7.6931e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: neg1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Total aircraft lift:         3.420 MN
+  Semi-wing lift:              1.710 MN
+  Snorri M_root check:        30.776 MNm  (Lb/8)
+  Wing inertia relief:         0.231 MN
+  Fuel  inertia relief:        0.449 MN
+  Engine point load:           0.129 MN
+  Tip panel lift (Snorri):   332.459 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: neg1g ---
+  Root shear force:           0.901 MN
+  Root bending moment:       15.932 MNm
+  Root bending (Snorri):     30.776 MNm  (L*b/8 check)
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.039 MN
+  Hinge bending (SMT):        0.047 MNm
+  Hinge bending (Snorri):     0.582 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: neg1g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    124.1 cm^2
+    Spar web thick:   3.04 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (80.2%)
+    Spar caps (x4):      4275 kg  (16.0%)
+    Spar webs (x2):       990 kg  ( 3.7%)
+    Primary total:      26646 kg
+  SECONDARY (35%):    9326 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      37472 kg  (10.75% MTOM)
+  Wing CG spanwise:     13.95 m  from centreline
+  Wing roll inertia:  7.6931e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+  Panel 5: Material comparison ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     36534 kg  (10.5% MTOM)
+  Torenbeek(2013):     15189 kg  ( 4.4% MTOM)
+  USAF:                67332 kg  (19.3% MTOM)
+  Three-method avg:    39685 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               41185 kg  (11.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +21.1%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.829 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.118 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    310.4 cm^2
+    Spar web thick:   7.59 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (62.5%)
+    Spar caps (x4):     10677 kg  (31.2%)
+    Spar webs (x2):      2153 kg  ( 6.3%)
+    Primary total:      34212 kg
+  SECONDARY (35%):   11974 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      47686 kg  (13.68% MTOM)
+  Wing CG spanwise:     13.09 m  from centreline
+  Wing roll inertia:  8.8552e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+--- Class I/II Empirical Wing Mass: CFRP ---
+  Raymer   (2018):     36534 kg  (10.5% MTOM)
+  Torenbeek(2013):     15189 kg  ( 4.4% MTOM)
+  USAF:                67332 kg  (19.3% MTOM)
+  Three-method avg:    27658 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               29158 kg  ( 8.4% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: -14.2%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.829 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.118 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (CFRP (quasi-isotropic)) ---
+  Allowable stress:   220 MPa
+  Allowable shear:    110 MPa
+  Buckling skin t:    20.59 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   20.59 mm
+    Spar cap area:    387.9 cm^2
+    Spar web thick:   10.97 mm
+  Hinge (y=32.5m):
+    Skin thickness:   20.59 mm
+    Spar cap area:    4.1 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   20.59 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: CF (CFRP (quasi-isotropic)) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     12627 kg  (58.0%)
+    Spar caps (x4):      7441 kg  (34.2%)
+    Spar webs (x2):      1716 kg  ( 7.9%)
+    Primary total:      21784 kg
+  SECONDARY (35%):    7624 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      30908 kg  (8.86% MTOM)
+  Wing CG spanwise:     12.89 m  from centreline
+  Wing roll inertia:  5.4829e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+  Panel 6: Fidelity ladder ...
+
+--- Class I/II Empirical Wing Mass: Aluminium 7075-T6 ---
+  Raymer   (2018):     36534 kg  (10.5% MTOM)
+  Torenbeek(2013):     15189 kg  ( 4.4% MTOM)
+  USAF:                67332 kg  (19.3% MTOM)
+  Three-method avg:    39685 kg
+  Hinge penalty:        1500 kg
+  TOTAL:               41185 kg  (11.8% MTOM)
+  [B777F reference:  ~34,000 kg  (~9.8% MTOM)]
+  Validation vs B777F: +21.1%
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.829 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.118 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Wingbox Sizing: 2.5g (Aluminium 7075-T6) ---
+  Allowable stress:   275 MPa
+  Allowable shear:    159 MPa
+  Buckling skin t:    19.43 mm  (rib spacing 600 mm)
+  Root:
+    Skin thickness:   19.43 mm
+    Spar cap area:    310.4 cm^2
+    Spar web thick:   7.59 mm
+  Hinge (y=32.5m):
+    Skin thickness:   19.43 mm
+    Spar cap area:    3.3 cm^2
+    Spar web thick:   3.00 mm
+  Tip (min gauge):
+    Skin thickness:   19.43 mm
+    Spar cap area:    1.0 cm^2
+
+--- Mass Buildup: Al (Aluminium 7075-T6) ---
+  PRIMARY WINGBOX
+    Skin (top+bot):     21381 kg  (62.5%)
+    Spar caps (x4):     10677 kg  (31.2%)
+    Spar webs (x2):      2153 kg  ( 6.3%)
+    Primary total:      34212 kg
+  SECONDARY (35%):   11974 kg
+  HINGE PENALTY:         1500 kg
+  ----------------------------------------
+  TOTAL WING MASS:      47686 kg  (13.68% MTOM)
+  Wing CG spanwise:     13.09 m  from centreline
+  Wing roll inertia:  8.8552e+06 kg*m^2
+  [B777F reference:   ~34,000 kg]
+
+  SMT comparison figure ...
+
+--- Wing Geometry ---
+  Span (flight):    72.00 m
+  Semi-span:        36.00 m
+  Root chord:       9.33 m
+  Tip  chord:       2.80 m
+  MAC:              6.65 m
+  AR:               11.87
+  Taper ratio:      0.30
+  LE sweep:         34.0 deg
+  Half-chord sweep: 28.0 deg
+  t/c root:         0.150
+  t/c tip:          0.110
+  Oswald e:         0.7093
+  Wingbox:          15% to 60% chord
+  Fold hinge:       y = 32.5 m  (station 15)
+  Engine:           y = 12.6 m  (station 98)
+  Stations:         150  (dy = 0.242 m)
+
+--- Load Distribution: 2.5g ---
+  n_limit = 2.5  |  n_ult = 3.75
+  Total aircraft lift:         8.549 MN
+  Semi-wing lift:              4.274 MN
+  Snorri M_root check:        76.941 MNm  (Lb/8)
+  Wing inertia relief:         0.577 MN
+  Fuel  inertia relief:        1.123 MN
+  Engine point load:           0.322 MN
+  Tip panel lift (Snorri):   831.148 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 2.5g ---
+  Root shear force:           2.253 MN
+  Root bending moment:       39.829 MNm
+  Root bending (Snorri):     76.941 MNm  (L*b/8 check)
+  Root torque:                4.481 MNm
+  Hinge shear force:          0.096 MN
+  Hinge bending (SMT):        0.118 MNm
+  Hinge bending (Snorri):     1.455 MNm  (L_tip*d)
+  Hinge torque:               0.006 MNm
+  BM hinge / BM root:           0.3%
+
+--- Load Distribution: 1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Total aircraft lift:         3.420 MN
+  Semi-wing lift:              1.710 MN
+  Snorri M_root check:        30.776 MNm  (Lb/8)
+  Wing inertia relief:         0.231 MN
+  Fuel  inertia relief:        0.449 MN
+  Engine point load:           0.129 MN
+  Tip panel lift (Snorri):   332.459 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: 1g ---
+  Root shear force:           0.901 MN
+  Root bending moment:       15.932 MNm
+  Root bending (Snorri):     30.776 MNm  (L*b/8 check)
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.039 MN
+  Hinge bending (SMT):        0.047 MNm
+  Hinge bending (Snorri):     0.582 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+--- Load Distribution: neg1g ---
+  n_limit = 1.0  |  n_ult = 1.50
+  Total aircraft lift:         3.420 MN
+  Semi-wing lift:              1.710 MN
+  Snorri M_root check:        30.776 MNm  (Lb/8)
+  Wing inertia relief:         0.231 MN
+  Fuel  inertia relief:        0.449 MN
+  Engine point load:           0.129 MN
+  Tip panel lift (Snorri):   332.459 kN
+  Total relief / lift:          39.8%
+
+--- SMT Integration: neg1g ---
+  Root shear force:           0.901 MN
+  Root bending moment:       15.932 MNm
+  Root bending (Snorri):     30.776 MNm  (L*b/8 check)
+  Root torque:                1.793 MNm
+  Hinge shear force:          0.039 MN
+  Hinge bending (SMT):        0.047 MNm
+  Hinge bending (Snorri):     0.582 MNm  (L_tip*d)
+  Hinge torque:               0.002 MNm
+  BM hinge / BM root:           0.3%
+
+Sensitivity study complete.
+
+=========================================================
+  FINAL SUMMARY — DESIGN POINT
+  Span=72.0m  MTOM=349t  AR=11.87  Al 7075-T6
+=========================================================
+  Class I/II wing mass:          41185 kg  (11.81% MTOM)
+  Class II.5 wing mass (Al):     47686 kg  (13.68% MTOM)
+  Class II.5 wing mass (CF):     30908 kg  (8.86% MTOM)
+  CFRP saving vs Al II.5:        16777 kg  (35.2%)
+  Wing CG spanwise:              13.09 m  from centreline
+  Wing roll inertia:           8.8552e+06 kg*m^2
+  EI root:                     9.9982e+09 Nm^2
+  GJ root:                     6.4552e+09 Nm^2
+  EI hinge:                    1.6339e+08 Nm^2
+  GJ hinge:                    1.9337e+08 Nm^2
+  Hinge M (SMT):               0.118 MNm
+  Hinge M (Snorri L_tip*d):    1.455 MNm
+=========================================================
+
+>> 
