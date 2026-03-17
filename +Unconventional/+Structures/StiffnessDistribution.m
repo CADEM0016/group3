@@ -14,15 +14,15 @@ for i = 1:N
     t_s = W.t_skin(i);
     A_c = W.A_cap(i);
 
-    % EI — parallel axis: four caps + top/bottom skins at distance h/2
+    % EI: parallel axis - four caps + top/bottom skins at h/2
     if h > 1e-6
-        I     = 4*A_c*(h/2)^2  +  2*(t_s*w)*(h/2)^2;
+        I     = 4*A_c*(h/2)^2 + 2*(t_s*w)*(h/2)^2;
         EI(i) = W.E_mat * I;
     end
 
-    % GJ — Bredt-Batho closed section, uniform skin (contour ≈ 2(w+h)/t_s)
-    if Ae > 1e-8 && t_s > 1e-8 && (w + h) > 1e-6
-        J     = 4 * Ae^2 * t_s / (2*(w + h));
+    % GJ: Bredt-Batho closed section, perimeter = 2(w+h)
+    if Ae > 1e-8 && t_s > 1e-8 && (w+h) > 1e-6
+        J     = 4 * Ae^2 * t_s / (2*(w+h));
         GJ(i) = W.G_mat * J;
     end
 

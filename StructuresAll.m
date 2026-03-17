@@ -1,51 +1,56 @@
-%% StructuresAll - Wing Structural Analysis
-%
-%  Global objects (adp, tlar) supply all shared aircraft values.
-%  Local constants (loc) supply structures-specific values from AircraftParams.
-%
-%  Pipeline:  loc → geometry → loads → SMT → sizing → stiffness → mass
+%  adp  - Unconventional.ADP()           team global object
+%  tlar - cast.TLAR.Unconventional()     team global object
+%  loc  - AircraftParams()               structures-only constants
 
 clear;  clc;  close all;
 addpath(fileparts(fileparts(mfilename('fullpath'))));
 
-% Global objects
 adp  = Unconventional.ADP();
-tlar = cast.TLAR();
+tlar = cast.TLAR.Unconventional();
+loc  = Unconventional.Structures.AircraftParams();
 
-% Structures-specific constants
-loc = Unconventional.Structures.AircraftParams();
+% Set unconventional design values on adp.
+% These are properties declared in ADP.m with no default for this concept.
+% Replace with live MDO loop output once converged.
+adp.MTOM     = 348700;   % kg
+adp.OEM      = 145000;   % kg
+adp.Span     = 72.0;     % m
+adp.WingArea = 436.8;    % m²
+adp.KinkPos  = 10.0;     % m
+adp.Mf_Fuel  = 0.19;
+adp.Mf_res   = 0.05;
 
-% Step 1 — wing geometry
+% 1 — geometry
 G = Unconventional.Structures.WingGeometry(adp, tlar, loc);
 
-% Step 2 — Class I/II empirical mass
+% 2 — Class I/II empirical mass
 E_Al = Unconventional.Structures.EmpiricalMass(adp, tlar, loc, G, 'Al');
 E_CF = Unconventional.Structures.EmpiricalMass(adp, tlar, loc, G, 'CF');
 
-% Step 3 — load distributions  (three CS-25 cases)
+% 3 — load distributions
 L_25g = Unconventional.Structures.LoadDistribution(adp, tlar, loc, G, '2.5g');
 L_1g  = Unconventional.Structures.LoadDistribution(adp, tlar, loc, G, '1g');
 L_n1g = Unconventional.Structures.LoadDistribution(adp, tlar, loc, G, 'neg1g');
 
-% Step 4 — SMT integration
+% 4 — SMT integration
 S_25g = Unconventional.Structures.SMT(loc, G, L_25g);
 S_1g  = Unconventional.Structures.SMT(loc, G, L_1g);
 S_n1g = Unconventional.Structures.SMT(loc, G, L_n1g);
 
-% Step 5 — wingbox sizing  (2.5g governs; CF included for comparison)
+% 5 — wingbox sizing  (2.5g governs; CF for comparison)
 W_25g    = Unconventional.Structures.WingboxSizing(loc, G, S_25g, 'Al');
 W_n1g    = Unconventional.Structures.WingboxSizing(loc, G, S_n1g, 'Al');
 W_25g_CF = Unconventional.Structures.WingboxSizing(loc, G, S_25g, 'CF');
 
-% Step 6 — stiffness distributions EI(y) and GJ(y)
+% 6 — stiffness distributions
 D_25g    = Unconventional.Structures.StiffnessDistribution(G, W_25g);
 D_25g_CF = Unconventional.Structures.StiffnessDistribution(G, W_25g_CF);
 
-% Step 7 — mass buildup
+% 7 — mass buildup
 MB_25g    = Unconventional.Structures.MassBuildup(adp, loc, G, W_25g);
 MB_25g_CF = Unconventional.Structures.MassBuildup(adp, loc, G, W_25g_CF);
 
-% Step 8 — fidelity comparison table
+% 8 — fidelity comparison table
 fprintf('\n+----------------------------------+----------+---------+\n');
 fprintf('| Method                           | Mass [kg]|  %%MTOM |\n');
 fprintf('+----------------------------------+----------+---------+\n');
@@ -61,8 +66,8 @@ fprintf('+----------------------------------+----------+---------+\n');
 fprintf('| B777F reference                  |    34000 |   9.76%% |\n');
 fprintf('+----------------------------------+----------+---------+\n');
 
-% Step 9 — plots
-Unconventional.Structures.Plots(adp, loc, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
+% 9 — plots
+Unconventional.Structures.Plots(adp, tlar, loc, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
 
-% Step 10 — sensitivity studies
+% 10 — sensitivity studies
 Unconventional.Structures.SensitivityStudy(adp, tlar, loc);

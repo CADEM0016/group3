@@ -1,9 +1,10 @@
 function MB = MassBuildup(adp, loc, G, W)
 
-N   = G.N;
-dy  = G.dy;
-rho = W.rho_mat;
-ih  = G.i_hinge;
+N    = G.N;
+dy   = G.dy;
+rho  = W.rho_mat;
+ih   = G.i_hinge;
+MTOM = double(adp.MTOM);   % from adp directly
 
 m_skin_dist = zeros(1, N);
 m_cap_dist  = zeros(1, N);
@@ -44,7 +45,7 @@ MB.m_primary       = m_primary;
 MB.m_secondary     = m_secondary;
 MB.m_hinge         = m_hinge;
 MB.m_total         = m_total;
-MB.m_frac_MTOM     = m_total / adp.MTOM;
+MB.m_frac_MTOM     = m_total / MTOM;
 MB.m_outer_primary = m_outer;
 MB.m_skin_dist     = m_skin_dist;
 MB.m_total_dist    = m_dist;

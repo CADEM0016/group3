@@ -8,24 +8,21 @@ Q = zeros(1, N);
 M = zeros(1, N);
 T = zeros(1, N);
 
-% Trapezoidal integration tip→root.  Station 1 is the free end: Q=M=T=0.
+% Trapezoidal integration tip→root; BC: Q=M=T=0 at station 1 (tip)
 for i = 1 : N-1
 
     Q(i+1) = Q(i) + 0.5*(L.net_dist(i) + L.net_dist(i+1)) * dy;
 
-    % Engine point load applied as a jump when the step crosses y_engine
     if G.y(i+1) <= G.y_engine && G.y(i) > G.y_engine
-        Q(i+1) = Q(i+1) + L.sign_relief * L.P_engine;
+        Q(i+1) = Q(i+1) + L.sign_relief * L.P_engine;  % engine point load
     end
 
     M(i+1) = M(i) + 0.5*(Q(i) + Q(i+1)) * dy;
 
-    % Only aerodynamic lift torques the box; inertia loads act through elastic axis
     T(i+1) = T(i) + L.sign_lift * L.lift_dist(i) * G.e_ac_fa(i) * dy;
 
 end
 
-% Snorri hinge BM estimate for cross-check  (M = L_tip × b_outer/2)
 M_hinge_snorri = L.L_tip * (G.s - loc.y_hinge) / 2;
 
 S.Q              = Q;

@@ -8,30 +8,31 @@ arguments
     material string = 'Al'
 end
 
-% Global values
+% From adp directly
 MTOM   = double(adp.MTOM);
 b      = double(adp.Span);
 S_wing = double(adp.WingArea);
-n_ult  = double(loc.n_limit_pos * loc.SF);
 mf     = double(adp.Mf_Fuel);
-AR     = double(G.AR);
-lam    = double(loc.lambda);
-tc     = double(loc.tc_root);
-sw_c4  = deg2rad(double(loc.sweep_c4_deg));
-sw_c2  = deg2rad(double(loc.sweep_c2_deg));
 
-% Cruise speed — needed for USAF method
-[rho_cr, a_cr]  = cast.atmos(tlar.Alt_cruise);
-V_cruise        = tlar.M_c * a_cr;
+n_ult = loc.n_limit_pos * loc.SF;
+AR    = G.AR;
+lam   = loc.lambda;
+tc    = loc.tc_root;
+sw_c4 = deg2rad(loc.sweep_c4_deg);
+sw_c2 = deg2rad(loc.sweep_c2_deg);
 
-% Raymer and USAF use US customary; convert using SI class
+% From tlar and cast.atmos directly
+[~, a_cr] = cast.atmos(tlar.Alt_cruise);
+V_cruise  = tlar.M_c * a_cr;
+
+% From SI directly
 kg_to_lb  = SI.lb;
 m2_to_ft2 = SI.ft^2;
 
-% Raymer 2018 Eq 15.25
-W_dg_lb   = MTOM   * kg_to_lb;
+% Raymer 2018 Eq 15.25  (US customary)
+W_dg_lb   = MTOM * kg_to_lb;
 S_w_ft2   = S_wing * m2_to_ft2;
-S_csw_ft2 = 0.15   * S_w_ft2;   % control surface area assumed 15% of wing area
+S_csw_ft2 = 0.15 * S_w_ft2;   % control surface area assumed 15% of wing
 
 m_raymer = 0.0051               ...
     * (W_dg_lb * n_ult)^0.557   ...
@@ -43,7 +44,7 @@ m_raymer = 0.0051               ...
     * S_csw_ft2^0.1             ...
     / kg_to_lb;
 
-% Torenbeek 2013 Eq 8.27  (SI; m_MZF gives correct inertia relief)
+% Torenbeek 2013 Eq 8.27  (SI)
 m_MZF      = MTOM * (1 - mf);
 t_max_root = tc * G.c_root;
 inner_tb   = (b * S_wing) / (t_max_root * m_MZF * cos(sw_c2));
@@ -55,7 +56,7 @@ m_torenbeek = 0.00125 * MTOM      ...
     * n_ult^0.55                  ...
     * inner_tb^0.30;
 
-% USAF correlation  (US customary; V in knots)
+% USAF correlation  (V in knots)
 V_kts = V_cruise / 0.5144;
 
 m_usaf = 96.948                       ...
@@ -76,11 +77,9 @@ else
     mat_name = 'Aluminium 7075-T6';
 end
 
-% Folding hinge penalty — 10% of outer panel mass, minimum 1500 kg
-b_outer = adp.Span/2 - loc.y_hinge;
-m_hinge = loc.f_hinge_mech * (m_avg * (b_outer / (adp.Span/2)) * 0.40);
+b_outer = b/2 - loc.y_hinge;
+m_hinge = loc.f_hinge_mech * (m_avg * (b_outer / (b/2)) * 0.40);
 m_hinge = max(m_hinge, loc.m_hinge_min);
-
 m_total = m_avg + m_hinge;
 
 E.m_raymer      = m_raymer;
