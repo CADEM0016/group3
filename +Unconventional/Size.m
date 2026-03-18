@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 function [ADP, out] = Size(ADP)
 % SIZE  Iteratively size the aircraft until MTOM converges
 %
@@ -54,6 +55,46 @@ while delta > 1
     mtom = sum([B7Mass(1:end-2).m]) + W_wing_struct + ADP.TLAR.Payload + BlockFuel;
 
     delta    = abs(ADP.MTOM - mtom);
+=======
+function [ADP,out] = Size(ADP)
+% interatively build the model, run mission analysis and estimate required
+%  MTOM untill covnergence
+delta = inf;
+while delta>1
+    % constraint Analysis
+    Unconventional.ConstraintAnalysis(ADP);
+    
+    % build geometry
+    [~,B7Mass] = Unconventional.BuildGeometry(ADP);
+    
+    % update Aero
+    Unconventional.UpdateAero(ADP);
+    
+    % mission Analysis
+%    ADP.TLAR.Range
+    [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
+    TripFuel
+
+%merge stash
+
+%    [BlockFuelA,TripFuelA,ResFuelA,Mf_TOC_A,MissionTimeA] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.RangeA, ADP.MTOM);
+%    [BlockFuelB,TripFuelB,ResFuelB,Mf_TOC_B,MissionTimeB] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.RangeB, ADP.MTOM);
+
+%    BlockFuel = max(BlockFuelA, BlockFuelB);
+%    TripFuel  = max(TripFuelA,  TripFuelB);
+%    ResFuel   = max(ResFuelA,   ResFuelB);
+%    Mf_TOC    = max(Mf_TOC_A,   Mf_TOC_B);
+%    MissionTime = max(MissionTimeA, MissionTimeB);
+
+%merge stash    
+
+    % calc OEM
+    idx = contains([B7Mass.Name],"Fuel","IgnoreCase",true) | contains([B7Mass.Name],"Payload","IgnoreCase",true);
+    ADP.OEM = sum([B7Mass(~idx).m]);
+    % estimate MTOM
+    mtom = sum([B7Mass(1:end-2).m])+ADP.TLAR.Payload+BlockFuel;
+    delta = abs(ADP.MTOM - mtom);
+>>>>>>> Stashed changes
     ADP.MTOM = mtom;
 
     %% -- Update Mass Fractions --
