@@ -39,14 +39,26 @@ classdef TLAR
             obj.GroundRun = 2950; %m
             obj.GroundRunLanding = 2500; %m
             obj.M_c = 0.85;
+<<<<<<< Updated upstream
             obj.RangeA = 10888000;%/SI.Nmile;% m (from nautical miles) - london singapore
             obj.RangeB= 6024100;%/SI.Nmile;% m (from nautical miles) - singapore melbourne
+=======
+
+%merge stuff
+
+>>>>>>> Stashed changes
             obj.RangeA = 10888000;%/SI.Nmile;% m (from nautical miles) - london singapore ------- find study of things
             obj.RangeB = 6024100;%/SI.Nmile;% m (from nautical miles) - singapore melbourne
             obj.GroundRun = 2830; %m
             obj.GroundRunLanding = 1500; %m
             obj.M_c = 0.78;
 
+<<<<<<< Updated upstream
+=======
+%merge stuff
+
+
+>>>>>>> Stashed changes
             obj.Alt_max = 39e3./SI.ft; %m (39,000ft)
             obj.Alt_cruise = 34e3./SI.ft;
             obj.Crew = 4;

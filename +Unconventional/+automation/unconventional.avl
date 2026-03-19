@@ -1,0 +1,127 @@
+Plane Unconventional
+#Mach
+0.780000
+#IYsym   IZsym   Zsym
+0 0 0.0
+#Sref    Cref    Bref
+600.000000 5.000000 76.000000
+#Xref    Yref    Zref
+13.500000 0.000000 0.000000
+#
+#
+#====================================================================
+SURFACE
+Wing
+#Nchordwise  Cspace   Nspanwise   Sspace
+25            1.0       30         1.0
+#
+YDUPLICATE
+0.0
+#
+TRANSLATE
+30.000000 0.0 0.0
+ANGLE
+0.000000
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0.0    0.0    0.000000     15.000000     2.000000   0          0
+AFILE
+SC(2)-0610.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+flap     1.0   0.750000    0.0 0.0 0.0   1.0
+CONTROL
+aileron  -1.0   0.750000    0.0 0.0 0.0  -1.0
+CLAF
+1.0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+4.998955     8.000000    0.559414     10.001045     2.000000   0          0
+AFILE
+SC(2)-0610.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+flap     1.0   0.750000    0.0 0.0 0.0   1.0
+CONTROL
+aileron  -1.0   0.750000    0.0 0.0 0.0  -1.0
+CLAF
+1.0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+23.745035     38.000000    2.657219     1.800000     2.000000   0          0
+AFILE
+SC(2)-0610.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+flap     1.0   0.750000    0.0 0.0 0.0   1.0
+CONTROL
+aileron  -1.0   0.750000    0.0 0.0 0.0  -1.0
+CLAF
+1.0
+#====================================================================
+SURFACE
+H-stab
+#Nchordwise  Cspace   Nspanwise   Sspace
+10           1.0      15           1.0
+#
+YDUPLICATE
+0.0
+#
+TRANSLATE
+60.000000 0.0 0.0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0.0     0.0    0.0     6.000000     2.000000   0          0
+AFILE
+naca0012.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+elevator 1.0    0.700000     0.0 1.0 0.0  1.0
+CLAF
+1.0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+10.488745    12.500000   0.436510     1.500000    2.000000   0          0
+AFILE
+naca0012.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+elevator 1.0    0.700000     0.0 1.0 0.0  1.0
+CLAF
+1.0
+#====================================================================
+SURFACE
+V-stab
+#Nchordwise  Cspace    Nspanwise  Sspace
+15            1.0       10          1.0
+#
+TRANSLATE
+61.000000 0.0 0.0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+0.0     0.     0.0     5.000000     0.0   0          0
+AFILE
+naca0012.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+rudder   1.0    0.700000     0.0 0.0 1.0  1.0
+CLAF
+1.0
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
+10.488745    0.0     16.000000     1.800000    0.0   0          0
+AFILE
+naca0012.dat
+#Cname   Cgain  Xhinge  HingeVec     SgnDup
+CONTROL
+rudder   1.0    0.700000     0.0 0.0 1.0  1.0
+CLAF
+1.0
+#-------------------------------------------------------------
