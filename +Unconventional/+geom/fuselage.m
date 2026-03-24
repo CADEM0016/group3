@@ -3,7 +3,7 @@ function [GeomObj,massObj] = fuselage(obj)
 
 
 % estiamte fuselage length
-L_f = obj.CockpitLength + obj.CabinLength + obj.CabinRadius * 1.48;
+L_f = obj.CockpitLength + obj.CabinLength + obj.CabinRadius * 2.96;
 
 % cockpit plot points
 theta = linspace(0,pi,101)';
@@ -19,7 +19,7 @@ Xs(:,1) = Xs(:,1)+obj.CockpitLength; % ensure start from zero
 GeomObj = cast.GeomObj(Name="Fuselage", Xs=Xs);
 
 %% ---------------------------- Fuselage Mass -----------------------------
-K_d  = 1.12;          % damage factor for transport
+K_d  = 1.12;          % damage factor for transport 
 K_Lg = 1.12;          % landing gear factor (if mounted to fuselage bays)
 M_dg = obj.MTOM * obj.Mf_TOC * SI.lb;     % design weight at TOC [lb]
 n_z  = 2.5 * 1.5;     % ultimate maneuver load factor
