@@ -95,12 +95,37 @@ classdef ADP < handle
     % fuselage properties
     properties
         FuselageLength = 65.625; % Total length of the fuselage
-        FuselageDiameter = 6.2; % Diameter of the fuselage
+        FuselageDiameter = 6.3; % Diameter of the fuselage
         Decks = 2; % Number of flight decks
         CockpitLength= 6;
         CabinRadius = 3.15;
         CabinLength = 50.375;
         SidewallThickness= 0.15; % Outer thickness (m)
+        % ---------------- Fuselage structural inputs ----------------
+    PayloadMass = 138578;        % Payload mass [kg]
+    CrewMass = 440;              % Crew mass [kg]
+    PayloadStart = 6.0;          % Start of payload distribution [m]
+    PayloadEnd = 50.0;           % End of payload distribution [m]
+    RestMassCG = 24.0;           % CG of lumped non-payload mass [m]
+
+    PressureDiff = 55e3;         % Cabin differential pressure [Pa]
+
+    SigmaAllow = 180e6;          % Allowable stress [Pa]
+    YoungsModulus = 70e9;        % Young's modulus [Pa]
+    ShearModulus = 27e9;         % Shear modulus [Pa]
+    MaterialDensity = 2800;      % Material density [kg/m^3]
+
+    MinGauge = 0.0025;           % Minimum practical skin gauge [m]
+    FrameSpacing = 0.5;          % Assumed frame spacing [m]
+    NumStringers = 60;           % Assumed number of stringers [-]
+
+    GustKg = 0.75;               % Gust alleviation factor [-]
+    GustSpeedUp = 20.0;          % Upward gust velocity [m/s]
+    GustSpeedDown = -20.0;       % Downward gust velocity [m/s]
+    CruiseEAS = 150.0;           % Equivalent airspeed for gust calc [m/s]
+
+    WingStation = 29.0;          % Wing load application station [m]
+    TailStation = 60.33;         % Tail load application station [m]
     end
 
     methods
