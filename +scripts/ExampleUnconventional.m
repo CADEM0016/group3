@@ -50,7 +50,7 @@ clf;
 img = imread('B777F_planform.png'); 
 imshow(img, 'XData', [0 63.7], 'YData', [-64.8 64.8]/2); 
 
-cast.draw(B7Geom,B7Mass)
+cast.draw(B7Geom,B7Mass,[0,0]) % CHANGE
 ax = gca;
 ax.XAxis.Visible = "on";
 ax.YAxis.Visible = "on";
