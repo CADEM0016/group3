@@ -5,6 +5,7 @@ classdef TLAR
     properties
         Crew
         Range = 10000*10^3     % Harmonic Range
+        RangeDes       % Design Range
         Payload     % Max. Payload
         V_ld        % Landing Speed
         V_app       % approach speed
@@ -39,6 +40,7 @@ classdef TLAR
             obj.GroundRun = 2950; %m
             obj.GroundRunLanding = 2500; %m
             obj.M_c = 0.85;
+            obj.RangeDes = 10888000;% m (from nautical miles) - gotta change            
             obj.RangeA = 10888000;%/SI.Nmile;% m (from nautical miles) - london singapore
             obj.RangeB= 6024100;%/SI.Nmile;% m (from nautical miles) - singapore melbourne
 

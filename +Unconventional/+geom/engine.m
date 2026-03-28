@@ -1,9 +1,17 @@
 function [GeomObj,massObj] = engine(obj)
 % engine - this function build the engines for a B777 like aircraft
-% engine is based upon a rubberised version of the GE90
+% engine is based upon a rubberised version of the T_900
 
-obj.Engine = cast.eng.TurboFan.T_XWB84(1,obj.TLAR.Alt_cruise,obj.TLAR.M_c);
-obj.Engine = obj.Engine.Rubberise(obj.Thrust/2);
+obj.Engine = cast.eng.TurboFan.T_977B(1,obj.TLAR.Alt_cruise,obj.TLAR.M_c);
+
+disp("Length before scaling:")
+disp(obj.Engine.Length)
+
+obj.Engine = obj.Engine.Rubberise(obj.Thrust/4);
+
+disp(obj.Engine.Length)
+disp(obj.Engine.T_Static)
+disp(obj.Engine.Diameter)
 
 % --------------------------- Create Geometry ----------------------------
 Xs = [-0.5,0.5;0.5,0.5;0.5,-0.5;-0.5,-0.5];
