@@ -1,4 +1,7 @@
 function [] = high_lift(obj,re_c,aerofoil,flap_deflection)
+
+high_lift(ADP)
+
 %HIGH_LIFT Summary of this function goes here
 % ESDU 91014 - Multi-Slotted Flap Analysis
 
@@ -30,14 +33,17 @@ fig3_91014 = fullfile(figFolder,'91014_figure3.csv');
 fig3_91014 = Unconventional.aerodynamics.datafigs.loadcsvmatrix(fig3_91014);
 
 % Aerofoil parameters
-aerofoil.t_c = 0.12; % thickness to chord
-aerofoil.rho1_c = 0.01087; % Leading edge radius to chord ratio
+t_c = aerofoil.t_c% thickness to chord
+rho1_c = aerofoil.rho1_c; % in example 0.01087  Leading edge radius to chord ratio
+rho1_t = rho1_c / t_c; % leading edge to thickness ratio
+
 phi_t = aerofoil.phi_t; % Trailing edge flap effectiveness
 
 % Wing parameter
 lambda = obj.TaperRatio; % Wing taper Ratio
 AspectRatio = obj.AspectRatio; % Wing Aspect Ratio
 delta_quarter = obj.WingQuaterChord;
+c_t_c_prime = obj.FlapChordRatio; % flap chord ratio
 
 % Section 1 
 delta_0 = atan( tan(obj.WingQuaterChord) + (1/AspectRatio)*((1 - lambda)/(1 + lambda)) );
@@ -74,22 +80,27 @@ R_cp_cos2_Lambda0 = R_cp * cosd(Lambda_0)^2;
 
 
 % Section 7
-delta_t_sec_Lambda_h = deg2rad(flap_deflection) * sec(Lambda_h);
+b  = (flap_deflection + phi_t) * sec(Lambda_h); % Done to account for sweep
+
 J_p = interp1(fig1_91028(:,1), fig1_91028(:,2), delta_t_sec_Lambda_h, 'linear', 'extrap');
 
-b  = (flap_deflection + phi_t) * sec(Lambda_h);
-Delta_CL0t = 2 * J_p * delta_t_sec_Lambda_h * ...
-    ( pi - acos(2 * (c_t / c_prime) - 1) + sqrt(1 - (2 * (c_t / c_prime) - 1)^2) );
+delta_t_sec_Lambda_h = deg2rad(flap_deflection) * sec(Lambda_h);
 
-rho1_t = (rho_f / c) / (t / c);
+Delta_CL0t = 2 * J_p * delta_t_sec_Lambda_h * ( pi - acos(2 *c_t_c_prime- 1) + sqrt(1 - (2 *c_t_c_prime- 1)^2) );
+
+
 K_G = 1.225 + 4.525 * rho1_t;
-K_t = 0.8;
+K_t = 1.0; % Note this would be 0.8 for plain flaps -- sort of a guess ?!
 Delta_CLmt = K_G * K_t * T * Delta_CL0t;
-Delta_CLmt_final = (c_prime / c) * Delta_CLmt;
+Delta_CLmt_final = (1/c_t_c_prime) * Delta_CLmt;
 
 % Section 8 - FROM GRAPH 91014 fig 3
+ = Unconventional.aerodynamics.datafigs.getCurve(fig3_91014, (A_tan_half - 8*lambda), eta_p); % Not 100% sure if eta_p is correct here !!
+
 F_R = 0.153 * log10(R_cp_cos2_Lambda0);
 K_Lt = cosd(delta_quarter)^2.5;
 Delta_CLmaxt = K_f * K_Lt * cosd(Lambda_h) * F_R * (Delta_CLmt / mu_p) * (Phi_o - Phi_i);
+
+
 
 end

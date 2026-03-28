@@ -11,8 +11,8 @@ classdef ADP < handle
     
     % Masses
     properties
-        MTOM = 490000    % Maximum take-off mass
-        OEM     % Operational Empty Mass
+        MTOM = 490000 % Maximum take-off mass
+        OEM % Operational Empty Mass
         Mf_Ldg  % maximum landing mass fraction (e.g. MLDG = MTOM*Mf_Ldg)
         Mf_Fuel % fuel mass fraction 
         Mf_TOC  % "top of climb" mass fraction

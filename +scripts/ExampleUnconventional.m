@@ -5,7 +5,7 @@
 ADP = Unconventional.ADP();
 ADP.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
 ADP.TLAR.M_c = 0.84;
-
+Unconventional.aerodynamics.high_lift(ADP)
 
 % --------------------- set Unconventional specific parameters ---------------------
 ADP.FuselageLength = 65; % Total fuselage length (m)
