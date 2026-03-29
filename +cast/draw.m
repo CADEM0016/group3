@@ -1,8 +1,8 @@
 function draw(GeomObj,massObj,CoG)
 arguments
     GeomObj 
-    massObj = cast.MassObj.empty
-    CoG = double
+    massObj % = cast.MassObj.empty - fml
+    CoG (1,2) double
 end
 %DRAW Summary of this function goes here
 %   Detailed explanation goes here

@@ -5,7 +5,7 @@
 ADP = Unconventional.ADP();
 ADP.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
 ADP.TLAR.M_c = 0.84;
-
+Unconventional.aerodynamics.high_lift(ADP)
 
 % --------------------- set Unconventional specific parameters ---------------------
 ADP.FuselageLength = 65; % Total fuselage length (m)
@@ -50,7 +50,7 @@ clf;
 img = imread('B777F_planform.png'); 
 imshow(img, 'XData', [0 63.7], 'YData', [-64.8 64.8]/2); 
 
-cast.draw(B7Geom,B7Mass)
+cast.draw(B7Geom,B7Mass,[0,0]) % CHANGE
 ax = gca;
 ax.XAxis.Visible = "on";
 ax.YAxis.Visible = "on";
@@ -64,7 +64,7 @@ fprintf('MTOM: %0.0f t, Fuel Mass: %0.0f t, Wing Mass %0.0f t\n',ADP.MTOM/1e3,AD
 fprintf('CD0: %0.3f, CD (CL=0.5): %0.3f \n',ADP.AeroPolar.CD(0),ADP.AeroPolar.CD(0.5));
 
 %% Example call to mission analysis discipline
-[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.Range, ADP.MTOM);
+[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.RangeDes, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
 % predefine spans to test
