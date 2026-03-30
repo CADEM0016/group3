@@ -1,0 +1,109 @@
+=======================================================
+ LANDING GEAR CLASS I / II / II.5 SIZING TOOL
+ CADEM0016 – MSc Group Design Project
+=======================================================
+
+--- SECTION 2: CLASS I ESTIMATES ---
+
+Class I: MLM = 448083 kg  (MLM/MTOM = 0.90)
+Class I: Total LG mass  = 19915 kg (4.0% MTOM)
+         Main LG mass   = 17923 kg
+         Nose LG mass   = 1991 kg
+
+Class I: Recommended main gear wheels = 18 (+ 2 nose)
+         Mass per MLG tyre = 24.9 t
+
+--- SECTION 3: CLASS II ESTIMATES ---
+
+Class II: Tyre diameter = 1.16 m (45.7 in)
+          Tyre width    = 0.41 m (16.0 in)
+          Tyre radius   = 0.581 m
+
+Class II: Static main gear total load = 4396 kN
+          Static nose gear total load  = 488 kN
+          Load per MLG leg             = 1099 kN
+
+Class II: Longitudinal placement:
+          NLG position  = 3.80 m from nose
+          MLG position  = 39.52 m from nose
+          CG position   = 34.20 m from nose
+          Wheelbase     = 35.72 m
+          NLG load (static) = 727 kN  (14.9% of MTOM)
+
+Class II: Tail-strike angle = 8.5 deg  (target: 8–15 deg)
+          OK: within safe range
+          Tip-back angle β = 44.0 deg  (must be > 8.5 and < 25 deg)
+          WARNING: Large elevator input required for rotation.
+
+Class II: Lateral placement (turnover constraint):
+          Required track width T = 16.00 m  (turnover angle = 69.7 deg)
+          ICAO E max track = 14.0 m  |  ICAO F max track = 16.0 m
+          INFO: ICAO F (taxi) required (track > 14 m)
+
+Class II: Gear length from engine clearance = 3.886 m
+          (engine clearance required = 0.736 m  = 0.23 x 3.20 m fan)
+
+--- SECTION 4: CLASS II.5 PHYSICS-BASED ESTIMATES ---
+
+4.1  Shock Absorber Stroke Length  (Class II.5)
+     Energy equation: 0.5*m*Vz^2 = lambda*m*g*(0.75*xs + 0.5*xt)
+     Vz = 3.048 m/s  |  xt = 0.1524 m  |  MLM = 448083 kg
+
+     lambda |  xs [m]  | xs+xt [m] | F_peak [kN/leg] | M_leg_tube [kg]
+     -------|----------|-----------|-----------------|----------------
+      1.10  |   0.4724 |    0.6248 |          1208.8  |         21.4
+      1.15  |   0.4474 |    0.5998 |          1263.8  |         20.3
+      1.20  |   0.4245 |    0.5769 |          1318.7  |         19.2
+      1.25  |   0.4035 |    0.5559 |          1373.7  |         18.3
+      1.30  |   0.3841 |    0.5365 |          1428.6  |         17.4
+      1.35  |   0.3661 |    0.5185 |          1483.5  |         16.6
+      1.40  |   0.3494 |    0.5018 |          1538.5  |         15.8
+      1.45  |   0.3338 |    0.4862 |          1593.4  |         15.1
+      1.50  |   0.3193 |    0.4717 |          1648.4  |         14.5
+      1.55  |   0.3057 |    0.4581 |          1703.3  |         13.8
+      1.60  |   0.2930 |    0.4454 |          1758.3  |         13.3
+      1.65  |   0.2810 |    0.4334 |          1813.2  |         13.2
+      1.70  |   0.2698 |    0.4222 |          1868.2  |         13.1
+      1.75  |   0.2592 |    0.4116 |          1923.1  |         12.9
+      1.80  |   0.2491 |    0.4015 |          1978.1  |         12.8
+
+  >> Design choice: lambda = 1.20
+     Stroke length xs        = 0.4245 m (16.71 in)
+     Peak force per MLG leg  = 1318.7 kN
+     Slider (piston) diameter = 0.3489 m (13.74 in)
+     Physics-based main gear mass = 77 kg  (19.2 per leg)
+     Physics-based nose gear mass = 9 kg
+     Physics-based TOTAL LG mass  = 85 kg  (0.02% MTOM)
+
+  >> Raymer cross-check (λ-corrected, Schmidt p.865):
+     Main gear mass = 130851 kg
+     Nose gear mass = 2688 kg
+     Total LG mass  = 133540 kg  (26.82% MTOM)
+
+=======================================================
+ RESULTS SUMMARY
+=======================================================
+ Method          | Total LG [kg] | Main [kg] | Nose [kg]
+ ----------------|---------------|-----------|----------
+ Class I  (4%)   |         19915 |     17923 |     1991
+ Class II.5 tube |            85 |        77 |        9
+ Raymer (λ=1.2) |        133540 |    130851 |     2688
+
+ Geometry:
+   NLG position          = 3.80 m from nose
+   MLG position          = 39.52 m from nose
+   Track width (min)     = 16.00 m
+   Gear length (engine)  = 3.886 m
+   Stroke length (λ=1.2) = 0.4245 m
+   Tyre diameter         = 1.162 m  (45.7 in)
+   Slider diameter       = 0.3489 m  (13.74 in)
+
+ Geometric constraints:
+   Tail-strike angle     = 8.5 deg  (limit: <15, aim 8-12)
+   Tip-back angle β      = 44.0 deg  (must be >8.5 and <25)
+   Turnover angle θ      = 69.7 deg  (limit: <63)
+=======================================================
+
+Plots generated. Check Figure windows.
+Script complete.
+>> 
