@@ -6,14 +6,14 @@ Plane Unconventional
 #Sref    Cref    Bref
 600.000000 5.000000 76.000000
 #Xref    Yref    Zref
-13.500000 0.000000 0.000000
+0.000000 0.000000 0.000000
 #
 #
 #====================================================================
 SURFACE
 Wing
 #Nchordwise  Cspace   Nspanwise   Sspace
-25            1.0       30         1.0
+10            1.0      10         1.0
 #
 YDUPLICATE
 0.0
@@ -65,7 +65,7 @@ CLAF
 SURFACE
 H-stab
 #Nchordwise  Cspace   Nspanwise   Sspace
-10           1.0      15           1.0
+3           1.0      5           1.0
 #
 YDUPLICATE
 0.0
@@ -98,7 +98,7 @@ CLAF
 SURFACE
 V-stab
 #Nchordwise  Cspace    Nspanwise  Sspace
-15            1.0       10          1.0
+3            1.0       5          1.0
 #
 TRANSLATE
 61.000000 0.0 0.0
