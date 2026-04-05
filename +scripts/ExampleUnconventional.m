@@ -2,10 +2,17 @@
 
 % Instantiate an instance of the Unconventional class add define some initial
 % parameters
+%<<<<<<< Updated upstream
 ADP0 = Unconventional.ADP();
 ADP0.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
 ADP0.TLAR.M_c = 0.84;
 % Unconventional.aerodynamics.high_lift(ADP)
+%=======
+%ADP = Unconventional.ADP();
+%ADP.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
+%ADP.TLAR.M_c = 0.84;
+%Unconventional.aerodynamics.high_lift(ADP)
+%>>>>>>> Stashed changes
 
 % --------------------- set Unconventional specific parameters ---------------------
 ADP0.FuselageLength = 65; % Total fuselage length (m)

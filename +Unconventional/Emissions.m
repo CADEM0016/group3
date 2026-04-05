@@ -73,14 +73,14 @@ M = 0.8;
 T_atm = 220.9;
 p_atm = 25940;
 
-pi_c = 50;
+OPR = 50;
 H0 = 0;
 
 T_t0 = T_atm * (1 + (gamma-1)/2 * M^2);
 p_t0 = p_atm * (1 + (gamma-1)/2 * M^2)^(gamma/(gamma-1));
 
-T_t3 = T_t0 * pi_c^((gamma-1)/gamma);
-p_t3 = p_t0 * pi_c;
+T_t3 = T_t0 * OPR^((gamma-1)/gamma);
+p_t3 = p_t0 * OPR;
 
 EI_NOx = 0.0986 * (p_t3 / 101325)^0.4 * exp(T_t3/194 + H0/53.2);
 E_i_NOx = EI_NOx * M_fuel;   % g
