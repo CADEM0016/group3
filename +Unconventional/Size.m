@@ -45,8 +45,15 @@ while delta > 1
 
     %% -- Estimate MTOM --
     mtom = sum([B7Mass(1:end-2).m]) + W_wing_struct + ADP.TLAR.Payload + BlockFuel;
+    
+    fprintf("OEW %g\n",sum(([B7Mass(1:end-2).m])+W_wing_struct))
+    fprintf("BlockFuel %f\n",BlockFuel) 
+    fprintf("Payload mass %f\n",ADP.TLAR.Payload)
+    fprintf("ADP.MTOM %f\n",ADP.MTOM)
+    fprintf("mtom %f\n",mtom) 
 
     delta    = abs(ADP.MTOM - mtom);
+    ADP.MTOM = mtom;
 
 % function [ADP,out] = Size(ADP)
 % % interatively build the model, run mission analysis and estimate required
@@ -76,8 +83,7 @@ while delta > 1
 %     mtom = sum([B7Mass(1:end-2).m])+ADP.TLAR.Payload+BlockFuel;
 %     delta = abs(ADP.MTOM - mtom);
 % %>>>>>>> Stashed changes
-    ADP.MTOM = mtom;
-
+    
     %% -- Update Mass Fractions --
     ADP.Mf_Fuel = BlockFuel / ADP.MTOM;
     ADP.Mf_TOC  = Mf_TOC;

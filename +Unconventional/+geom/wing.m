@@ -7,7 +7,6 @@ SweepQtrChord = real(acosd(0.75.*obj.Mstar./obj.TLAR.M_c)); % quarter chord swee
 tr =  -0.0083*SweepQtrChord + 0.4597; % taper ratio of outer portion of the wing
 
 b = obj.Span;
-obj.MTOM = 490000 % VERY VERY TEMPORARY FIX
 obj.WingLoading
 S = (obj.MTOM*9.81)/obj.WingLoading;
 

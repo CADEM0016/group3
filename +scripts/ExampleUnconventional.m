@@ -73,15 +73,15 @@ Spans = 50:5:100;
 mtoms = zeros(size(Spans));
 fuels = zeros(size(Spans));
 
-% loop over spans and size aircraft for each span
-for i = 1:length(Spans)
-    ADP = ADP0;              % reset to baseline each time
-    ADP.Span = Spans(i);
-    ADP = Unconventional.Size(ADP);
-
-    mtoms(i) = ADP.MTOM;
-    fuels(i) = ADP.Mf_Fuel * ADP.MTOM;
-end
+% % loop over spans and size aircraft for each span
+% for i = 1:length(Spans)
+%     ADP = ADP0;              % reset to baseline each time
+%     ADP.Span = Spans(i);
+%     ADP = Unconventional.Size(ADP);
+% 
+%     mtoms(i) = ADP.MTOM;
+%     fuels(i) = ADP.Mf_Fuel * ADP.MTOM;
+% end
 
 f = figure(2);
 clf;
