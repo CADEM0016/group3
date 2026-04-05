@@ -11,6 +11,7 @@ massObj = struct.empty;
 
 FuncNames = ["wing","empenage","fuselage","engine","landingGear"];
 
+
 for i = 1:length(FuncNames)
     [gTmp,mTmp] = Unconventional.geom.(FuncNames(i))(obj); 
     GeomObj = [GeomObj,gTmp]; % Accumulate geom objects

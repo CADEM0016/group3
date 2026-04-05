@@ -29,7 +29,7 @@ classdef AeroPolar
 
         function CD = CD(obj,CL)
             % calc CD for a given CL
-            CD = obj.CD0 + obj.Beta*CL.^2;
+            CD = 0.08; % obj.CD0 + obj.Beta*CL.^2;
         end
     end
 end

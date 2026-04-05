@@ -10,7 +10,7 @@ function [ADP, out] = Size(ADP)
 delta = inf;
 
 while delta > 1
-
+    fprintf("delta_conv: %g\n",delta)
     %% -- Constraint Analysis --
     Unconventional.ConstraintAnalysis(ADP);
 
@@ -23,7 +23,7 @@ while delta > 1
     %% -- Mission Analysis (two ranges, use worst case) --
 
 
-    [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis(ADP,ADP.TLAR.RangeDes, ADP.MTOM);
+    [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis_oscar(ADP,ADP.TLAR.RangeDes, ADP.MTOM);
     
 
     %% -- Wing Structural Mass (Physics-Based) --

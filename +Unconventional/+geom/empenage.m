@@ -14,6 +14,10 @@ obj.V_HT
 obj.WingArea 
 obj.c_ac
 
+fprintf('this is V_HT = %g\n', obj.V_HT)
+fprintf('this is WingArea = %g\n', obj.WingArea)
+fprintf('this is c_ac = %g\n', obj.c_ac)
+
 % calc HTP Area
 obj.HtpArea = obj.V_HT * obj.WingArea * obj.c_ac / L_h;
 
@@ -24,6 +28,7 @@ b = sqrt(AR*obj.HtpArea); % calc HTP span
 c_rh = obj.HtpArea/((1+tr)/2*b); % calc HTP root chord
 
 % calc aero centre
+fprintf('this is b = %g\n', b)
 y_ac = fzero(@(y)trapz([0,y],interp1([0,b/2],[c_rh c_rh*tr],[0,y]))-(obj.HtpArea/4),b/4);
 obj.c_ach = interp1([0,b/2],[c_rh c_rh*tr],y_ac);
 
