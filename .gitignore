@@ -33,7 +33,6 @@ codegen/
 # Octave session info
 octave-workspace
 
-*.mat
 *.csv
 
 ################################# Nastran #################################
