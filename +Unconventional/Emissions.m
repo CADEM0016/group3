@@ -1,6 +1,7 @@
 %% EMISSIONS MODEL
 
-M_fuel = 15*10^3;
+%M_fuel = 15*10^3;
+M_fuel = TotalBurn;
 % tau_short = 0.011107635;
 tau_short = 5/365;
 
@@ -57,7 +58,7 @@ E_i_H2O = 1.26*M_fuel;
 E_i_SO4 = 2e-4*M_fuel;
 E_i_SOOT = 4e-5*M_fuel;
 
-L = 4000e3; % mission distance [m]
+L = TotalRange; % mission distance [m]
 
 RF_ref_per_L = 2.21e-12;
 RF_ref_per_L_km = RF_ref_per_L/(1.852e3);

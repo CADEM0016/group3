@@ -4,7 +4,7 @@ clear
 clc
 
 %% Run sizing first
-scripts.ExampleSizing
+scripts.ExampleUnconventional
 
 %% =========================
 % Mission definition
@@ -124,7 +124,7 @@ for i = 1:nLegs
     
     % First-pass requirement estimate
     [~, TripFuel_est, ResFuel_est, ~, ~] = ...
-        B777.MissionAnalysis(ADP, legRange, ADP.MTOM);
+        Unconventional.MissionAnalysis_oscar(ADP, legRange, ADP.MTOM);
     
     RequiredFuel = TripFuel_est + ResFuel_est;
     
@@ -143,7 +143,7 @@ for i = 1:nLegs
     
     % Re-run at actual start mass
     [~, TripFuel, ResFuel, ~, MissionTime] = ...
-        B777.MissionAnalysis(ADP, legRange, CurrentWeight);
+        Unconventional.MissionAnalysis_oscar(ADP, legRange, CurrentWeight);
     
     FuelEnd = FuelStart - TripFuel;
     
