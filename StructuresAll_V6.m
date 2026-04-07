@@ -9,15 +9,15 @@ adp  = Unconventional.ADP();
 tlar = cast.TLAR.Unconventional();
 loc  = Unconventional.Structures.V6.AircraftParams();
 
-% Set unconventional design values on adp.
-% These are properties declared in ADP.m with no default for this concept.
+% Set A380-derivative design values on adp.
+% Flight span 79.75 m folds to 65.0 m (Code E) at y_hinge = 32.5 m.
 % Replace with live MDO loop output once converged.
-adp.MTOM     = 348700;   % kg
-adp.OEM      = 145000;   % kg
-adp.Span     = 72.0;     % m
-adp.WingArea = 436.8;    % m²
-adp.KinkPos  = 10.0;     % m
-adp.Mf_Fuel  = 0.19;
+adp.MTOM     = 575000;   % kg
+adp.OEM      = 277000;   % kg
+adp.Span     = 79.75;    % m   flight span
+adp.WingArea = 845.0;    % m²
+adp.KinkPos  = 14.0;     % m
+adp.Mf_Fuel  = 0.45;
 adp.Mf_res   = 0.05;
 
 % 1 — geometry
@@ -50,7 +50,10 @@ D_25g_CF = Unconventional.Structures.V6.StiffnessDistribution(G, W_25g_CF);
 MB_25g    = Unconventional.Structures.V6.MassBuildup(adp, loc, G, W_25g);
 MB_25g_CF = Unconventional.Structures.V6.MassBuildup(adp, loc, G, W_25g_CF);
 
-% 8 — fidelity comparison table
+% 8a — folding wingtip structural analysis
+FT = Unconventional.Structures.V6.FoldingWingtip(loc, G, S_25g, S_1g, S_n1g, W_25g, D_25g, MB_25g);
+
+% 8b — fidelity comparison table
 fprintf('\n+----------------------------------+----------+---------+\n');
 fprintf('| Method                           | Mass [kg]|  %%MTOM |\n');
 fprintf('+----------------------------------+----------+---------+\n');
@@ -60,14 +63,19 @@ fprintf('| I/II  USAF                       | %8.0f | %6.2f%% |\n', E_Al.m_usaf,
 fprintf('| I/II  avg + hinge  (Al)          | %8.0f | %6.2f%% |\n', E_Al.m_total,     E_Al.m_frac_MTOM*100);
 fprintf('| I/II  avg + hinge  (CF)          | %8.0f | %6.2f%% |\n', E_CF.m_total,     E_CF.m_frac_MTOM*100);
 fprintf('+----------------------------------+----------+---------+\n');
-fprintf('| II.5  2.5g  (Al)                 | %8.0f | %6.2f%% |\n', MB_25g.m_total,    MB_25g.m_frac_MTOM*100);
-fprintf('| II.5  2.5g  (CF)                 | %8.0f | %6.2f%% |\n', MB_25g_CF.m_total, MB_25g_CF.m_total/adp.MTOM*100);
+fprintf('| II.5  2.5g  (Al)  excl. tip     | %8.0f | %6.2f%% |\n', MB_25g.m_total,    MB_25g.m_frac_MTOM*100);
+fprintf('| II.5  2.5g  (CF)  excl. tip     | %8.0f | %6.2f%% |\n', MB_25g_CF.m_total, MB_25g_CF.m_total/adp.MTOM*100);
+fprintf('| II.5  fold tip mechanism         | %8.0f | %6.2f%% |\n', FT.m_fold_penalty, FT.m_fold_penalty/adp.MTOM*100);
+fprintf('| II.5  total incl. fold tip (Al)  | %8.0f | %6.2f%% |\n', MB_25g.m_total+FT.m_fold_penalty, (MB_25g.m_total+FT.m_fold_penalty)/adp.MTOM*100);
 fprintf('+----------------------------------+----------+---------+\n');
-fprintf('| B777F reference                  |    34000 |   9.76%% |\n');
+fprintf('| A380 reference                   |    69000 |  12.00%% |\n');
 fprintf('+----------------------------------+----------+---------+\n');
 
 % 9 — plots
 Unconventional.Structures.V6.Plots(adp, tlar, loc, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
+
+% 9b — folding wingtip plots
+Unconventional.Structures.V6.PlotsFoldingWingtip(loc, G, S_25g, S_1g, W_25g, D_25g, FT);
 
 % 10 — sensitivity studies
 Unconventional.Structures.V6.SensitivityStudy(adp, tlar, loc);
