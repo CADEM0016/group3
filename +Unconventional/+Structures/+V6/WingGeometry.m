@@ -40,12 +40,21 @@ fa_frac = 0.25 + 0.25 .* eta;   % flexural axis 25% (tip) → 50% (root)
 x_fa    = x_LE + fa_frac .* chord;
 e_ac_fa = x_ac - x_fa;          % AC–FA offset drives torsion
 
-C        = Unconventional.geom.constants();
-N_en     = C.N_en;              % number of engines from geom.constants
-y_engine = 0.35 * s;
+% Engine configuration - 4 engines, 2 per semi-wing
+if isprop(adp,'Engine') && ~isempty(adp.Engine)
+    m_eng = adp.Engine.Mass;        % kg  per engine (rubberised, from PPC)
+else
+    m_eng = loc.m_engine_each;      % kg  fallback from AircraftParams
+end
 
-[~, i_hinge]  = min(abs(y - loc.y_hinge));
-[~, i_engine] = min(abs(y - y_engine));
+N_en  = loc.N_engines;              % 4 total
+% Spanwise positions of the two engine stations per semi-wing
+y_eng1 = loc.y_eng1_frac * s;      % m  inner engine (existing)
+y_eng2 = loc.y_eng2_frac * s;      % m  outer engine (new)
+
+[~, i_hinge]   = min(abs(y - loc.y_hinge));
+[~, i_engine1] = min(abs(y - y_eng1));
+[~, i_engine2] = min(abs(y - y_eng2));
 
 G.y            = y;
 G.eta          = eta;
@@ -69,11 +78,16 @@ G.c_tip        = c_tip;
 G.MAC          = MAC;
 G.lambda       = loc.lambda;
 G.wb_frac      = loc.fs_aft - loc.fs_fwd;
+G.y_engine     = y_eng1;       % m  inner engine (backward-compatible alias)
+G.y_engine1    = y_eng1;       % m  inner engine station
+G.y_engine2    = y_eng2;       % m  outer engine station
+G.N_engines    = N_en;         % 4 total
+G.m_engine     = m_eng;        % kg per engine (from propulsion)
 G.y_hinge      = loc.y_hinge;
-G.y_engine     = y_engine;
-G.N_engines    = N_en;
 G.i_hinge      = i_hinge;
-G.i_engine     = i_engine;
+G.i_engine     = i_engine1;    % backward-compatible alias
+G.i_engine1    = i_engine1;
+G.i_engine2    = i_engine2;
 G.sweep_LE_deg = loc.sweep_LE_deg;
 G.sweep_c2_deg = loc.sweep_c2_deg;
 
@@ -87,7 +101,15 @@ fprintf('  t/c root / tip     %.3f / %.3f\n',     loc.tc_root, loc.tc_tip);
 fprintf('  Oswald e           %.4f\n',             e_oswald);
 fprintf('  Wingbox            %.0f-%.0f%% chord\n', loc.fs_fwd*100, loc.fs_aft*100);
 fprintf('  Fold hinge         y = %.1f m  (stn %d)\n', loc.y_hinge, i_hinge);
-fprintf('  Engine             y = %.1f m  (stn %d)  N_en = %d\n', y_engine, i_engine, N_en);
+fprintf('  Engine config      %d total  (%d per semi-wing)\n', N_en, N_en/2);
+fprintf('  Inner engine       y = %.1f m  (stn %d)   [%.0f%% semi-span]\n', y_eng1, i_engine1, loc.y_eng1_frac*100);
+fprintf('  Outer engine       y = %.1f m  (stn %d)   [%.0f%% semi-span]\n', y_eng2, i_engine2, loc.y_eng2_frac*100);
+if isprop(adp,'Engine') && ~isempty(adp.Engine)
+    eng_src = 'adp.Engine (propulsion)';
+else
+    eng_src = 'AircraftParams fallback';
+end
+fprintf('  Mass per engine    %.0f kg  (source: %s)\n', m_eng, eng_src);
 fprintf('  Stations           %d  (dy = %.3f m)\n', N, dy);
 
 end

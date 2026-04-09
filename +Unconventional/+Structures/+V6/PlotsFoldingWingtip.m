@@ -1,5 +1,5 @@
 function PlotsFoldingWingtip(loc, G, S_25g, S_1g, W_25g, D_25g, FT)
-% Folding wingtip structural outputs — six-panel figure.
+% Folding wingtip structural outputs - six-panel figure.
 
 y      = fliplr(G.y);
 ih     = G.i_hinge;
@@ -16,7 +16,7 @@ tl = tiledlayout(2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
 title(tl, sprintf('Folding Wingtip Structural Analysis  —  y_{hinge} = %.1f m', loc.y_hinge), ...
     'FontWeight', 'bold');
 
-% ---- Panel 1: SMT comparison flight vs fold load case at outer panel
+% Panel 1: SMT comparison flight vs fold load case at outer panel
 nexttile(1);  hold on;
 Q_fl   = fliplr(abs(S_25g.Q)) / 1e6;
 Q_fold = fliplr(abs(S_1g.Q))  * loc.n_limit_fold / 1e6;
@@ -37,7 +37,7 @@ xlim([loc.y_hinge*0.6, G.s*1.05]);
 xlabel('y [m]');  ylabel('M [MNm]');  title('Outer panel BM — flight vs fold');
 legend('Location', 'northwest');  grid on;
 
-% ---- Panel 3: EI and GJ across hinge — stiffness discontinuity
+% Panel 3: EI and GJ across hinge - stiffness discontinuity
 nexttile(3);  hold on;
 semilogy(y, fliplr(D_25g.EI), '-',  'Color', blue,   'LineWidth', 2, 'DisplayName', 'EI');
 semilogy(y, fliplr(D_25g.GJ), '--', 'Color', orange, 'LineWidth', 2, 'DisplayName', 'GJ');
@@ -49,7 +49,7 @@ xlim([loc.y_hinge*0.6, G.s*1.05]);
 xlabel('y [m]');  ylabel('[Nm²]');  title('EI / GJ discontinuity at hinge');
 legend('Location', 'northeast');  grid on;
 
-% ---- Panel 4: Skin and cap sizing in outer panel
+% Panel 4: Skin and cap sizing in outer panel
 nexttile(4);  hold on;
 y_out = y(ih_pl:end);
 yyaxis left;
@@ -62,7 +62,7 @@ xline(loc.y_hinge, 'k:', 'LineWidth', 2, 'Label', 'Fold hinge');
 xlabel('y [m]');  title('Outer panel skin & cap sizing');
 legend({'t_{skin}','A_{cap}'}, 'Location', 'northwest');  grid on;
 
-% ---- Panel 5: Outer panel mass breakdown bar chart
+% Panel 5: Outer panel mass breakdown bar chart
 nexttile(5);
 labels = {'Box primary','Lock mech','Actuator','Hinge assy'};
 vals   = [FT.m_outer_prim, FT.m_lock, FT.m_actuator, FT.m_hinge_assy] / 1e3;
@@ -77,7 +77,7 @@ for k = 1:4
 end
 grid on;
 
-% ---- Panel 6: Summary text
+% Panel 6: Summary text
 nexttile(6);  axis off;
 txt = {
     sprintf('\\bfFOLD HINGE  y = %.1f m\\rm', FT.y_hinge),

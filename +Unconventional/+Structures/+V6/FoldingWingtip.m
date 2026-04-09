@@ -1,21 +1,18 @@
 function FT = FoldingWingtip(loc, G, S_25g, S_1g, S_n1g, W_25g, D_25g, MB_25g)
-% Folding wingtip structural analysis.
-% Sizes the hinge pin, hinge rib, lock mechanism and actuator.
-% Reports outer panel mass split, stiffness discontinuity, and
-% tip deflection under folded and flight load cases.
+% Folding wingtip structural analysis i.e hinge pin, rib, and outer panel sizing.
 
 ih  = G.i_hinge;
 N   = G.N;
 dy  = G.dy;
 
-% ── Geometry at hinge station ─────────────────────────────────────────
+% Geometry at hinge station
 h_h  = G.h_wb(ih);          % m   wingbox height at hinge
 w_h  = G.w_wb(ih);          % m   wingbox width at hinge
 Ae_h = G.A_enc(ih);         % m²  enclosed area at hinge
 c_h  = G.chord(ih);         % m   chord at hinge station
 y_h  = G.y_hinge;           % m   hinge position from CL
 
-% ── Hinge loads — 2.5g governs flight; 1.5g governs fold ─────────────
+% Hinge loads — 2.5g governs flight; 1.5g governs fold
 Q_h  = abs(S_25g.Q_hinge);  % N
 M_h  = abs(S_25g.M_hinge);  % Nm
 T_h  = abs(S_25g.T_hinge);  % Nm
@@ -23,7 +20,7 @@ T_h  = abs(S_25g.T_hinge);  % Nm
 Q_h_fold = abs(S_1g.Q_hinge) * loc.n_limit_fold;   % N   fold load case
 M_h_fold = abs(S_1g.M_hinge) * loc.n_limit_fold;   % Nm
 
-% ── Hinge pin sizing — double-shear, titanium ─────────────────────────
+% Hinge pin sizing — double-shear, titanium
 % Shear in pin: V_pin = Q_hinge / 2 (double shear)
 % A_pin = V_pin / tau_all   =>   d_pin from A_pin = pi*d²/4
 V_pin  = Q_h / 2;
@@ -35,7 +32,7 @@ d_pin  = sqrt(4 * A_pin / pi);
 t_bearing = Q_h / (d_pin * loc.hinge_sig);
 t_bearing = max(t_bearing, loc.hinge_t_min);
 
-% ── Hinge rib sizing — carries bending moment as a torque box ─────────
+% Hinge rib sizing - carries bending moment as a torque box
 % Rib acts as a shear frame: Q_rib = M_hinge / w_wb (moment resolved to
 % shear couple across rib depth h_wb)
 Q_rib    = M_h / w_h;
@@ -43,7 +40,7 @@ t_rib    = 1.5 * Q_rib / (h_h * loc.Al.tau_all);
 t_rib    = max(t_rib, loc.Al.t_min);
 m_rib    = loc.Al.rho * 2 * (h_h * w_h) * t_rib;   % kg  top+bottom rib plates
 
-% ── Outer panel mass breakdown ────────────────────────────────────────
+% Outer panel mass breakdown
 % Stations 1..ih are tip→hinge (outer panel, index 1 = tip)
 m_skin_outer = 2 * sum(MB_25g.m_skin_dist(1:ih));
 m_cap_outer  = 2 * sum(MB_25g.m_total_dist(1:ih)) - m_skin_outer;
@@ -55,7 +52,7 @@ m_hinge_assy = max(loc.f_hinge_mech * m_outer_prim, loc.m_hinge_min);
 
 m_outer_total = m_outer_prim + m_lock + m_actuator + m_hinge_assy;
 
-% ── Stiffness discontinuity at hinge ─────────────────────────────────
+% Stiffness discontinuity at hinge
 % EI and GJ ratio inner/outer panel at hinge station
 EI_inner = D_25g.EI(ih + 1);   % Nm²  just inboard of hinge
 EI_outer = D_25g.EI(ih);       % Nm²  just outboard of hinge
@@ -65,7 +62,7 @@ GJ_outer = D_25g.GJ(ih);
 EI_ratio = EI_inner / max(EI_outer, 1e3);
 GJ_ratio = GJ_inner / max(GJ_outer, 1e3);
 
-% ── Tip deflection estimate (cantilever, 2.5g) ────────────────────────
+% Tip deflection estimate (cantilever, 2.5g)
 % delta_tip = integral of M/(EI) dz over outer panel, trapezoidal
 % Outer panel runs stations 1..ih (tip to hinge)
 delta_tip = 0;
@@ -79,15 +76,15 @@ end
 % outer panel span
 b_tip = loc.b_tip_fold;
 
-% ── Folded position check — Code E compliance ────────────────────────
+% Folded position check — Code E compliance
 span_taxi_check = 2 * y_h;   % m   folded span = 2 × hinge position
 code_E_margin   = 65.0 - span_taxi_check;   % m   positive = compliant
 
-% ── Weight penalty vs fixed wing ─────────────────────────────────────
+% Weight penalty vs fixed wing
 m_fixed_equiv = MB_25g.m_outer_primary;   % outer panel primary if fixed
 m_fold_penalty = m_hinge_assy + m_lock + m_actuator + m_rib;   % kg
 
-% ── Package outputs ──────────────────────────────────────────────────
+% Package outputs
 FT.y_hinge        = y_h;
 FT.b_tip          = b_tip;
 FT.span_taxi      = span_taxi_check;

@@ -13,8 +13,14 @@ for i = 1 : N-1
 
     Q(i+1) = Q(i) + 0.5*(L.net_dist(i) + L.net_dist(i+1)) * dy;
 
-    if G.y(i+1) <= G.y_engine && G.y(i) > G.y_engine
-        Q(i+1) = Q(i+1) + L.sign_relief * L.P_engine;  % engine point load
+    % Inner engine point load (station 1 of 2 per semi-wing)
+    if G.y(i+1) <= G.y_engine1 && G.y(i) > G.y_engine1
+        Q(i+1) = Q(i+1) + L.sign_relief * L.P_engine1;
+    end
+
+    % Outer engine point load (station 2 of 2 per semi-wing)
+    if G.y(i+1) <= G.y_engine2 && G.y(i) > G.y_engine2
+        Q(i+1) = Q(i+1) + L.sign_relief * L.P_engine2;
     end
 
     M(i+1) = M(i) + 0.5*(Q(i) + Q(i+1)) * dy;

@@ -54,14 +54,18 @@ vol_norm    = G.A_enc / trapz(G.y(end:-1:1), G.A_enc(end:-1:1));
 w_fuel_load = n_ult * m_fuel_semi .* vol_norm * g;
 
 net_dist = sign_lift * lift_dist + sign_relief * (w_wing_load + w_fuel_load);
-P_engine = n_ult * loc.m_engine_each * g;
+% Engine point loads - 1 engine per station per semi-wing
+P_engine1 = n_ult * G.m_engine * g;   % inner engine point load
+P_engine2 = n_ult * G.m_engine * g;   % outer engine point load
 L_tip    = (2 * L_total / Span) * ((Span - loc.Span_taxi) / 2);
 
 L.lift_dist     = lift_dist;
 L.w_wing        = w_wing_load;
 L.w_fuel        = w_fuel_load;
 L.net_dist      = net_dist;
-L.P_engine      = P_engine;
+L.P_engine      = P_engine1;    
+L.P_engine1     = P_engine1;   % N  inner engine point load
+L.P_engine2     = P_engine2;   % N  outer engine point load
 L.n_limit       = n_lim;
 L.n_ult         = n_ult;
 L.sign_lift     = sign_lift;
@@ -86,7 +90,7 @@ fprintf('  Semi-wing lift        %.3f MN\n',       L_semi/1e6);
 fprintf('  Root BM (Snorri Lb/8) %.3f MNm\n',     M_root_snorri/1e6);
 fprintf('  Wing relief           %.3f MN\n', trapz(G.y(end:-1:1), w_wing_load(end:-1:1))/1e6);
 fprintf('  Fuel  relief          %.3f MN\n', trapz(G.y(end:-1:1), w_fuel_load(end:-1:1))/1e6);
-fprintf('  Engine point load     %.3f MN\n',       P_engine/1e6);
+fprintf('  Engine loads (inner/outer)  %.3f / %.3f MN  (per station)\n', P_engine1/1e6, P_engine2/1e6);
 fprintf('  Tip panel lift        %.3f kN\n',       L_tip/1e3);
 fprintf('  Relief / lift         %.1f%%\n',         relief_pct);
 

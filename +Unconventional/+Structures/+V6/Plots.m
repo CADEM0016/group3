@@ -11,9 +11,8 @@ green  = [0.47 0.67 0.19];
 purple = [0.49 0.18 0.56];
 black  = [0.00 0.00 0.00];
 
-% =========================================================================
 %  FIGURE 1 — Distributed loads
-% =========================================================================
+
 figure('Name', sprintf('Loads — %s', lc), 'Position', [60 60 1200 500]);
 tl = tiledlayout(1, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
 title(tl, sprintf('Distributed Loads: %s  (n_{lim}=%.1f, n_{ult}=%.2f)', ...
@@ -25,7 +24,8 @@ plot(y, flip_arr(L.w_wing)/1e3,    '--', 'Color', orange, 'LineWidth', 1.8, 'Dis
 plot(y, flip_arr(L.w_fuel)/1e3,    '--', 'Color', green,  'LineWidth', 1.8, 'DisplayName', 'Fuel relief');
 plot(y, flip_arr(L.net_dist)/1e3,  '-',  'Color', black,  'LineWidth', 2.5, 'DisplayName', 'Net load');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
-xline(G.y_engine,  'r:', 'LineWidth', 1.2, 'Label', 'Engine');
+xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
+xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
 xlabel('y [m]');  ylabel('Load [kN/m]');  title('Load components');
 legend('Location', 'northeast', 'FontSize', 8);  grid on;
 
@@ -42,9 +42,8 @@ relief_pct = trapz(y, relief_plot) / trapz(y, lift_plot) * 100;
 title(sprintf('Inertia relief = %.0f%% of lift', relief_pct));
 legend('Location', 'northeast', 'FontSize', 8);  grid on;
 
-% =========================================================================
 %  FIGURE 2 — SMT diagrams
-% =========================================================================
+
 figure('Name', sprintf('SMT — %s', lc), 'Position', [60 60 1300 820]);
 tl = tiledlayout(3, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
 title(tl, sprintf('Shear / Bending / Torque — %s', lc), 'FontWeight', 'bold');
@@ -52,7 +51,8 @@ title(tl, sprintf('Shear / Bending / Torque — %s', lc), 'FontWeight', 'bold');
 nexttile(1);
 plot(y, flip_arr(S.Q)/1e6, '-', 'Color', blue, 'LineWidth', 2.5);
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
-xline(G.y_engine,  'r:', 'LineWidth', 1.2, 'Label', 'Engine');
+xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
+xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
 xlabel('y [m]');  ylabel('Q [MN]');  title('Shear force Q(y)');  grid on;
 text(0.02, 0.85, sprintf('Root Q = %.2f MN', abs(S.Q_root)/1e6), 'Units', 'norm', 'FontSize', 9, 'Color', blue);
 
@@ -65,13 +65,14 @@ xlabel('y [m]  (inboard)');  ylabel('Q [MN]');  title('Shear — inboard detail'
 nexttile(3);
 plot(y, flip_arr(S.M)/1e6, '-', 'Color', orange, 'LineWidth', 2.5);
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
-xline(G.y_engine,  'r:', 'LineWidth', 1.2, 'Label', 'Engine');
+xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
+xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
 xlabel('y [m]');  ylabel('M [MNm]');  title('Bending moment M(y)');  grid on;
 text(0.02, 0.85, sprintf('Root M = %.2f MNm', abs(S.M_root)/1e6), 'Units', 'norm', 'FontSize', 9, 'Color', orange);
 text(0.02, 0.70, sprintf('Hinge M = %.2f MNm  (%.0f%% of root)', abs(S.M_hinge)/1e6, abs(S.M_hinge/S.M_root)*100), ...
     'Units', 'norm', 'FontSize', 9, 'Color', orange);
 
-% Fuel relief demo — re-run chain with a zero-fuel copy of adp
+% Fuel relief demo - re-run chain with a zero-fuel copy of adp
 nexttile(4);  hold on;
 adp_nf         = adp;
 adp_nf.Mf_Fuel = 0;
@@ -107,9 +108,8 @@ text(0.05, 0.97, {
     sprintf('M Snorri = %.2f MNm', S.M_hinge_snorri/1e6),
 }, 'Units', 'norm', 'VerticalAlignment', 'top', 'FontSize', 10, 'Interpreter', 'tex');
 
-% =========================================================================
 %  FIGURE 3 — Wingbox properties
-% =========================================================================
+
 figure('Name', sprintf('Wingbox — %s', lc), 'Position', [80 80 1300 650]);
 tl = tiledlayout(2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
 title(tl, sprintf('Wingbox Properties — %s  (%s)', lc, W.mat_name), 'FontWeight', 'bold');

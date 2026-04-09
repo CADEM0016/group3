@@ -1,10 +1,10 @@
 function loc = AircraftParams()
 
 % Wing planform
-loc.Span_flight  = 79.75;  % m   flight span
-loc.Span_taxi    = 65.0;   % m   Code E taxi limit with folding tip
-loc.y_hinge      = 32.5;   % m   fold hinge from centreline
-loc.lambda       = 0.25;   % -   taper ratio
+loc.Span_flight  = 79.75;  % flight span
+loc.Span_taxi    = 65.0;   % Code E taxi limit with folding tip
+loc.y_hinge      = 32.5;   % fold hinge from centreline
+loc.lambda       = 0.25;   % taper ratio
 loc.sweep_LE_deg = 33.5;   % deg
 loc.sweep_c4_deg = 31.1;   % deg  USAF weight method
 loc.sweep_c2_deg = 27.8;   % deg  Raymer / Torenbeek
@@ -14,23 +14,25 @@ loc.tc_tip       = 0.108;
 % Wingbox
 loc.fs_fwd      = 0.15;    % front spar / chord
 loc.fs_aft      = 0.60;    % rear spar / chord
-loc.rib_spacing = 0.65;    % m
+loc.rib_spacing = 0.65;    
 loc.k_buckle    = 4.0;     % simply-supported panel coefficient
 
 % Folding wingtip structural constraints
-loc.b_tip_fold   = 7.375;  % m   folding outer panel length (each side)
-%                                 = (Span_flight/2) - y_hinge = 39.875 - 32.5
-loc.n_limit_fold = 1.5;    % —   fold hinge design limit load factor
-%                                 outer panel sized to gust + 1g only
-loc.hinge_t_min  = 0.010;  % m   minimum hinge pin web thickness
-loc.hinge_sig    = 250e6;  % Pa  hinge bearing stress allowable (titanium)
-loc.hinge_tau    = 145e6;  % Pa  hinge pin shear allowable (titanium)
-loc.f_lock_mech  = 0.05;   % —   lock mechanism mass / outer panel primary
-loc.f_actuator   = 0.08;   % —   fold actuator mass / outer panel primary
+loc.b_tip_fold   = 7.375;  % folding outer panel length
+loc.n_limit_fold = 1.5;    % fold hinge design limit load factor
+loc.hinge_t_min  = 0.010;  % minimum hinge pin web thickness
+loc.hinge_sig    = 250e6;  % hinge bearing stress allowable (titanium)
+loc.hinge_tau    = 145e6;  % hinge pin shear allowable (titanium)
+loc.f_lock_mech  = 0.05;   % lock mechanism mass / outer panel primary
+loc.f_actuator   = 0.08;   % fold actuator mass / outer panel primary
 
-% Engine sizing  (GP7270 / Trent 970 class)
-loc.T_static_each = 311e3; % N
-loc.m_engine_each = 6850;  % kg
+% Engine configuration 4 engines total, 2 per semi-wing
+loc.T_static_each = 311e3; 
+loc.m_engine_each = 6850;  
+loc.N_engines     = 4;     % total engines (2 per semi-wing)
+% Inner/outer engine spanwise positions as fraction of semi-span.
+loc.y_eng1_frac   = 0.35;  % inner engine station / semi-span
+loc.y_eng2_frac   = 0.55;  % outer engine station / semi-span
 
 % CS-25 load factors
 loc.n_limit_pos = 2.5;     % CS-25.337

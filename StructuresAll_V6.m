@@ -9,9 +9,8 @@ adp  = Unconventional.ADP();
 tlar = cast.TLAR.Unconventional();
 loc  = Unconventional.Structures.V6.AircraftParams();
 
-% Set A380-derivative design values on adp.
 % Flight span 79.75 m folds to 65.0 m (Code E) at y_hinge = 32.5 m.
-% Replace with live MDO loop output once converged.
+
 adp.MTOM     = 575000;   % kg
 adp.OEM      = 277000;   % kg
 adp.Span     = 79.75;    % m   flight span
@@ -20,40 +19,40 @@ adp.KinkPos  = 14.0;     % m
 adp.Mf_Fuel  = 0.45;
 adp.Mf_res   = 0.05;
 
-% 1 — geometry
+% 1 - geometry
 G = Unconventional.Structures.V6.WingGeometry(adp, tlar, loc);
 
-% 2 — Class I/II empirical mass
+% 2 - Class I/II empirical mass
 E_Al = Unconventional.Structures.V6.EmpiricalMass(adp, tlar, loc, G, 'Al');
 E_CF = Unconventional.Structures.V6.EmpiricalMass(adp, tlar, loc, G, 'CF');
 
-% 3 — load distributions
+% 3 - load distributions
 L_25g = Unconventional.Structures.V6.LoadDistribution(adp, tlar, loc, G, '2.5g');
 L_1g  = Unconventional.Structures.V6.LoadDistribution(adp, tlar, loc, G, '1g');
 L_n1g = Unconventional.Structures.V6.LoadDistribution(adp, tlar, loc, G, 'neg1g');
 
-% 4 — SMT integration
+% 4 - SMT integration
 S_25g = Unconventional.Structures.V6.SMT(loc, G, L_25g);
 S_1g  = Unconventional.Structures.V6.SMT(loc, G, L_1g);
 S_n1g = Unconventional.Structures.V6.SMT(loc, G, L_n1g);
 
-% 5 — wingbox sizing  (2.5g governs; CF for comparison)
+% 5 - wingbox sizing  (2.5g governs; CF for comparison)
 W_25g    = Unconventional.Structures.V6.WingboxSizing(loc, G, S_25g, 'Al');
 W_n1g    = Unconventional.Structures.V6.WingboxSizing(loc, G, S_n1g, 'Al');
 W_25g_CF = Unconventional.Structures.V6.WingboxSizing(loc, G, S_25g, 'CF');
 
-% 6 — stiffness distributions
+% 6 - stiffness distributions
 D_25g    = Unconventional.Structures.V6.StiffnessDistribution(G, W_25g);
 D_25g_CF = Unconventional.Structures.V6.StiffnessDistribution(G, W_25g_CF);
 
-% 7 — mass buildup
+% 7 - mass buildup
 MB_25g    = Unconventional.Structures.V6.MassBuildup(adp, loc, G, W_25g);
 MB_25g_CF = Unconventional.Structures.V6.MassBuildup(adp, loc, G, W_25g_CF);
 
-% 8a — folding wingtip structural analysis
+% 8a - folding wingtip structural analysis
 FT = Unconventional.Structures.V6.FoldingWingtip(loc, G, S_25g, S_1g, S_n1g, W_25g, D_25g, MB_25g);
 
-% 8b — fidelity comparison table
+% 8b - fidelity comparison table
 fprintf('\n+----------------------------------+----------+---------+\n');
 fprintf('| Method                           | Mass [kg]|  %%MTOM |\n');
 fprintf('+----------------------------------+----------+---------+\n');
@@ -71,11 +70,11 @@ fprintf('+----------------------------------+----------+---------+\n');
 fprintf('| A380 reference                   |    69000 |  12.00%% |\n');
 fprintf('+----------------------------------+----------+---------+\n');
 
-% 9 — plots
+% 9 - plots
 Unconventional.Structures.V6.Plots(adp, tlar, loc, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
 
-% 9b — folding wingtip plots
+% 9b - folding wingtip plots
 Unconventional.Structures.V6.PlotsFoldingWingtip(loc, G, S_25g, S_1g, W_25g, D_25g, FT);
 
-% 10 — sensitivity studies
+% 10 - sensitivity studies
 Unconventional.Structures.V6.SensitivityStudy(adp, tlar, loc);
