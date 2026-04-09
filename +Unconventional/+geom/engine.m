@@ -19,6 +19,12 @@ Xs = Xs.*[obj.Engine.Length,obj.Engine.Diameter];
 offsetEng = [obj.x_ac-obj.c_ac*0.6,obj.CabinRadius + 1.75*obj.Engine.Diameter];
 GeomObj = cast.GeomObj(Name="EngineRight",Xs=Xs+offsetEng);
 GeomObj(2) = cast.GeomObj(Name="EngineLeft",Xs=Xs+offsetEng.*[1 -1]);
+
+% new pair
+offsetEng2 = offsetEng + [0, 2*obj.Engine.Diameter];
+
+GeomObj(3) = cast.GeomObj(Name="EngineRight2",Xs=Xs+offsetEng2);
+GeomObj(4) = cast.GeomObj(Name="EngineLeft2",Xs=Xs+offsetEng2.*[1 -1]);
 % ------------------------- Create Mass Objects --------------------------
 
 % engine insatllation mass (Raymer 15.52)
