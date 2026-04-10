@@ -54,9 +54,14 @@ vol_norm    = G.A_enc / trapz(G.y(end:-1:1), G.A_enc(end:-1:1));
 w_fuel_load = n_ult * m_fuel_semi .* vol_norm * g;
 
 net_dist = sign_lift * lift_dist + sign_relief * (w_wing_load + w_fuel_load);
-% Engine point loads - 1 engine per station per semi-wing
-P_engine1 = n_ult * G.m_engine * g;   % inner engine point load
-P_engine2 = n_ult * G.m_engine * g;   % outer engine point load
+% Engine point loads - fetch from propulsion output at point-of-use.
+if isprop(adp,'Engine') && ~isempty(adp.Engine) && isprop(adp.Engine,'Mass') && ~isempty(adp.Engine.Mass)
+    m_engine = double(adp.Engine.Mass);
+else
+    m_engine = G.m_engine;  % fallback from geometry handoff
+end
+P_engine1 = n_ult * m_engine * g;   % inner engine point load
+P_engine2 = n_ult * m_engine * g;   % outer engine point load
 L_tip    = (2 * L_total / Span) * ((Span - loc.Span_taxi) / 2);
 
 L.lift_dist     = lift_dist;

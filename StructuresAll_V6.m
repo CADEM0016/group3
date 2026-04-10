@@ -18,6 +18,32 @@ adp.WingArea = 845.0;    % m²
 adp.KinkPos  = 14.0;     % m
 adp.Mf_Fuel  = 0.45;
 adp.Mf_res   = 0.05;
+adp.TLAR     = tlar;
+adp.WingLoading = adp.MTOM * SI.g / adp.WingArea;
+if isempty(adp.WingPos)
+    adp.WingPos = adp.WingStation;   % default global wing placement station
+end
+if isempty(adp.Mf_TOC)
+    adp.Mf_TOC = 0.97;               % default top-of-climb mass fraction
+end
+
+if ~isempty(adp.Thrust)
+    Unconventional.geom.engine(adp);   
+else
+    warning('StructuresAll_V6:GlobalPreStep', ...
+        'adp.Thrust is empty, skipping Unconventional.geom.engine(adp).');
+end
+Unconventional.geom.wing(adp);         % fills adp.c_ac (and x_ac)
+
+% Sanity checks for shared inputs when available.
+if ~isempty(adp.Engine)
+    assert(isprop(adp.Engine,'Mass') && ~isempty(adp.Engine.Mass), ...
+        'Missing adp.Engine.Mass from global engine model');
+end
+assert(isprop(adp,'c_ac') && ~isempty(adp.c_ac), ...
+    'Missing adp.c_ac from global wing geometry model');
+assert(isprop(adp,'e') && ~isempty(adp.e), ...
+    'Missing adp.e from global aero/ADP model');
 
 % 1 - geometry
 G = Unconventional.Structures.V6.WingGeometry(adp, tlar, loc);

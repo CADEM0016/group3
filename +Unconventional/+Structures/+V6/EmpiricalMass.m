@@ -15,7 +15,11 @@ S_wing = double(adp.WingArea);
 mf     = double(adp.Mf_Fuel);
 
 n_ult = loc.n_limit_pos * loc.SF;
-AR    = G.AR;
+if ismethod(adp, 'AR')
+    AR = double(adp.AR());     % fetched from ADP department model
+else
+    AR = G.AR;                 % fallback from structures geometry output
+end
 lam   = loc.lambda;
 tc    = loc.tc_root;
 sw_c4 = deg2rad(loc.sweep_c4_deg);

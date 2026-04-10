@@ -1,7 +1,8 @@
 function loc = AircraftParams()
+% Structures-local parameters only.
+% Keep only values that are not provided by other department outputs.
 
 % Wing planform
-loc.Span_flight  = 79.75;  % flight span
 loc.Span_taxi    = 65.0;   % Code E taxi limit with folding tip
 loc.y_hinge      = 32.5;   % fold hinge from centreline
 loc.lambda       = 0.25;   % taper ratio
@@ -26,11 +27,7 @@ loc.hinge_tau    = 145e6;  % hinge pin shear allowable (titanium)
 loc.f_lock_mech  = 0.05;   % lock mechanism mass / outer panel primary
 loc.f_actuator   = 0.08;   % fold actuator mass / outer panel primary
 
-% Engine configuration 4 engines total, 2 per semi-wing
-loc.T_static_each = 311e3; 
-loc.m_engine_each = 6850;  
-loc.N_engines     = 4;     % total engines (2 per semi-wing)
-% Inner/outer engine spanwise positions as fraction of semi-span.
+% Engine spanwise placement fractions (geometry choice for structures model)
 loc.y_eng1_frac   = 0.35;  % inner engine station / semi-span
 loc.y_eng2_frac   = 0.55;  % outer engine station / semi-span
 
@@ -73,14 +70,5 @@ loc.m_hinge_min  = 2000;   % kg  minimum fold hinge assembly floor
 
 % Discretisation
 loc.N_stations = 150;
-
-% ISA sea-level constants  (SI only carries g)
-loc.R_air      = 287.058;  % J/(kg·K)
-loc.gamma_air  = 1.4;
-loc.T0         = 288.15;   % K
-loc.P0         = 101325;   % Pa
-loc.rho0       = 1.225;    % kg/m³
-loc.lapse_trop = 0.0065;   % K/m
-loc.H_trop     = 11000;    % m
 
 end

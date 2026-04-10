@@ -20,10 +20,18 @@ dy = s / (N - 1);
 y   = linspace(s, 0, N);
 eta = 1 - y/s;   % 0 at tip, 1 at root
 
-AR     = Span^2 / WingArea;
+if ismethod(adp, 'AR')
+    AR = double(adp.AR());          % fetched from ADP department model
+else
+    AR = Span^2 / WingArea;         % fallback
+end
 c_root = 2 * WingArea / (Span * (1 + loc.lambda));
 c_tip  = loc.lambda * c_root;
-MAC    = (2/3) * c_root * (1 + loc.lambda + loc.lambda^2) / (1 + loc.lambda);
+if isprop(adp, 'c_ac') && ~isempty(adp.c_ac)
+    MAC = double(adp.c_ac);         % fetched from geometry department output
+else
+    MAC = (2/3) * c_root * (1 + loc.lambda + loc.lambda^2) / (1 + loc.lambda);
+end
 
 chord = c_root * (1 - (2*y/Span) .* (1 - loc.lambda));
 tc    = loc.tc_tip + (loc.tc_root - loc.tc_tip) .* eta;
@@ -32,7 +40,11 @@ h_wb  = tc .* chord;
 w_wb  = (loc.fs_aft - loc.fs_fwd) .* chord;
 A_enc = h_wb .* w_wb;
 
-e_oswald = 1.78 * (1 - 0.045 * AR^0.68) - 0.64;
+if isprop(adp, 'e') && ~isempty(adp.e)
+    e_oswald = double(adp.e);       % fetched from aero/global ADP output
+else
+    e_oswald = 1.78 * (1 - 0.045 * AR^0.68) - 0.64;
+end
 
 x_LE    = (s - y) .* tan(deg2rad(loc.sweep_LE_deg));
 x_ac    = x_LE + 0.25 .* chord;
@@ -40,14 +52,19 @@ fa_frac = 0.25 + 0.25 .* eta;   % flexural axis 25% (tip) → 50% (root)
 x_fa    = x_LE + fa_frac .* chord;
 e_ac_fa = x_ac - x_fa;          % AC–FA offset drives torsion
 
-% Engine configuration - 4 engines, 2 per semi-wing
+% Engine configuration from external department outputs at point-of-use.
 if isprop(adp,'Engine') && ~isempty(adp.Engine)
-    m_eng = adp.Engine.Mass;        % kg  per engine (rubberised, from PPC)
+    m_eng = double(adp.Engine.Mass);        % kg per engine (rubberised, from PPC)
 else
-    m_eng = loc.m_engine_each;      % kg  fallback from AircraftParams
+    m_eng = 6850;                   % kg fallback if propulsion is unavailable
 end
 
-N_en  = loc.N_engines;              % 4 total
+try
+    C = Unconventional.geom.constants();
+    N_en = 2 * double(C.N_en);      % total engines from pair count
+catch
+    N_en = 4;                        % fallback
+end
 % Spanwise positions of the two engine stations per semi-wing
 y_eng1 = loc.y_eng1_frac * s;      % m  inner engine (existing)
 y_eng2 = loc.y_eng2_frac * s;      % m  outer engine (new)
