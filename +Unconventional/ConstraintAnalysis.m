@@ -52,8 +52,30 @@ qt = 3407; % Dynamic Pressure at the Selected Airspeed and Altitude 10000ft
 
 %ST = qt*((CDmin./TL) + k*(((n/qt)^2)*TL)); % Sustained Turn Values
 %% Plots
+<<<<<<< Updated upstream
 %plot(TL , TOV, TL,CV, 'm' , TL, ST, 'c',   'LineWidth', 2)
 %xline(L,'k', "LineWidth",3)
 %xlabel('Wing Loading (KG/M^2)')
 %ylabel('Thrust-to-Weight Ratio')
 %title("Constraint Analysis")
+=======
+plot(TL , TOV,'b', TL,CV, 'm' , 'LineWidth', 2)
+xline(L,'k', "LineWidth",3)
+xlabel('Wing Loading')
+ylabel('Thrust-to-Weight Ratio')
+title("Constraint Analysis")
+
+%% PLEASE CHANGE THIS KAMRAN - OSCAR
+ThrustToWeightRatio = 0.3;
+WingLoading = 765*9.81;
+obj.ThrustToWeightRatio = ThrustToWeightRatio; % ASSUMPTION: hardcoded for now based of CDR
+obj.WingLoading = WingLoading; % ASSUMPTION: hardcoded for now based of CDR
+
+% set Wing Area and Thrust
+SweepQtrChord = real(acosd(0.75.*obj.Mstar./obj.TLAR.M_c)); % quarter chord sweep angle
+obj.WingArea = obj.MTOM*9.81/obj.WingLoading/cosd(SweepQtrChord);
+fprintf('this is constaint analysis WingArea = %g\n', obj.WingArea)
+obj.Thrust = obj.ThrustToWeightRatio * obj.MTOM * 9.81;
+
+end
+>>>>>>> Stashed changes
