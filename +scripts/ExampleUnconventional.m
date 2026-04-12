@@ -72,23 +72,29 @@ d = B7Mass.GetData;
 %% Example call to mission analysis discipline
 [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis_oscar(ADP,ADP0.TLAR.RangeDes, ADP0.MTOM);
 
-%% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
-% predefine spans to test
-Spans = 50:5:100;
-
-% pre-allocate arrays for results
-mtoms = zeros(size(Spans));
-fuels = zeros(size(Spans));
-
-% % loop over spans and size aircraft for each span
-% for i = 1:length(Spans)
-%     ADP = ADP0;              % reset to baseline each time
-%     ADP.Span = Spans(i);
-%     ADP = Unconventional.Size(ADP);
+% %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
+% % predefine spans to test
+% Spans = 50:5:100;
 % 
-%     mtoms(i) = ADP.MTOM;
-%     fuels(i) = ADP.Mf_Fuel * ADP.MTOM;
-% end
+% % pre-allocate arrays for results
+% mtoms = zeros(size(Spans));
+% fuels = zeros(size(Spans));
+% 
+% % % loop over spans and size aircraft for each span
+% % for i = 1:length(Spans)
+% %     ADP = ADP0;              % reset to baseline each time
+% %     ADP.Span = Spans(i);
+% %     ADP = Unconventional.Size(ADP);
+% % 
+% %     mtoms(i) = ADP.MTOM;
+% %     fuels(i) = ADP.Mf_Fuel * ADP.MTOM;
+% % end
+
+
+out = Unconventional.plotCGbubble(ADP0, ...
+    FuelFractions = 0:0.1:1, ...
+    PalletCounts = 0:45, ...
+    CargoStart = 7);
 
 f = figure(2);
 clf;

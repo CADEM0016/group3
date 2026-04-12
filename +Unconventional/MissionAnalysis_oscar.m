@@ -42,6 +42,7 @@ span = 73.5;
 mach = 0.81;
 rootChord = 15.2;
 altitude = 9500;
+alpha = 2;  
 
 function k = nearestIndex(vec,x)
 [~,k] = min(abs(vec-x));
@@ -62,7 +63,7 @@ CD = [cruise_results(i).CD];
 CL = CL(ord);
 CD = CD(ord);
 
-alpha = 2;  
+
 
 %% THIS IS CODE IVE ADDED - OSCAR
 
