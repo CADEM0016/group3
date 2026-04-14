@@ -105,5 +105,5 @@ Unconventional.Structures.V6.PlotsFoldingWingtip(loc, G, S_25g, S_1g, W_25g, D_2
 % 10 - sensitivity studies
 Unconventional.Structures.V6.SensitivityStudy(adp, tlar, loc);
 
-% 11 - Plots of Folding Tip Sensitivity & 2D, 3D planes of Wing
-Unconventional.Structures.V6.PlotWingAndFoldSensitivity(G, loc, MB_Al, MB_CF)
+% 11 - Plots of Folding Tip Sensitivity
+Unconventional.Structures.V6.PlotFoldingTipVsWingMass(G, loc, MB_25g, MB_25g_CF);
