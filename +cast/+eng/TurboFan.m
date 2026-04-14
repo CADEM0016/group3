@@ -55,7 +55,25 @@ classdef TurboFan
     end
     
     methods(Static)
-        
+
+             %ULTRAFANNNNNNNNN
+       %check where max mach goes in sizing of the non template ones +
+       %beta implmenetation for altitude and others
+       function obj = UF(sfc_scaling,alt_cruise,M_cruise)
+           arguments
+               sfc_scaling = 1; %check up if it properly converts to the real values
+               alt_cruise = 36e3 ./ SI.ft % remember to scale altitude for entire flight !!!!!!!
+               M_cruise = 0.86 %ensure proper connection ------- -------- change all values to the unconventinoal numbers
+           end
+           %CFM_LEAP_1A SData for CFM LEAP-1A
+           %   https://www.easa.europa.eu/en/downloads/20086/en
+           f = 1./(SI.lb/(SI.lbf*SI.hr)) * sfc_scaling; % to convert SFC from imperial to SI.
+           BPR = ((15+12)*0.5); % taken from RR website;
+           SFC_T0 = 19*exp(-0.12*BPR)*1e-6 * sfc_scaling; % from Aircraft Design: A Conceptual Approach, Raymer, 5th Ed. eq.10.7
+           SFC_cruise = 25*exp(-0.05*BPR)*1e-6 * sfc_scaling; % from Aircraft Design: A Conceptual Approach, Raymer, 5th Ed. eq.10.9 (very close to value on wikipedia)
+           obj = cast.eng.TurboFan(110000*4.44822,((4.483/3)*(140*0.0254)),(140*0.0254),(7277-700),SFC_T0,SFC_cruise,BPR,alt_cruise,M_cruise); % Taken from Trent General Specs + Trent EASA;
+       end
+
                 %NEW TRENT CONVENTIONAL DUE TO A350 SIZING ------ check if change + 
         %check where max mach goes in sizing of the non template ones +
         %beta implmenetation for altitude and others

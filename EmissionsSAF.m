@@ -15,10 +15,18 @@ GT = GT(:).';
 conv_causal = @(RF) dt * conv(RF, GT, 'full');
 
 
+%NASA Reference SAF Scalings
+
+SAF_CO2 = 3111/3149;
+SAF_H20 = 15.11/14.08;
+SAF_SO4 = 0.0007/0.0211;
+SAF_Soot = (6.1*10^14)/(9.5*10^14);
+
+blend = 0.5; %how high the percentage of SAF we're using is
 
 %% CO2 SPECIES
 
-E_i_CO2 = 3.16*M_fuel; % CO2 Mass
+E_i_CO2 = 3.16*M_fuel*(1-(blend*(1-SAF_CO2))); % CO2 Mass
 
 gpermol_O = 16;
 gpermol_C = 12;
@@ -52,14 +60,11 @@ RFstar_CO2_t = RF_i_CO2;
 
 
 
-
-
-
 %% SHORT SPECIES
 
-E_i_H2O = 1.26*M_fuel;
-E_i_SO4 = 2e-4*M_fuel;
-E_i_SOOT = 4e-5*M_fuel;
+E_i_H2O = 1.26*M_fuel*(1-(blend*(1-SAF_H20)));
+E_i_SO4 = 2e-4*M_fuel*(1-(blend*(1-SAF_SO4)));
+E_i_SOOT = 4e-5*M_fuel*(1-(blend*(1-SAF_Soot)));
 
 L = TotalRange; % mission distance [m]
 
@@ -77,55 +82,62 @@ M = 0.8;
 T_atm = 220.9;
 p_atm = 25940;
 
-OPR = 50;
-H0 = 0;
-
-T_t0 = T_atm * (1 + (gamma-1)/2 * M^2);
-p_t0 = p_atm * (1 + (gamma-1)/2 * M^2)^(gamma/(gamma-1));
-
-T_t3 = T_t0 * OPR^((gamma-1)/gamma);
-p_t3 = p_t0 * OPR;
-
-EI_NOx = 0.0986 * (p_t3 / 101325)^0.4 * exp(T_t3/194 + H0/53.2);
-E_i_NOx = EI_NOx * M_fuel;   % g
-E_i_NOx = E_i_NOx / 1000;    % kg
-
-%% FLIGHT / ENGINE CONDITIONS
-gamma = 1.4;
-M = 0.8;
-T_atm = 220.9;
-p_atm = 25940;
 OPR_XWB = 50;
 H0 = 0;
+
 T_t0 = T_atm * (1 + (gamma-1)/2 * M^2);
 p_t0 = p_atm * (1 + (gamma-1)/2 * M^2)^(gamma/(gamma-1));
+
 T_t3_XWB = T_t0 * OPR_XWB^((gamma-1)/gamma);
 p_t3_XWB = p_t0 * OPR_XWB;
+
 EI_NOx = 0.0986 * (p_t3_XWB / 101325)^0.4 * exp(T_t3_XWB/194 + H0/53.2);
 E_i_NOx = EI_NOx * M_fuel;   % g
 E_i_NOx = E_i_NOx / 1000;    % kg
+
+
 LHV_AF = 43*10^6; %LVH = Lower heating value & net calorific value
 %https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html
+
 Est_Fuel2Air = (1/60); % fuel to air ratio from raymer multiplied by 1.5 for some reason!!!!
+
 eta_combu = 1; %combustion efficiency - assuemd get proper justifications
+
 C_p = 1004; %classic thermal value recomment it later
+
 T4_XWB = T_t3_XWB+((Est_Fuel2Air*eta_combu*LHV_AF)/C_p); %final necessary temperature value
+
 EmpiricalCorrectionFactor = 1745/T4_XWB; %data from the slovak paper
+
+
 %% FLIGHT / ENGINE CONDITIONS
+
+
 OPR = 60;
 H0 = 0;
+
 T_t0 = T_atm * (1 + (gamma-1)/2 * M^2);
 p_t0 = p_atm * (1 + (gamma-1)/2 * M^2)^(gamma/(gamma-1));
+
 T_t3 = T_t0 * OPR^((gamma-1)/gamma);
 p_t3 = p_t0 * OPR;
+
 EI_NOx = 0.0986 * (p_t3 / 101325)^0.4 * exp(T_t3/194 + H0/53.2);
 E_i_NOx = EI_NOx * M_fuel;   % g
 E_i_NOx = E_i_NOx / 1000;    % kg
+
+
 LHV_AF = 43*10^6; %LVH = Lower heating value & net calorific value
 %https://www.engineeringtoolbox.com/fuels-higher-calorific-values-d_169.html
-Fuel2Air = (1/60); % fuel to air ratio from raymer multiplied by 1.5 for some reason!!!!
+
+Fuel2Air = (1/60); % fuel to air ratio from raymer
+
+
 eta_combu = 1; %combustion efficiency - assuemd get proper justifications
+
+
 C_p = 1004; %classic thermal value recomment it later
+
 T4 = T_t3+((Fuel2Air*eta_combu*LHV_AF)/C_p); %final necessary temperature value
 T4_corrected_UF = T4*EmpiricalCorrectionFactor;
 

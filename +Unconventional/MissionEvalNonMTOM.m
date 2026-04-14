@@ -7,8 +7,42 @@ clc
 scripts.ExampleUnconventional
 
 %% =========================
+% Fixed aircraft/design constants
+% ==========================
+
+OEM     = ADP.OEM;
+Payload = ADP.TLAR.Payload;
+
+% This is a mission/design constant for fixed-payload study
+FuelCapacity = ADP.MTOM - OEM - Payload;
+
+
+%% =========================
 % Mission definition
 % ==========================
+
+ 
+AirportPairs = [
+"LHR-MEL"
+"MEL-PVG"
+"PVG-SUZ"
+"SUZ-BAH"
+"BAH-JED"
+"JED-MIA"
+"MIA-YUL"
+"YUL-MCM"
+"MCM-MAD"
+"MAD-GYD"
+"GYD-SIN"
+"SIN-AUS"
+"AUS-MEX"
+"MEX-GRU"
+"GRU-LAS"
+"LAS-LUA"
+"LUA-AUH"
+"AUH-LHR"
+];
+
 
 dist_km = [
 16909.38
@@ -19,13 +53,6 @@ dist_km = [
 11621.60
 2264.78
 6128.98
-496.31
-1369.73
-1275.10
-350.45
-1139.27
-1169.25
-796.67
 956.83
 4462.04
 6941.58
@@ -39,6 +66,23 @@ dist_km = [
 ];
 
 nOriginalLegs = length(dist_km);
+
+% =========================
+% Payload per original leg
+% ==========================
+
+Payload_leg = Payload * ones(nOriginalLegs,1);
+
+for i = 1:nOriginalLegs
+    
+    if AirportPairs(i) == "MCM-MAD" || ...
+       AirportPairs(i) == "AUS-MEX"
+        
+        Payload_leg(i) = 0;
+        
+    end
+    
+end
 
 %% =========================
 % Split legs based on aircraft range
@@ -57,6 +101,10 @@ for i = 1:nOriginalLegs
     if totalRange <= Range_max
         
         ExpandedLegs(idx).Name  = "Leg " + i;
+        ExpandedLegs(idx).Route       = AirportPairs(i);
+        ExpandedLegs(idx).IsSplit     = false;
+        ExpandedLegs(idx).SubIndex    = 1;
+        ExpandedLegs(idx).IsRefuelLeg = false;
         ExpandedLegs(idx).Range = totalRange;
         idx = idx + 1;
         
@@ -66,7 +114,12 @@ for i = 1:nOriginalLegs
         subRange = totalRange / nSub;
         
         for j = 1:nSub
-            ExpandedLegs(idx).Name  = "Leg " + i + "." + j;
+            ExpandedLegs(idx).Name        = "Leg " + i + "." + j;
+            ExpandedLegs(idx).Route       = AirportPairs(i);
+            ExpandedLegs(idx).IsSplit     = true;
+            ExpandedLegs(idx).SubIndex    = j;
+            ExpandedLegs(idx).IsRefuelLeg = true; % these exist because of range limit
+
             ExpandedLegs(idx).Range = subRange;
             idx = idx + 1;
         end
@@ -85,15 +138,6 @@ fprintf('Stops: %d\n', nStops)
 fprintf('Design range: %.0f km\n', DesignRange/1000)
 fprintf('Total mission range: %.0f km\n', TotalRange/1000)
 
-%% =========================
-% Fixed aircraft/design constants
-% ==========================
-
-OEM     = ADP.OEM;
-Payload = ADP.TLAR.Payload;
-
-% This is a mission/design constant for fixed-payload study
-FuelCapacity = ADP.MTOM - OEM - Payload;
 
 %% =========================
 % Initial mission state
@@ -162,10 +206,18 @@ for i = 1:nLegs
     
     % Timeline
     fuelTimeline = [fuelTimeline, FuelStart, FuelEnd, ResFuel];
+    route = ExpandedLegs(i).Route;
+    
+    if ExpandedLegs(i).IsSplit
+        tag = " (REFUEL)";
+    else
+        tag = "";
+    end
+    
     labelTimeline = [labelTimeline, ...
-        legName + " Start", ...
-        legName + " End", ...
-        legName + " Reserve"];
+        legName + " [" + route + "]" + tag + " Start", ...
+        legName + " [" + route + "]" + tag + " End", ...
+        legName + " [" + route + "]" + tag + " Res"];
 end
 
 %% =========================
