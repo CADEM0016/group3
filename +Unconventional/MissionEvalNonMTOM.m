@@ -1,4 +1,4 @@
-%% Evaluate mission fuel evolution (stateful, fixed fuel capacity)
+c%% Evaluate mission fuel evolution (stateful, fixed fuel capacity)
 
 clear
 clc

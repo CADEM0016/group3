@@ -154,8 +154,8 @@ B_T_SM = (SFCc_T_SM / theta_SM - A_T_SM) ./ M_SM;
 % -----------------------------
 figure('Color','w')   % white background
 
-plot(M_SM, B_UF_SM_SM, 'b', 'LineWidth', 2); hold on
-plot(M_SM, B_T_SM, 'r', 'LineWidth', 2);
+plot(M_SM, B_UF_SM_SM, 'r', 'LineWidth', 2); hold on
+%plot(M_SM, B_T_SM, 'r', 'LineWidth', 2);
 
 grid on
 box on
@@ -184,7 +184,7 @@ function plotOverlay_B(M_c, mtoms, M_SM, B_UF_SM_SM, B_T_SM)
     ylabel('MTOM [t]', 'FontSize', 20)
 
     yyaxis right
-    plot(M_SM, B_UF_SM_SM, 'b--', 'LineWidth', 2); hold on
+    plot(M_SM, B_UF_SM_SM, 'r--', 'LineWidth', 2); hold on
     %plot(M_SM, B_T_SM,     'r--', 'LineWidth', 2)
     ylabel('SFC', 'FontSize', 20)
 
