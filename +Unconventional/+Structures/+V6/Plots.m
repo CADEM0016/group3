@@ -23,6 +23,7 @@ plot(y, flip_arr(L.lift_dist)/1e3, '-',  'Color', blue,   'LineWidth', 2.5, 'Dis
 plot(y, flip_arr(L.w_wing)/1e3,    '--', 'Color', orange, 'LineWidth', 1.8, 'DisplayName', 'Wing relief');
 plot(y, flip_arr(L.w_fuel)/1e3,    '--', 'Color', green,  'LineWidth', 1.8, 'DisplayName', 'Fuel relief');
 plot(y, flip_arr(L.net_dist)/1e3,  '-',  'Color', black,  'LineWidth', 2.5, 'DisplayName', 'Net load');
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
 xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
@@ -36,6 +37,7 @@ relief_plot  = flip_arr(total_relief)/1e3;
 area(y, lift_plot,   'FaceColor', blue,   'FaceAlpha', 0.25, 'EdgeColor', blue,   'LineWidth', 1.5, 'DisplayName', 'Lift');
 hold on;
 area(y, relief_plot, 'FaceColor', orange, 'FaceAlpha', 0.35, 'EdgeColor', orange, 'LineWidth', 1.5, 'DisplayName', 'Total relief');
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('Load [kN/m]');
 relief_pct = trapz(y, relief_plot) / trapz(y, lift_plot) * 100;
@@ -50,6 +52,7 @@ title(tl, sprintf('Shear / Bending / Torque — %s', lc), 'FontWeight', 'bold');
 
 nexttile(1);
 plot(y, flip_arr(S.Q)/1e6, '-', 'Color', blue, 'LineWidth', 2.5);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
 xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
@@ -59,11 +62,13 @@ text(0.02, 0.85, sprintf('Root Q = %.2f MN', abs(S.Q_root)/1e6), 'Units', 'norm'
 nexttile(2);
 plot(y, flip_arr(S.Q)/1e6, '-', 'Color', blue, 'LineWidth', 2);
 xlim([0, loc.y_hinge * 1.5]);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]  (inboard)');  ylabel('Q [MN]');  title('Shear — inboard detail');  grid on;
 
 nexttile(3);
 plot(y, flip_arr(S.M)/1e6, '-', 'Color', orange, 'LineWidth', 2.5);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
 xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
@@ -82,6 +87,7 @@ L_nf = Unconventional.Structures.V6.LoadDistribution(adp_nf, tlar, loc, G_nf, lc
 S_nf = Unconventional.Structures.V6.SMT(loc, G_nf, L_nf);
 plot(y, flip_arr(S_nf.M)/1e6, '--', 'Color', [0.6 0.6 0.6], 'LineWidth', 1.5, 'DisplayName', 'No fuel relief');
 plot(y, flip_arr(S.M)/1e6,    '-',  'Color', orange,         'LineWidth', 2.5, 'DisplayName', 'With fuel relief');
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('M [MNm]');
 title(sprintf('Fuel relief: -%.0f%% root BM', (abs(S_nf.M_root)-abs(S.M_root))/abs(S_nf.M_root)*100));
@@ -89,6 +95,7 @@ legend('Location', 'northeast', 'FontSize', 8);  grid on;
 
 nexttile(5);
 plot(y, flip_arr(S.T)/1e6, '-', 'Color', purple, 'LineWidth', 2.5);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('T [MNm]');  title('Torque T(y)');  grid on;
 text(0.02, 0.85, sprintf('Root T = %.2f MNm', abs(S.T_root)/1e6), 'Units', 'norm', 'FontSize', 9, 'Color', purple);
@@ -116,26 +123,31 @@ title(tl, sprintf('Wingbox Properties — %s  (%s)', lc, W.mat_name), 'FontWeigh
 
 nexttile(1);
 plot(y, flip_arr(W.t_skin_mm), '-', 'Color', blue, 'LineWidth', 2);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('t_{skin} [mm]');  title('Skin thickness');  grid on;
 
 nexttile(2);
 plot(y, flip_arr(W.A_cap_cm2), '-', 'Color', orange, 'LineWidth', 2);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('A_{cap} [cm^2]');  title('Spar cap area');  grid on;
 
 nexttile(3);
 plot(y, flip_arr(W.t_web_mm), '-', 'Color', purple, 'LineWidth', 2);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('t_{web} [mm]');  title('Web thickness');  grid on;
 
 nexttile(4);
 semilogy(y, flip_arr(D.EI), '-', 'Color', blue, 'LineWidth', 2);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('EI [Nm^2]');  title('Bending stiffness EI(y)');  grid on;
 
 nexttile(5);
 semilogy(y, flip_arr(D.GJ), '-', 'Color', orange, 'LineWidth', 2);
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
 xlabel('y [m]');  ylabel('GJ [Nm^2]');  title('Torsional stiffness GJ(y)');  grid on;
 
