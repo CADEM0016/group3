@@ -101,7 +101,7 @@ Delta_CL0t = 2 * J_p * delta_t_sec_delta_h * ( pi - acos(2 *c_t_c_prime- 1) + sq
 K_G = 1.225 + 4.525 * rho1_t;
 K_t = 1.0; % Note this would be 0.8 for plain flaps -- sort of a guess ?!
 T = 0.442;
-Delta_CL0t
+Delta_CL0t;
 Delta_CLmt = K_G * K_t * T * Delta_CL0t
 Delta_CLmt_final = (1/c_t_c_prime) * Delta_CLmt;
 

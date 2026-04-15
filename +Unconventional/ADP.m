@@ -80,8 +80,8 @@ classdef ADP < handle
         Mstar = 0.935; % wing technology factor
 
         % Empenage Specific - Rough guesses
-        HtpArea = 300;
-        VtpArea= 200;
+        HtpArea = 50;
+        VtpArea= 50;
     end
 
     % useful properties

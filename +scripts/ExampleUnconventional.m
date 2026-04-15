@@ -42,20 +42,41 @@ ADP0.Mf_TOC = 0.975;  % mass at the Top of Climb (TOC)
 ADP = Unconventional.Size(ADP0);
 
 %% build the "Sized" geometry and plot it
-[B7Geom,B7Mass] = Unconventional.BuildGeometry(ADP); % get list of components geometries and masses
+[B7Geom,B7Mass] = Unconventional.BuildGeometry(ADP);
 
-% plot the geometry (ontop of an image of a B777F for reference)
 f = figure(1);
-clf;
-img = imread('B777F_planform.png');
-imshow(img, 'XData', [0 63.7], 'YData', [-64.8 64.8]/2);
+clf
 
-cast.draw(B7Geom,B7Mass,[0,0]) % CHANGE
-ax = gca;
+ax = axes(f);
+hold(ax,'on')
+axis(ax,'equal')
+set(ax,'YDir','normal')
+
+% ------------------- background PNG FIRST -------------------
+img = imread("C:\Users\OscarAntill\OneDrive - University of Bristol\group3\B777F_planform.png");   % use your new image
+
+% set image extent to match your aircraft drawing coordinates
+% adjust these numbers if needed to line up perfectly
+xImg = [0 80];
+yImg = [-40 40];
+
+hImg = image(ax, ...
+    'XData', xImg, ...
+    'YData', yImg, ...
+    'CData', img);
+
+set(hImg,'AlphaData',0.45)   % transparency
+uistack(hImg,'bottom')       % keep image behind geometry
+
+% ------------------- draw geometry on top -------------------
+cast.draw(B7Geom,B7Mass,[0,0])
+
 ax.XAxis.Visible = "on";
 ax.YAxis.Visible = "on";
-axis equal
-ylim([-0.5 0.5]*ADP.Span)
+xlim(ax, xImg)
+ylim(ax, yImg)
+
+exportgraphics(ax,'B777F_overlay.png','Resolution',300)
 
 % print some key data points
 d = B7Mass.GetData;
@@ -66,8 +87,8 @@ d = B7Mass.GetData;
 [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis_oscar(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
-% predefine spans to test
-Spans = 50:5:100;
+%predefine spans to test
+Spans = 50:1:100;
 
 % pre-allocate arrays for results
 mtoms = zeros(size(Spans));
@@ -75,14 +96,14 @@ fuels = zeros(size(Spans));
 
 % Use the converged baseline aircraft as the starting point for each case,
 % then re-size to convergence at each span
-for i = 1:length(Spans)
-    ADPi = ADP;                 % start from converged baseline aircraft
-    ADPi.Span = Spans(i);       % apply new span
-    ADPi = Unconventional.Size(ADPi);   % re-converge aircraft at this span
-
-    mtoms(i) = ADPi.MTOM;
-    fuels(i) = ADPi.Mf_Fuel * ADPi.MTOM;
-end
+% for i = 1:length(Spans)
+%     ADPi = ADP;                 % start from converged baseline aircraft
+%     ADPi.Span = Spans(i);       % apply new span
+%     ADPi = Unconventional.Size(ADPi);   % re-converge aircraft at this span
+% 
+%     mtoms(i) = ADPi.MTOM;
+%     fuels(i) = ADPi.Mf_Fuel * ADPi.MTOM;
+% end
 
 % out = Unconventional.plotCGbubble(ADP0, ...
 %     FuelFractions = 0:0.1:1, ...

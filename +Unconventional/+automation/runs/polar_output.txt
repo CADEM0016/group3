@@ -49,7 +49,7 @@
      Reading airfoil from file: naca0012.dat
      Reading airfoil from file: naca0012.dat
 
- Mach =    0.8500
+ Mach =    0.3000
 
     0 Bodies
     5 Solid surfaces
@@ -175,7 +175,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -184,17 +184,17 @@
 
   Alpha =  -2.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =  -0.00899     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -0.68914
-  CZtot =  -0.18130     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =  -0.00549     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -0.47933
+  CZtot =  -0.12652     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.18150
-  CDtot =   0.00266
-  CDvis =   0.00000     CDind = 0.0026585
-  CLff  =   0.18056     CDff  = 0.0012904    | Trefftz
-  CYff  =   0.00000         e =    0.9449    | Plane  
+  CLtot =   0.12663
+  CDtot =   0.00107
+  CDvis =   0.00000     CDind = 0.0010725
+  CLff  =   0.12632     CDff  = 0.0006191    | Trefftz
+  CYff  =   0.00000         e =    0.9654    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -311,7 +311,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -320,17 +320,17 @@
 
   Alpha =  -1.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =  -0.00966     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -1.09392
-  CZtot =  -0.29264     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =  -0.00569     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -0.78257
+  CZtot =  -0.20983     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.29276
-  CDtot =   0.00456
-  CDvis =   0.00000     CDind = 0.0045556
-  CLff  =   0.29154     CDff  = 0.0032042    | Trefftz
-  CYff  =   0.00000         e =    0.9920    | Plane  
+  CLtot =   0.20989
+  CDtot =   0.00203
+  CDvis =   0.00000     CDind = 0.0020310
+  CLff  =   0.20947     CDff  = 0.0016407    | Trefftz
+  CYff  =   0.00000         e =    1.0019    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -447,7 +447,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -456,17 +456,17 @@
 
   Alpha =   0.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =  -0.00743     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -1.49905
-  CZtot =  -0.40397     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =  -0.00354     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -1.08596
+  CZtot =  -0.29310     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.40397
-  CDtot =   0.00743
-  CDvis =   0.00000     CDind = 0.0074304
-  CLff  =   0.40243     CDff  = 0.0060359    | Trefftz
-  CYff  =   0.00000         e =    1.0034    | Plane  
+  CLtot =   0.29310
+  CDtot =   0.00354
+  CDvis =   0.00000     CDind = 0.0035388
+  CLff  =   0.29257     CDff  = 0.0031870    | Trefftz
+  CYff  =   0.00000         e =    1.0061    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -583,7 +583,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -592,17 +592,17 @@
 
   Alpha =   1.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =  -0.00229     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -1.90403
-  CZtot =  -0.51518     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.00097     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -1.38913
+  CZtot =  -0.37625     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.51506
-  CDtot =   0.01128
-  CDvis =   0.00000     CDind = 0.0112831
-  CLff  =   0.51320     CDff  = 0.0097822    | Trefftz
-  CYff  =   0.00000         e =    1.0069    | Plane  
+  CLtot =   0.37621
+  CDtot =   0.00560
+  CDvis =   0.00000     CDind = 0.0055955
+  CLff  =   0.37557     CDff  = 0.0052564    | Trefftz
+  CYff  =   0.00000         e =    1.0052    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -719,7 +719,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -728,17 +728,17 @@
 
   Alpha =   2.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.00574     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -2.30836
-  CZtot =  -0.62611     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.00783     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -1.69170
+  CZtot =  -0.45917     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.62593
-  CDtot =   0.01611
-  CDvis =   0.00000     CDind = 0.0161109
-  CLff  =   0.62381     CDff  = 0.0144383    | Trefftz
-  CYff  =   0.00000         e =    1.0079    | Plane  
+  CLtot =   0.45916
+  CDtot =   0.00820
+  CDvis =   0.00000     CDind = 0.0081989
+  CLff  =   0.45846     CDff  = 0.0078461    | Trefftz
+  CYff  =   0.00000         e =    1.0035    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -855,7 +855,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -864,17 +864,17 @@
 
   Alpha =   3.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.01667     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -2.71155
-  CZtot =  -0.73664     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.01703     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -1.99331
+  CZtot =  -0.54176     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.73650
-  CDtot =   0.02191
-  CDvis =   0.00000     CDind = 0.0219079
-  CLff  =   0.73423     CDff  = 0.0199988    | Trefftz
-  CYff  =   0.00000         e =    1.0081    | Plane  
+  CLtot =   0.54190
+  CDtot =   0.01135
+  CDvis =   0.00000     CDind = 0.0113452
+  CLff  =   0.54120     CDff  = 0.0109532    | Trefftz
+  CYff  =   0.00000         e =    1.0017    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -991,7 +991,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1000,17 +1000,17 @@
 
   Alpha =   4.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.03047     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -3.11311
-  CZtot =  -0.84663     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.02856     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -2.29359
+  CZtot =  -0.62391     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.84669
-  CDtot =   0.02867
-  CDvis =   0.00000     CDind = 0.0286654
-  CLff  =   0.84443     CDff  = 0.0264567    | Trefftz
-  CYff  =   0.00000         e =    1.0080    | Plane  
+  CLtot =   0.62438
+  CDtot =   0.01503
+  CDvis =   0.00000     CDind = 0.0150291
+  CLff  =   0.62379     CDff  = 0.0145737    | Trefftz
+  CYff  =   0.00000         e =    1.0002    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -1127,7 +1127,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1136,17 +1136,17 @@
 
   Alpha =   5.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.04712     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -3.51255
-  CZtot =  -0.95594     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.04241     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -2.59217
+  CZtot =  -0.70552     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   0.95641
-  CDtot =   0.03637
-  CDvis =   0.00000     CDind = 0.0363716
-  CLff  =   0.95437     CDff  = 0.0338042    | Trefftz
-  CYff  =   0.00000         e =    1.0077    | Plane  
+  CLtot =   0.70654
+  CDtot =   0.01924
+  CDvis =   0.00000     CDind = 0.0192433
+  CLff  =   0.70618     CDff  = 0.0187034    | Trefftz
+  CYff  =   0.00000         e =    0.9988    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -1263,7 +1263,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1272,17 +1272,17 @@
 
   Alpha =   6.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.06662     Cltot =   0.00000     Cl'tot =  -0.00000
-  CYtot =   0.00000     Cmtot =  -3.90939
-  CZtot =  -1.06444     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.05855     Cltot =   0.00000     Cl'tot =  -0.00000
+  CYtot =   0.00000     Cmtot =  -2.88870
+  CZtot =  -0.78651     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   1.06558
-  CDtot =   0.04501
-  CDvis =   0.00000     CDind = 0.0450117
-  CLff  =   1.06401     CDff  = 0.0420324    | Trefftz
-  CYff  =   0.00000         e =    1.0073    | Plane  
+  CLtot =   0.78832
+  CDtot =   0.02398
+  CDvis =   0.00000     CDind = 0.0239793
+  CLff  =   0.78836     CDff  = 0.0233371    | Trefftz
+  CYff  =   0.00000         e =    0.9976    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -1399,7 +1399,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1408,17 +1408,17 @@
 
   Alpha =   7.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.08893     Cltot =   0.00000     Cl'tot =  -0.00000
-  CYtot =   0.00000     Cmtot =  -4.30314
-  CZtot =  -1.17201     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.07698     Cltot =   0.00000     Cl'tot =  -0.00000
+  CYtot =   0.00000     Cmtot =  -3.18280
+  CZtot =  -0.86676     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   1.17411
-  CDtot =   0.05457
-  CDvis =   0.00000     CDind = 0.0545684
-  CLff  =   1.17334     CDff  = 0.0511312    | Trefftz
-  CYff  =   0.00000         e =    1.0070    | Plane  
+  CLtot =   0.86968
+  CDtot =   0.02923
+  CDvis =   0.00000     CDind = 0.0292265
+  CLff  =   0.87029     CDff  = 0.0284692    | Trefftz
+  CYff  =   0.00000         e =    0.9966    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -1535,7 +1535,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1544,17 +1544,17 @@
 
   Alpha =   8.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.11402     Cltot =   0.00000     Cl'tot =  -0.00000
-  CYtot =   0.00000     Cmtot =  -4.69332
-  CZtot =  -1.27850     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.09766     Cltot =   0.00000     Cl'tot =  -0.00000
+  CYtot =   0.00000     Cmtot =  -3.47413
+  CZtot =  -0.94618     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   1.28193
-  CDtot =   0.06502
-  CDvis =   0.00000     CDind = 0.0650213
-  CLff  =   1.28231     CDff  = 0.0610896    | Trefftz
-  CYff  =   0.00000         e =    1.0066    | Plane  
+  CLtot =   0.95057
+  CDtot =   0.03497
+  CDvis =   0.00000     CDind = 0.0349732
+  CLff  =   0.95197     CDff  = 0.0340934    | Trefftz
+  CYff  =   0.00000         e =    0.9957    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -1671,7 +1671,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1680,17 +1680,17 @@
 
   Alpha =   9.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.14187     Cltot =   0.00000     Cl'tot =  -0.00000
-  CYtot =   0.00000     Cmtot =  -5.07946
-  CZtot =  -1.38380     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.12057     Cltot =   0.00000     Cl'tot =  -0.00000
+  CYtot =   0.00000     Cmtot =  -3.76233
+  CZtot =  -1.02468     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   1.38896
-  CDtot =   0.07635
-  CDvis =   0.00000     CDind = 0.0763472
-  CLff  =   1.39089     CDff  = 0.0718954    | Trefftz
-  CYff  =   0.00000         e =    1.0063    | Plane  
+  CLtot =   1.03093
+  CDtot =   0.04121
+  CDvis =   0.00000     CDind = 0.0412058
+  CLff  =   1.03335     CDff  = 0.0402030    | Trefftz
+  CYff  =   0.00000         e =    0.9950    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
@@ -1807,7 +1807,7 @@
      # Strips   =  35
      # Vortices = 245
 
-  Sref =  714.82       Cref =  12.118       Bref =  78.000    
+  Sref =  716.00       Cref =  12.118       Bref =  78.000    
   Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -1816,17 +1816,17 @@
 
   Alpha =  10.00000     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =   0.00000
-  Mach  =     0.850     rb/2V =  -0.00000     r'b/2V =  -0.00000
+  Mach  =     0.300     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.17245     Cltot =   0.00000     Cl'tot =  -0.00000
-  CYtot =   0.00000     Cmtot =  -5.46108
-  CZtot =  -1.48776     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.14569     Cltot =   0.00000     Cl'tot =  -0.00000
+  CYtot =   0.00000     Cmtot =  -4.04704
+  CZtot =  -1.10216     Cntot =  -0.00000     Cn'tot =  -0.00000
 
-  CLtot =   1.49511
-  CDtot =   0.08852
-  CDvis =   0.00000     CDind = 0.0885202
-  CLff  =   1.49904     CDff  = 0.0835355    | Trefftz
-  CYff  =   0.00000         e =    1.0060    | Plane  
+  CLtot =   1.11071
+  CDtot =   0.04791
+  CDvis =   0.00000     CDind = 0.0479095
+  CLff  =   1.11442     CDff  = 0.0467904    | Trefftz
+  CYff  =   0.00000         e =    0.9943    | Plane  
 
    flap            =   0.00000
    aileron         =   0.00000
