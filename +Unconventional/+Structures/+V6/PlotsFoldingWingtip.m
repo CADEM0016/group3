@@ -16,11 +16,10 @@ dy = G.dy;
 
 % Sweep folding-tip length per side.
 b_tips = linspace(0, 0.38 * s, 80);
-b_codeE = s - loc.Span_taxi / 2;
 b_des = s - loc.y_hinge;
 
 mat_names = {'Al 7010-T7451', 'CFRP quasi-iso'};
-mat_cols = {[0.00 0.45 0.74], [0.85 0.33 0.10]};
+mat_cols = {[0.00 0.45 0.74], [0.00 0.45 0.74]};
 mb_list = {MB_Al, MB_CF};
 
 if ~isempty(MB_Ti)
@@ -69,9 +68,9 @@ if ~isempty(S_25g) && isfield(S_25g, 'M')
     end
 end
 
-% Figure styling (dual yy-axis: blue left / orange right, grid, bold title — publication style)
-C_left  = [0.00 0.45 0.74];   % MATLAB default blue — left axis & secondary curve
-C_right = [0.85 0.33 0.10];   % orange — right axis ticks & label
+% Figure styling (dual yy-axis with blue primary x-axis and orange secondary axis)
+C_left  = [0.00 0.45 0.74];   % MATLAB default blue — Al/CFRP and x-axis
+C_right = [0.85 0.33 0.10];   % orange — |M| curve and right y-axis
 
 figure('Name', 'Folding Wingtip vs Wing Mass', 'Color', 'w', 'Position', [100 100 1050 620]);
 ax = gca;
@@ -90,9 +89,6 @@ for m = 1:n_mat
         'Color', mat_cols{m}, 'MarkerFaceColor', mat_cols{m}, 'HandleVisibility', 'off');
 end
 
-xline(ax, b_codeE, 'k--', 'LineWidth', 1.8, 'DisplayName', 'Code E limit');
-xline(ax, b_des, ':', 'LineWidth', 1.8, 'Color', [0.35 0.35 0.35], 'DisplayName', 'Design hinge');
-
 ax.YColor = C_left;
 hYl = ylabel(ax, 'Total wing structural mass [t]', 'FontSize', 12);
 hYl.Color = C_left;
@@ -106,7 +102,7 @@ if ~isempty(S_25g) && ~isempty(M_hinge_MNm)
         Mroot_MNm = abs(S_25g.M(N)) / 1e6;
     end
     plot(ax, b_tips, M_hinge_MNm, '--', ...
-        'Color', C_left, 'LineWidth', 2.0, ...
+        'Color', C_right, 'LineWidth', 2.0, ...
         'DisplayName', sprintf('|M| at hinge vs b_{tip} (%s)', S_25g.loadcase));
     ax.YColor = C_right;
     hYr = ylabel(ax, '|M| at fold line [MNm]', 'FontSize', 12);
