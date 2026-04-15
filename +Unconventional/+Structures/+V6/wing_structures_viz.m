@@ -20,6 +20,7 @@ plot(y, xLE, 'b', 'DisplayName','Leading edge');
 plot(y, xTE, 'r', 'DisplayName','Trailing edge');
 plot(y, f(G.x_LE + loc.fs_fwd * G.chord), '--', 'Color',[0 0.6 0], 'DisplayName','Front spar');
 plot(y, f(G.x_LE + loc.fs_aft * G.chord), '--', 'Color',[0.85 0.33 0.10], 'DisplayName','Rear spar');
+xline(G.y_kink, 'Color', [0.20 0.20 0.20], 'LineStyle', '--', 'DisplayName','Kink');
 xline(loc.y_hinge, 'k:', 'DisplayName','Fold hinge');
 xline(G.y_engine1, 'm-.', 'DisplayName','Engine 1');
 xline(G.y_engine2, 'c-.', 'DisplayName','Engine 2');
