@@ -2,6 +2,10 @@
 
 clear; clc; close all;
 
+set(0,'DefaultFigureColor','w')          % all figures white
+set(0,'DefaultAxesFontSize',18)          % all axis ticks
+set(0,'DefaultTextFontSize',18)          % general text
+
 %% -------------------- INPUTS --------------------
 
 % Masses (tonnes)
@@ -19,120 +23,315 @@ maxFuel = maxFuel * 1e3;
 
 % Performance assumptions
 LD  = 16;
-M   = 0.82;
+M_cruise   = 0.72;
 alt = 11000;
+
+% ---- create engines ----
+eng_UF   = cast.eng.TurboFan.UF(1, alt, M_cruise);
+eng_977B = cast.eng.TurboFan.T_977B(1, alt, M_cruise);
+
+% ---- TSFC ----
+TSFC_UF   = eng_UF.TSFC(M_cruise, alt);
+TSFC_977B = eng_977B.TSFC(M_cruise, alt);
+
+fprintf('\n--- CRUISE TSFC ---\n')
+fprintf('UltraFan TSFC:   %.3e kg/N/s\n', TSFC_UF)
+fprintf('Trent 977B TSFC: %.3e kg/N/s\n', TSFC_977B)
+
+improvement = (TSFC_977B - TSFC_UF)/TSFC_977B * 100;
+fprintf('TSFC reduction: %.1f %%\n', improvement)
 
 % Atmosphere
 T0 = 288.15;
 a0 = 340;
 a  = a0 * sqrt(1 - 0.0065*alt/T0);
-V  = M * a;
-
-% TSFC
-TSFC_hr = 0.55;
-TSFC = TSFC_hr / 3600;
+V  = M_cruise * a;
 
 %% -------------------- MASS LIMITS --------------------
 
 usefulLoad = MTOM - OEM;
-
-% Max Zero Fuel Weight (IMPORTANT for extra slope)
 MZFW = OEM + maxPayload_struct;
 
 %% -------------------- BREGUET FUNCTION --------------------
 
-breguet = @(fuel) (V/TSFC)*LD*log(MTOM/(MTOM - fuel)) / 1000;
+breguet = @(fuel, TSFC) (V/TSFC)*LD*log(MTOM/(MTOM - fuel)) / 1000;
 
-%% -------------------- KEY POINTS --------------------
+%% -------------------- COMMON POINTS --------------------
 
-% A: Start (zero range, max payload)
 R_A = 0;
 P_A = maxPayload_struct;
 
-% B: Max payload range (MZFW limit reached)
 fuel_B = MTOM - MZFW;
-R_B = breguet(fuel_B);
 P_B = maxPayload_struct;
-
-% C: tank limit
-%% -------------------- POINT C --------------------
 
 fuel_C = maxFuel;
 P_C = usefulLoad - fuel_C;
 
 Wi_C = MTOM;
-Wf_C = MTOM - fuel_C;
+Wf_C = MTOM - maxFuel;
 
-R_C = (V/TSFC)*LD*log(Wi_C / Wf_C) / 1000;
-
-%% -------------------- POINT D (CORRECT FIX) --------------------
-
-fuel_D = maxFuel;
-P_D = 0;
-
-Wi_D = OEM + fuel_D;   % <-- THIS is the key fix
+Wi_D = OEM + maxFuel;
 Wf_D = OEM;
 
-R_D = (V/TSFC)*LD*log(Wi_D / Wf_D) / 1000;
+P_D = 0;
 
-%% -------------------- BUILD SHAPE --------------------
+%% -------------------- ULTRAFAN --------------------
 
-ranges_plot = [R_A; R_B; R_C; R_D];
-payloads_plot = [P_A; P_B; P_C; P_D];
+R_B_UF = breguet(fuel_B, TSFC_UF);
+R_C_UF = (V/TSFC_UF)*LD*log(Wi_C / Wf_C) / 1000;
+R_D_UF = (V/TSFC_UF)*LD*log(Wi_D / Wf_D) / 1000;
+
+
+ranges_UF = [R_A; R_B_UF; R_C_UF; R_D_UF];
+payloads_UF = [P_A; P_B; P_C; P_D];
+
+%% -------------------- 977B --------------------
+
+R_B_977B = breguet(fuel_B, TSFC_977B);
+R_C_977B = (V/TSFC_977B)*LD*log(Wi_C / Wf_C) / 1000;
+R_D_977B = (V/TSFC_977B)*LD*log(Wi_D / Wf_D) / 1000;
+
+ranges_977B = [R_A; R_B_977B; R_C_977B; R_D_977B];
+payloads_977B = [P_A; P_B; P_C; P_D];
+
+
+delta_range_pct = (R_C_UF - R_C_977B) / R_C_977B * 100;
 
 %% -------------------- PLOT --------------------
 
-figure;
-plot(ranges_plot, payloads_plot/1000, '-o','LineWidth',2)
-grid on
+figure; hold on; grid on
+
+plot(ranges_UF, payloads_UF/1000, '-ob','LineWidth',2,'DisplayName','UltraFan')
+plot(ranges_977B, payloads_977B/1000, '-or','LineWidth',2,'DisplayName','Trent 977B')
+
+
 
 xlabel('Range (km)')
 ylabel('Payload (tonnes)')
-title('Payload–Range Diagram')
+title('Payload–Range Diagram (UF vs 977B)')
+legend show
 
-xlim([0 max(ranges_plot)*1.1])
-ylim([0 max(payloads_plot/1000)*1.1])
 
+xlim([0 max([ranges_UF; ranges_977B])*1.1])
+ylim([0 max(payloads_UF/1000)*1.1])
+
+x_mid = (R_C_UF + R_C_977B)/2;
+y_mid = P_C/1000 * 0.4;
+
+
+%% -------------------- RANGE IMPROVEMENT (TEXT ONLY) --------------------
+
+% --- choose a clean payload level
+P_arrow = (P_C/1000) + 5;
+
+% --- faint guide line (optional but recommended)
+plot([R_C_977B R_C_UF], [P_arrow P_arrow], ...
+    '--', 'Color',[0.6 0.6 0.6], 'HandleVisibility','off')
+
+% --- label (same placement, but clearer wording)
+text((R_C_UF + R_C_977B)/2, P_arrow + 3, ...
+    sprintf('+%.1f%% range', delta_range_pct), ...
+    'HorizontalAlignment','center', ...
+    'FontSize',14, ...
+    'FontWeight','bold')
 %% -------------------- DESIGN TOOL --------------------
 
-hold on
+payload_design = 123 * 1e3;
 
-payload_design = 130.7 * 1e3;   % <-- change this ONLY
-
-% --- compute fuel from mass balance ---
 fuel_design = MTOM - OEM - payload_design;
 
-% --- enforce physical limits ---
 if payload_design > maxPayload_struct
     error('Payload exceeds structural limit (MZFW)')
 end
 
 if fuel_design > maxFuel
-    warning('Payload too low → fuel capped by tank, switching to fuel-limited region')
+    warning('Fuel capped by tank')
     fuel_design = maxFuel;
 end
 
 if fuel_design <= 0
-    error('Payload too high → no fuel possible')
+    error('No fuel possible')
 end
 
-% --- compute range ---
-R_design = breguet(fuel_design);
+% ---- ranges ----
+R_design_UF   = breguet(fuel_design, TSFC_UF);
+R_design_977B = breguet(fuel_design, TSFC_977B);
 
-% --- plot ---
-plot(R_design, payload_design/1000, 'rx', ...
-    'MarkerSize',10,'LineWidth',2)
+% ---- plot ----
+plot(R_design_UF, payload_design/1000, 'bx','MarkerSize',10,'LineWidth',2,'DisplayName','Design Point')
+plot(R_design_977B, payload_design/1000, 'rx','MarkerSize',10,'LineWidth',2,'DisplayName','Design Point')
 
-text(R_design, payload_design/1000, '  Design Point')
+text(R_design_UF, (payload_design)/1000, '  UF')
+text(R_design_977B, (0.95*payload_design)/1000, '  977B')
 
-% --- print ---
+% projections
+plot([R_design_UF R_design_UF], [0 payload_design/1000], 'b--','HandleVisibility','off')
+plot([0 R_design_UF], [payload_design/1000 payload_design/1000], 'b--','HandleVisibility','off')
+
+plot([R_design_977B R_design_977B], [0 payload_design/1000], 'r--','HandleVisibility','off')
+plot([0 R_design_977B], [payload_design/1000 payload_design/1000], 'r--','HandleVisibility','off')
+
+text(R_B_UF*0.2, P_A/1000 + 5, 'Max Payload', ...
+    'FontSize',16,'FontWeight','bold')
+
+text(R_C_UF * 0.8, P_C/1000 * 0.2, 'Max Fuel Capacity', ...
+    'FontWeight','bold','HorizontalAlignment','left')
+
+text(R_B_UF + ((R_C_UF-R_B_UF)*1.1)/2, ...
+     ((P_B/1000 + P_C/1000)*1.1)/2, ...
+     'MTOM Limit', ...
+     'FontSize',16,'FontWeight','bold','Rotation',-45)
+
+plot(R_B_UF, P_B/1000, 'ko','MarkerFaceColor','k','HandleVisibility','off')
+plot(R_C_UF, P_C/1000, 'ko','MarkerFaceColor','k','HandleVisibility','off')
+plot(R_D_UF, P_D/1000, 'ko','MarkerFaceColor','k','HandleVisibility','off')
+
+%% -------------------- PRINT --------------------
+
 fprintf('\n--- DESIGN RESULT ---\n')
 fprintf('Payload: %.1f t\n', payload_design/1000)
 fprintf('Fuel: %.1f t\n', fuel_design/1000)
-fprintf('Range: %.0f km\n', R_design)
-%% -------------------- OUTPUT --------------------
+fprintf('Range (UF): %.0f km\n', R_design_UF)
+fprintf('Range (977B): %.0f km\n', R_design_977B)
 
-disp('--- KEY POINTS ---')
-fprintf('Max payload range: %.0f km\n', R_B);
-fprintf('Max fuel range: %.0f km\n', R_C);
+fprintf('\n--- KEY POINTS ---\n')
+fprintf('UF Max Payload Range: %.0f km\n', R_B_UF)
+fprintf('977B Max Payload Range: %.0f km\n', R_B_977B)
+fprintf('UF Max Fuel Range: %.0f km\n', R_C_UF)
+fprintf('977B Max Fuel Range: %.0f km\n', R_C_977B)
 fprintf('Payload at max fuel: %.1f t\n', P_C/1000);
+
+%% -------------------- ROUTES ON PAYLOAD-RANGE DIAGRAM --------------------
+
+
+
+
+%% -------------------- ROUTE PAYLOAD ANALYSIS --------------------
+
+AirportPairs = [
+"LHR-MEL"
+"MEL-PVG"
+"PVG-SUZ"
+"SUZ-BAH"
+"BAH-JED"
+"JED-MIA"
+"MIA-YUL"
+"YUL-MCM"
+"MCM-MAD"
+"MAD-GYD"
+"GYD-SIN"
+"SIN-AUS"
+"AUS-MEX"
+"MEX-GRU"
+"GRU-LAS"
+"LAS-LUA"
+"LUA-AUH"
+"AUH-LHR"
+];
+
+dist_km = [
+16909.38
+8017.62
+1456.91
+8052.37
+1272.47
+11621.60
+2264.78
+6128.98
+956.83
+4462.04
+6941.58
+15823.46
+1205.03
+7433.53
+9782.64
+13052.79
+320.63
+5515.99
+];
+
+disp(' ')
+disp('--- ROUTE PAYLOAD RESULTS ---')
+
+for i = 1:length(dist_km)
+
+    R_target = dist_km(i)*1000;
+
+    % ---------- ULTRAFAN ----------
+    fuel_fun_UF = @(fuel) (V/TSFC_UF)*LD*log(MTOM/(MTOM - fuel)) - R_target;
+    fuel_guess = 0.5*maxFuel;
+
+    fuel_UF = fzero(fuel_fun_UF, fuel_guess);
+    fuel_UF = min(max(fuel_UF,0), maxFuel);
+
+    payload_UF = MTOM - OEM - fuel_UF;
+
+    % ---------- 977B ----------
+    fuel_fun_977B = @(fuel) (V/TSFC_977B)*LD*log(MTOM/(MTOM - fuel)) - R_target;
+
+    fuel_977B = fzero(fuel_fun_977B, fuel_guess);
+    fuel_977B = min(max(fuel_977B,0), maxFuel);
+
+    payload_977B = MTOM - OEM - fuel_977B;
+
+    % ---------- PRINT ----------
+    fprintf('\n%s (%.0f km)\n', AirportPairs(i), dist_km(i))
+
+    fprintf('  UF Payload:   %.1f t\n', payload_UF/1000)
+    fprintf('  977B Payload: %.1f t\n', payload_977B/1000)
+
+end
+
+
+% enforce payload limits
+payload_UF   = min(payload_UF, maxPayload_struct);
+payload_977B = min(payload_977B, maxPayload_struct);
+
+
+
+%% -------------------- ULTRAFAN ROUTE PLOT (SEPARATE FIGURE) --------------------
+
+% --- store payloads ---
+payloads_UF_routes = zeros(length(dist_km),1);
+
+for i = 1:length(dist_km)
+
+    R_target = dist_km(i)*1000;
+
+    fuel_fun_UF = @(fuel) (V/TSFC_UF)*LD*log(MTOM/(MTOM - fuel)) - R_target;
+    fuel_guess = 0.5*maxFuel;
+
+    try
+        fuel_UF = fzero(fuel_fun_UF, fuel_guess);
+    catch
+        fuel_UF = maxFuel;
+    end
+
+    fuel_UF = min(max(fuel_UF,0), maxFuel);
+
+    payload_UF = MTOM - OEM - fuel_UF;
+    payload_UF = min(payload_UF, maxPayload_struct);
+
+    payloads_UF_routes(i) = payload_UF;
+
+end
+
+% -------------------- NEW FIGURE --------------------
+
+figure; hold on; grid on
+
+% Plot UltraFan envelope
+plot(ranges_UF, payloads_UF/1000, '-ob','LineWidth',2,'DisplayName','UltraFan Envelope')
+
+% Plot route points
+plot(dist_km, payloads_UF_routes/1000, 'ks', ...
+    'MarkerFaceColor','y','DisplayName','Routes')
+
+xlabel('Range (km)')
+ylabel('Payload (tonnes)')
+title('UltraFan Payload–Range with Mission Routes')
+legend show
+
+xlim([0 max(ranges_UF)*1.1])
+ylim([0 max(payloads_UF/1000)*1.1])
+
