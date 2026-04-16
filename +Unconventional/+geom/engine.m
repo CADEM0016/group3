@@ -21,7 +21,7 @@ GeomObj = cast.GeomObj(Name="EngineRight",Xs=Xs+offsetEng);
 GeomObj(2) = cast.GeomObj(Name="EngineLeft",Xs=Xs+offsetEng.*[1 -1]);
 
 % new pair
-offsetEng2 = offsetEng + [0, 2*obj.Engine.Diameter];
+offsetEng2 = offsetEng + [7, 2*obj.Engine.Diameter];
 
 GeomObj(3) = cast.GeomObj(Name="EngineRight2",Xs=Xs+offsetEng2);
 GeomObj(4) = cast.GeomObj(Name="EngineLeft2",Xs=Xs+offsetEng2.*[1 -1]);

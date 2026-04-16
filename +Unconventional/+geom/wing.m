@@ -33,7 +33,7 @@ c = fminsearch(@(x)(get_areas(x,L2,L3,R_f,tr,SweepQtrChord)-S).^2,c);
 % Create straight leading edge based on quarter chord sweep
 ys = [-b/2 -obj.KinkPos -R_f 0 R_f obj.KinkPos b/2]';
 cs = [c_t,c,c_r,c_r,c_r,c,c_t]';
- 
+c_r = 15;
 sweepLE = atand((tand(SweepQtrChord)*L3+c/4-c_t/4)/L3);
 sweepHalf = atand((tand(SweepQtrChord)*L3-c/4+c_t/4)/L3);
 x_le = [tand(sweepLE)*(L2+L3) tand(sweepLE)*L2 0 0 0 tand(sweepLE)*L2 tand(sweepLE)*(L2+L3)]';
