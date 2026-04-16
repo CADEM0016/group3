@@ -100,7 +100,7 @@ fprintf('+----------------------------------+----------+---------+\n');
 Unconventional.Structures.V6.Plots(adp, tlar, loc, G, L_25g, S_25g, W_25g, D_25g, MB_25g);
 
 % 9b - folding wingtip plots
-Unconventional.Structures.V6.PlotsFoldingWingtip(loc, G, MB_25g, MB_25g_CF, [], [], S_25g);
+Unconventional.Structures.V6.PlotsFoldingWingtip(loc, G, MB_25g, MB_25g_CF, [], [], S_25g, S_25g);
 
 % 9c - integrated standalone visualizer (separate figures)
 Unconventional.Structures.V6.wing_structures_viz(adp, loc, G, L_25g, S_25g, W_25g, D_25g, MB_25g, W_25g_CF, MB_25g_CF, FT);
