@@ -98,7 +98,7 @@ if ~isempty(Mroot_MNm_Al)
     if isfield(S_25g_Al, 'loadcase'), lcA = S_25g_Al.loadcase; else, lcA = 'case'; end
     plot(ax, b_tips, Mroot_MNm_Al, '-', ...
         'Color', C_right, 'LineWidth', 2.0, ...
-        'DisplayName', sprintf('Root bending moment (%s, Al, one side)', lcA));
+        'DisplayName', sprintf('Root bending moment (%s, Al)', lcA));
 
     ax.YColor = C_right;
     hYr = ylabel(ax, 'Root Bending moment [MNm]', 'FontSize', 18);
@@ -106,10 +106,10 @@ if ~isempty(Mroot_MNm_Al)
     yyaxis(ax, 'left');
 end
 
-xlabel(ax, 'Folding tip length [m] (per side)', 'FontSize', 18, 'Color', 'k');
+xlabel(ax, 'Folding tip length [m]', 'FontSize', 18, 'Color', 'k');
 title(ax, 'Wing mass and WRBM vs folding tip length', ...
     'FontWeight', 'bold', 'FontSize', 22, 'Interpreter', 'tex');
-legend(ax, 'Location', 'northwest', 'Box', 'on', 'FontSize', 12, 'Interpreter', 'tex');
+legend(ax, 'Location', 'northwest', 'Box', 'on', 'FontSize', 14, 'Interpreter', 'tex');
 xlim(ax, [0, b_tip_max]);
 
 end
