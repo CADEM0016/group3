@@ -26,6 +26,27 @@ SFCc_UF_SM = 25 * exp(-0.05 * BPR_UF_SM) * 1e-6;
 
 B_UF_SM_SM = (SFCc_UF_SM / theta_SM - A_UF_SM) ./ M_SM;
 
+DesRange = 10888000;
+
+a = sqrt(1.4 * 287 * T_SM);
+
+V = (M_SM.*a);
+
+t_flight_UF = DesRange./V;
+
+T_static_UF = 4.118204039170605e+05;
+
+
+T_cruise_UF = 0.35 * T_static_UF^0.9 * exp(0.02 * BPR_UF_SM);
+
+
+% Fuel flow
+mdot_UF = B_UF_SM_SM .* T_cruise_UF;
+
+% Block fuel (cruise-only!)
+Fuel_UF = mdot_UF .* t_flight_UF;
+
+
 % =============================
 % T977B
 % =============================
@@ -39,18 +60,18 @@ B_T_SM = (SFCc_T_SM / theta_SM - A_T_SM) ./ M_SM;
 % -----------------------------
 % PLOT (REPORT READY)
 % -----------------------------
-figure('Color','w')   % white background
 
-plot(M_SM, B_UF_SM_SM, 'b', 'LineWidth', 2); hold on
-plot(M_SM, B_T_SM, 'r', 'LineWidth', 2);
+
+
+figure('Color','w')
+
+plot(M_SM, Fuel_UF/1000, 'b', 'LineWidth', 2)
 
 grid on
 box on
 
 xlabel('Cruise Mach', 'FontSize', 20)
-ylabel('SFC', 'FontSize', 20)
-title('SFC vs Cruise Mach (BPR-derived at Cruise Altitude)', 'FontSize', 24)
+ylabel('Block Fuel (tonnes)', 'FontSize', 20)
+title('Block Fuel vs Cruise Mach (UltraFan)', 'FontSize', 24)
 
-legend('UltraFan','T977B', 'FontSize', 18, 'Location','northeast')
-
-set(gca, 'FontSize', 20)   % axis tick font
+set(gca, 'FontSize', 20)

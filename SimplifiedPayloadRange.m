@@ -8,12 +8,30 @@ set(0,'DefaultTextFontSize',18)          % general text
 
 %% -------------------- INPUTS --------------------
 
+%
+%Block fuel conversion
+%
+
+
+t_flight = 4.550462799885724e+04;
+T_static = 4.118204039170605e+05;
+
+BPR = ((15+12)*0.5);   % <-- CHANGE THIS (UltraFan ~12-15, T977B ~8.5)
+
+T_cruise = 0.35 * T_static^0.9 * exp(0.02 * BPR);
+
+
+
+%
+
+
+
 % Masses (tonnes)
 MTOM = 560;
 OEM  = 265;
 
 maxPayload_struct = 138.5;
-maxFuel           = 250;
+maxFuel           = MTOM*0.4;
 
 % Convert to kg
 MTOM = MTOM * 1e3;
