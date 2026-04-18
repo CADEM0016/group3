@@ -72,7 +72,9 @@ MZFW = OEM + maxPayload_struct;
 
 %% -------------------- BREGUET FUNCTION --------------------
 
-breguet = @(fuel, TSFC) (V/TSFC)*LD*log(MTOM/(MTOM - fuel)) / 1000;
+breguet = @(fuel, TSFC) (V/TSFC)*LD*log(MTOM/(MTOM - fuel));
+
+m2km = @(x) x/1000;
 
 %% -------------------- COMMON POINTS --------------------
 
@@ -96,8 +98,8 @@ P_D = 0;
 %% -------------------- ULTRAFAN --------------------
 
 R_B_UF = breguet(fuel_B, TSFC_UF);
-R_C_UF = (V/TSFC_UF)*LD*log(Wi_C / Wf_C) / 1000;
-R_D_UF = (V/TSFC_UF)*LD*log(Wi_D / Wf_D) / 1000;
+R_C_UF = (V/TSFC_UF)*LD*log(Wi_C / Wf_C);
+R_D_UF = (V/TSFC_UF)*LD*log(Wi_D / Wf_D);
 
 
 ranges_UF = [R_A; R_B_UF; R_C_UF; R_D_UF];
@@ -106,8 +108,8 @@ payloads_UF = [P_A; P_B; P_C; P_D];
 %% -------------------- 977B --------------------
 
 R_B_977B = breguet(fuel_B, TSFC_977B);
-R_C_977B = (V/TSFC_977B)*LD*log(Wi_C / Wf_C) / 1000;
-R_D_977B = (V/TSFC_977B)*LD*log(Wi_D / Wf_D) / 1000;
+R_C_977B = (V/TSFC_977B)*LD*log(Wi_C / Wf_C);
+R_D_977B = (V/TSFC_977B)*LD*log(Wi_D / Wf_D);
 
 ranges_977B = [R_A; R_B_977B; R_C_977B; R_D_977B];
 payloads_977B = [P_A; P_B; P_C; P_D];
@@ -119,8 +121,8 @@ delta_range_pct = (R_C_UF - R_C_977B) / R_C_977B * 100;
 
 figure; hold on; grid on
 
-plot(ranges_UF, payloads_UF/1000, '-ob','LineWidth',2,'DisplayName','UltraFan')
-plot(ranges_977B, payloads_977B/1000, '-or','LineWidth',2,'DisplayName','Trent 977B')
+plot(ranges_UF/1000, payloads_UF/1000, '-ob','LineWidth',2,'DisplayName','UltraFan')
+plot(ranges_977B/1000, payloads_977B/1000, '-or','LineWidth',2,'DisplayName','Trent 977B')
 
 
 
@@ -130,8 +132,8 @@ title('Payload–Range Diagram (UF vs 977B)')
 legend show
 
 
-xlim([0 max([ranges_UF; ranges_977B])*1.1])
-ylim([0 max(payloads_UF/1000)*1.1])
+xlim([0 max([ranges_UF; ranges_977B])*1.5])
+ylim([0 max(payloads_UF/1000)*1.5])
 
 x_mid = (R_C_UF + R_C_977B)/2;
 y_mid = P_C/1000 * 0.4;
@@ -195,8 +197,8 @@ text(R_B_UF*0.2, P_A/1000 + 5, 'Max Payload', ...
 text(R_C_UF * 0.8, P_C/1000 * 0.2, 'Max Fuel Capacity', ...
     'FontWeight','bold','HorizontalAlignment','left')
 
-text(R_B_UF + ((R_C_UF-R_B_UF)*1.1)/2, ...
-     ((P_B/1000 + P_C/1000)*1.1)/2, ...
+text(R_B_UF + ((R_C_UF-R_B_UF)*1.5)/2, ...
+     ((P_B/1000 + P_C/1000)*1.5)/2, ...
      'MTOM Limit', ...
      'FontSize',16,'FontWeight','bold','Rotation',-45)
 
@@ -271,53 +273,21 @@ dist_km = [
 disp(' ')
 disp('--- ROUTE PAYLOAD RESULTS ---')
 
+
+
+% --- storage ---
+payloads_UF_routes   = zeros(length(dist_km),1);
+payloads_977B_routes = zeros(length(dist_km),1);
+
+fprintf('\n--- ROUTE PAYLOAD RESULTS ---\n')
+
 for i = 1:length(dist_km)
 
     R_target = dist_km(i)*1000;
+    fuel_guess = 0.5*maxFuel;
 
     % ---------- ULTRAFAN ----------
     fuel_fun_UF = @(fuel) (V/TSFC_UF)*LD*log(MTOM/(MTOM - fuel)) - R_target;
-    fuel_guess = 0.5*maxFuel;
-
-    fuel_UF = fzero(fuel_fun_UF, fuel_guess);
-    fuel_UF = min(max(fuel_UF,0), maxFuel);
-
-    payload_UF = MTOM - OEM - fuel_UF;
-
-    % ---------- 977B ----------
-    fuel_fun_977B = @(fuel) (V/TSFC_977B)*LD*log(MTOM/(MTOM - fuel)) - R_target;
-
-    fuel_977B = fzero(fuel_fun_977B, fuel_guess);
-    fuel_977B = min(max(fuel_977B,0), maxFuel);
-
-    payload_977B = MTOM - OEM - fuel_977B;
-
-    % ---------- PRINT ----------
-    fprintf('\n%s (%.0f km)\n', AirportPairs(i), dist_km(i))
-
-    fprintf('  UF Payload:   %.1f t\n', payload_UF/1000)
-    fprintf('  977B Payload: %.1f t\n', payload_977B/1000)
-
-end
-
-
-% enforce payload limits
-payload_UF   = min(payload_UF, maxPayload_struct);
-payload_977B = min(payload_977B, maxPayload_struct);
-
-
-
-%% -------------------- ULTRAFAN ROUTE PLOT (SEPARATE FIGURE) --------------------
-
-% --- store payloads ---
-payloads_UF_routes = zeros(length(dist_km),1);
-
-for i = 1:length(dist_km)
-
-    R_target = dist_km(i)*1000;
-
-    fuel_fun_UF = @(fuel) (V/TSFC_UF)*LD*log(MTOM/(MTOM - fuel)) - R_target;
-    fuel_guess = 0.5*maxFuel;
 
     try
         fuel_UF = fzero(fuel_fun_UF, fuel_guess);
@@ -332,14 +302,35 @@ for i = 1:length(dist_km)
 
     payloads_UF_routes(i) = payload_UF;
 
-end
 
-% -------------------- NEW FIGURE --------------------
+    % ---------- 977B ----------
+    fuel_fun_977B = @(fuel) (V/TSFC_977B)*LD*log(MTOM/(MTOM - fuel)) - R_target;
+
+    try
+        fuel_977B = fzero(fuel_fun_977B, fuel_guess);
+    catch
+        fuel_977B = maxFuel;
+    end
+
+    fuel_977B = min(max(fuel_977B,0), maxFuel);
+
+    payload_977B = MTOM - OEM - fuel_977B;
+    payload_977B = min(payload_977B, maxPayload_struct);
+
+    payloads_977B_routes(i) = payload_977B;
+
+
+    % ---------- PRINT ----------
+    fprintf('\n%s (%.0f km)\n', AirportPairs(i), dist_km(i))
+    fprintf('  UF Payload:   %.1f t\n', payload_UF/1000)
+    fprintf('  977B Payload: %.1f t\n', payload_977B/1000)
+
+end
 
 figure; hold on; grid on
 
 % Plot UltraFan envelope
-plot(ranges_UF, payloads_UF/1000, '-ob','LineWidth',2,'DisplayName','UltraFan Envelope')
+plot(ranges_UF/1000, payloads_UF/1000, '-ob','LineWidth',2,'DisplayName','UltraFan Envelope')
 
 % Plot route points
 plot(dist_km, payloads_UF_routes/1000, 'ks', ...
@@ -350,6 +341,6 @@ ylabel('Payload (tonnes)')
 title('UltraFan Payload–Range with Mission Routes')
 legend show
 
-xlim([0 max(ranges_UF)*1.1])
-ylim([0 max(payloads_UF/1000)*1.1])
+xlim([0 max(ranges_UF/1000)*1.5])
+ylim([0 max(payloads_UF/1000)*1.5])
 
