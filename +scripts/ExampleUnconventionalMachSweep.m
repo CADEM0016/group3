@@ -1,4 +1,4 @@
-%% Size an Unconventional at a Mach number of 0.84
+% Size an Unconventional at a Mach number of 0.84
 
 % Instantiate an instance of the Unconventional class add define some initial
 % parameters
@@ -194,35 +194,37 @@ set(gca, 'FontSize', 20)
 
 
 
-function plotOverlay_Fuel(M_c, fuels, M_SM, Fuel_UF, Fuel_T)
+function plotOverlay_Fuel(M_c, fuels, M_SM, Fuel_UF)
 
-    % Safety check
+    % Ensure same Mach grid (important)
     if length(M_c) ~= length(M_SM)
-        error('M_c and M_SM must be same size')
+        error('Mach vectors must match')
     end
 
-    figure('Color','w')
+    figure('Color','w'); hold on
 
-    yyaxis left
-    plot(M_c, fuels/1e3, 'k', 'LineWidth', 2)
-    ylabel('Block Fuel (Sizing Tool) [t]', 'FontSize', 20)
+    % Convert to tonnes
+    fuel_sizing = fuels / 1e3;
+    fuel_sfc    = Fuel_UF / 1e3;
 
-    yyaxis right
-    plot(M_SM, Fuel_UF/1e3, 'b--', 'LineWidth', 2); hold on
-    plot(M_SM, Fuel_T/1e3, 'r--', 'LineWidth', 2)
-    ylabel('Block Fuel (SFC Model) [t]', 'FontSize', 20)
+    % Plot BOTH on same axis
+    plot(M_c, fuel_sizing, 'k-', 'LineWidth', 2)
+    plot(M_SM, fuel_sfc,   'b--', 'LineWidth', 2)
 
     grid on
     box on
 
     xlabel('Cruise Mach', 'FontSize', 20)
-    title('Block Fuel vs Mach (Comparison)', 'FontSize', 24)
+    ylabel('Block Fuel [t]', 'FontSize', 20)
 
-    legend('Sizing Tool Fuel','UltraFan Fuel','T977B Fuel', ...
-        'FontSize', 18, 'Location','best')
+    title('Block Fuel vs Mach (Model Comparison)', 'FontSize', 24)
+
+    legend('Sizing Tool (Mission Analysis)', ...
+           'SFC Model (UltraFan)', ...
+           'FontSize', 18, 'Location','best')
 
     set(gca, 'FontSize', 20)
 
 end
 
-plotOverlay_Fuel(M_c, fuels, M_SM, Fuel_UF, Fuel_T)
+plotOverlay_Fuel(M_c, fuels, M_SM, Fuel_UF)
