@@ -2,26 +2,26 @@
 % CLIMB MODEL — 500 ft STEPPED, 4 SEGMENTS
 % ==========================================
 
-% clear all
+%clear all
 %scripts.ExampleUnconventional
 
 %% ---------------------- Pull from ADP ----------------------
 m01 = ADP.MTOM;
 S   = ADP.WingArea;
-D   = ADP.Engine.Diameter;   % if this fails, check engine field name
 
 ft2m = 0.3048;
 knots2m_s = 0.5144;
 g = 9.81;
 
-A = pi*(D/2)^2;
 
 dh = 500*ft2m;
 
 aimFractClimb = 0.985; %#ok<NASGU>
 
+
+
 %% ------------------ Low fidelity assumptions ----------------
-Cd = 0.03;
+%Cd = 0.03;
 
 %% ---------------------- T_achievable ------------------------
 h0 = 0;
@@ -43,7 +43,8 @@ T2W_crit = ((1.21/(g*rho0*Cl_TO*s_g))*(m01*g/S)) + ...
 
 T_TO = T2W_crit*m01*g;
 
-
+%% ----------- THRUST MODEL SETUP (MATTINGLY, HIGH-BPR) -----------
+F_SL = T_TO;   % total sea-level static thrust reference [N]
 
 %% ==========================================
 % TAXI + TAKEOFF MODEL (GROUND PHASE)
@@ -91,8 +92,7 @@ fprintf('Taxi Fuel: %.0f kg\n', FuelTaxi)
 fprintf('Takeoff Fuel: %.0f kg\n', FuelTO)
 fprintf('Mass at liftoff (m01): %.0f kg\n', m01)
 
-V0 = V_lof; % arbitrary calibration speed
-DeltaV = T_TO/(rho0*A*V0);
+%V0 = V_lof; %double check if needed
 
 %% ---------------------- Global stores -----------------------
 h_vec    = [];
@@ -101,6 +101,7 @@ V_vec    = [];
 Mach_vec = [];
 TSFC_vec = [];
 Treq_vec = [];    
+Tav_vec  = [];   % <<< ADD THIS LINE
 t_vec = [];
 R_vec = [];
 
@@ -150,13 +151,23 @@ for i = 1:(length(h_nodes)-1)
     vx01 = sqrt(v01^2 - vy01^2);
     Climb_R01  = Climb_R01 + vx01*dt_step;
 
-    D01 = 0.5*rho01*(v01^2)*S*Cd;
 
     m_curr = m01 - Climb_DeltaM_01;
 
-    T01_req = D01 + (m_curr*g)*(vy01/v01);
-    T01_av  = rho01*A*v01*DeltaV;
+    W = m_curr * g;
+    
+    CL = W / (0.5 * rho01 * v01^2 * S);
+    
+    CD0 = 0.02;
+    k   = 0.045;
+    
+    CD = CD0 + k * CL^2;
+    
+    D01 = 0.5 * rho01 * v01^2 * S * CD;
 
+    T01_req = D01 + (m_curr*g)*(vy01/v01);
+    T01_av  = thrustMattinglyHighBPR(F_SL, h01, M_01);
+    
     TSFC_01 = ADP.Engine.TSFC(M_01, h01);
     dM_step = TSFC_01 * T01_req * dt_step;
 
@@ -240,12 +251,22 @@ for i = 1:(length(h_nodes)-1)
     vx12 = sqrt(v12^2 - vy12^2);
     Climb_R12  = Climb_R12 + vx12*dt_step;
 
-    D12 = 0.5*rho12*(v12^2)*S*Cd;
-
     m_curr = m12 - Climb_DeltaM_12;
 
+
+    W = m_curr * g;
+    
+    CL = W / (0.5 * rho12 * v12^2 * S);
+    
+    CD0 = 0.02;
+    k   = 0.045;
+    
+    CD = CD0 + k * CL^2;
+    
+    D12 = 0.5 * rho12 * v12^2 * S * CD;
+
     T12_req = D12 + (m_curr*g)*(vy12/v12);
-    T12_av  = rho12*A*v12*DeltaV;
+    T12_av  = thrustMattinglyHighBPR(F_SL, h12, M_12);
 
     TSFC_12 = ADP.Engine.TSFC(M_12, h12);
     dM_step = TSFC_12 * T12_req * dt_step;
@@ -322,12 +343,22 @@ for i = 1:(length(h_nodes)-1)
     vx23 = sqrt(v23^2 - vy23^2);
     Climb_R23  = Climb_R23 + vx23*dt_step;
 
-    D23 = 0.5*rho23*(v23^2)*S*Cd;
-
     m_curr = m23 - Climb_DeltaM_23;
 
+
+    W = m_curr * g;
+    
+    CL = W / (0.5 * rho23 * v23^2 * S);
+    
+    CD0 = 0.02;
+    k   = 0.045;
+    
+    CD = CD0 + k * CL^2;
+    
+    D23 = 0.5 * rho23 * v23^2 * S * CD;
+
     T23_req = D23 + (m_curr*g)*(vy23/v23);
-    T23_av  = rho23*A*v23*DeltaV;
+    T23_av  = thrustMattinglyHighBPR(F_SL, h23, M_23);
 
     TSFC_23 = ADP.Engine.TSFC(M_23, h23);
     dM_step = TSFC_23 * T23_req * dt_step;
@@ -375,7 +406,7 @@ dh34 = h4 - h3;
 M_34_cmd = ADP.TLAR.M_c * 0.9;
 
 % carry forward previous segment ROC
-vy34_cmd = dh23/Climb_t23;
+vy34_cmd = 0.5*(dh23/Climb_t23);
 
 Climb_t34 = dh34/vy34_cmd;
 
@@ -408,12 +439,22 @@ for i = 1:(length(h_nodes)-1)
     vx34 = sqrt(v34^2 - vy34^2);
     Climb_R34  = Climb_R34 + vx34*dt_step;
 
-    D34 = 0.5*rho34*(v34^2)*S*Cd;
-
     m_curr = m34 - Climb_DeltaM_34;
 
+
+    W = m_curr * g;
+    
+    CL = W / (0.5 * rho34 * v34^2 * S);
+    
+    CD0 = 0.02;
+    k   = 0.045;
+    
+    CD = CD0 + k * CL^2;
+    
+    D34 = 0.5 * rho34 * v34^2 * S * CD;
+
     T34_req = D34 + (m_curr*g)*(vy34/v34);
-    T34_av  = rho34*A*v34*DeltaV;
+    T34_av  = thrustMattinglyHighBPR(F_SL, h34, M_34);
 
     TSFC_34 = ADP.Engine.TSFC(M_34, h34);
     dM_step = TSFC_34 * T34_req * dt_step;
@@ -488,3 +529,75 @@ grid on;
 
 fprintf('Wf_taxi_TO:   %.4f\n', Mf_taxi_TO)
 fprintf('Wf_climb:     %.4f\n', Mf_climb)
+
+h_ceiling = findOperationalCeiling(ADP, m4c, S, F_SL);
+fprintf('Operational ceiling (ROC = 300 ft/min): %.0f ft\n', h_ceiling/ft2m)
+
+function h_ceiling = findOperationalCeiling(ADP, m, S, F_SL)
+
+    ft2m = 0.3048;
+    g = 9.81;
+
+    ROC_limit = 300 * ft2m / 60;   % 300 ft/min in m/s
+
+    h_test = 20000*ft2m : 500*ft2m : 50000*ft2m;
+
+    M = ADP.TLAR.M_c;
+
+    h_ceiling = NaN;
+
+    for i = 1:length(h_test)
+
+        h = h_test(i);
+
+        [rho,a,~,~] = cast.atmos(h);
+
+        V = M * a;
+        W = m * g;
+
+        CL = W / (0.5 * rho * V^2 * S);
+
+        CD0 = 0.02;
+        k   = 0.045;
+
+        CD = CD0 + k * CL^2;
+
+        D = 0.5 * rho * V^2 * S * CD;
+
+        T_av = thrustMattinglyHighBPR(F_SL, h, M);
+
+        ROC = ((T_av - D) * V) / W;
+
+        if ROC <= ROC_limit
+            h_ceiling = h;
+            break
+        end
+
+    end
+end
+
+
+
+
+function F = thrustMattinglyHighBPR(F_SL, h, M)
+
+    gamma = 1.4;
+    R = 287.05;
+
+    T_std = 288.15;     % K
+    p_std = 101325;     % Pa
+
+    [rho,a,~,~] = cast.atmos(h);
+
+    T = a^2 / (gamma * R);
+    p = rho * R * T;
+
+    theta0 = (T / T_std) * (1 + ((gamma - 1)/2) * M^2);
+    delta0 = (p / p_std) * (1 + ((gamma - 1)/2) * M^2)^(gamma/(gamma - 1));
+
+    %#ok<NASGU> theta0   % retained for clarity / future branch extension
+
+    F = F_SL * delta0 * (1 - 0.49 * sqrt(max(M,0)));
+
+    F = max(F,0);
+end
