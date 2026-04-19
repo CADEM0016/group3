@@ -27,6 +27,7 @@ ADP0.Span = 74; % Gate code + Folding tips
 
 % -------------------------- class-I estimates ---------------------------
 % initial mission analysis to estimate MTOM
+
 ADP0.MTOM = 490000; % VERY basic guess of MTOM from payload
 
 % initial estimate of fuel mass ( % of MTOM)
@@ -53,33 +54,33 @@ axis(ax,'equal')
 set(ax,'YDir','normal')
 
 % ------------------- background PNG FIRST -------------------
-img = imread("C:\Users\OscarAntill\OneDrive - University of Bristol\group3\B777F_planform.png");   % use your new image
-
-% set image extent to match your aircraft drawing coordinates
-% adjust these numbers if needed to line up perfectly
-xImg = [0 80];
-yImg = [-40 40];
-
-hImg = image(ax, ...
-    'XData', xImg, ...
-    'YData', yImg, ...
-    'CData', img);
-
-set(hImg,'AlphaData',0.45)   % transparency
-uistack(hImg,'bottom')       % keep image behind geometry
-
-% ------------------- draw geometry on top -------------------
-cast.draw(B7Geom,B7Mass,[0,0])
-
-ax.XAxis.Visible = "on";
-ax.YAxis.Visible = "on";
-xlim(ax, xImg)
-ylim(ax, yImg)
-
-exportgraphics(ax,'B777F_overlay.png','Resolution',300)
+%img = imread("C:\Users\OscarAntill\OneDrive - University of Bristol\group3\B777F_planform.png");   % use your new image
+% 
+% % set image extent to match your aircraft drawing coordinates
+% % adjust these numbers if needed to line up perfectly
+% xImg = [0 80];
+% yImg = [-40 40];
+% 
+% hImg = image(ax, ...
+%     'XData', xImg, ...
+%     'YData', yImg, ...
+%     'CData', img);
+% 
+% set(hImg,'AlphaData',0.45)   % transparency
+% uistack(hImg,'bottom')       % keep image behind geometry
+% 
+% % ------------------- draw geometry on top -------------------
+% cast.draw(B7Geom,B7Mass,[0,0])
+% 
+% ax.XAxis.Visible = "on";
+% ax.YAxis.Visible = "on";
+% xlim(ax, xImg)
+% ylim(ax, yImg)
+% 
+% exportgraphics(ax,'B777F_overlay.png','Resolution',300)
 
 % print some key data points
-d = B7Mass.GetData;
+%d = B7Mass.GetData;
 % fprintf('MTOM: %0.0f t, Fuel Mass: %0.0f t, Wing Mass %0.0f t\n',ADP.MTOM/1e3,ADP.Mf_Fuel*ADP.MTOM/1e3,double(d(strcmp(d(:,1),"Wing"),2)));
 % fprintf('CD0: %0.3f, CD (CL=0.5): %0.3f \n',ADP.AeroPolar.CD(0),ADP.AeroPolar.CD(0.5));
 

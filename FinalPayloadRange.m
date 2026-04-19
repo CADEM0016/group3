@@ -8,6 +8,8 @@
 %   range  -> km
 %   payload-> tonnes
 
+
+
 clear; clc; close all;
 
 set(0,'DefaultFigureColor','w')
