@@ -113,6 +113,8 @@ end
 set(gca, 'XTick', 1:5, 'XTickLabel', fid_lbl, 'XTickLabelRotation', 15);
 ylabel('Wing mass [t]');  title('Fidelity ladder');  grid on;
 yline(34, 'k--', 'LineWidth', 2, 'Label', 'B777F 34t');
+yline(69, 'Color', [0.25 0.25 0.25], 'LineStyle', '-.', 'LineWidth', 2, ...
+    'Label', 'A380 69t');
 for k = 1:5
     text(k, fid_vals(k)+0.3, sprintf('%.1ft', fid_vals(k)), 'HorizontalAlignment', 'center', 'FontSize', 9);
 end
