@@ -73,7 +73,7 @@ m_usaf = 96.948                       ...
 
 m_avg = (m_raymer + m_torenbeek + m_usaf) / 3;
 
-% CFRP correction — scale by specific-strength ratio
+% CFRP correction - scale by specific-strength ratio
 if strcmpi(material, 'CF')
     m_avg    = m_avg * (loc.Al.sig_all / loc.Al.rho) / (loc.CF.sig_all / loc.CF.rho);
     mat_name = 'CFRP';

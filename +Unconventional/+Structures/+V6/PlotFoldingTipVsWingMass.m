@@ -88,7 +88,7 @@ red    = [0.80 0.10 0.10];
 
 figure('Name', 'Folding Wingtip', 'Position', [80 80 1400 800]);
 tl = tiledlayout(2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
-title(tl, sprintf('Folding Wingtip Structural Analysis  —  y_{hinge} = %.1f m', loc.y_hinge), ...
+title(tl, sprintf('Folding Wingtip Structural Analysis  -  y_{hinge} = %.1f m', loc.y_hinge), ...
     'FontWeight', 'bold');
 
 % Panel 1: SMT comparison flight vs fold load case at outer panel
@@ -99,7 +99,7 @@ plot(y, Q_fl,   '-',  'Color', blue,   'LineWidth', 2, 'DisplayName', sprintf('2
 plot(y, Q_fold, '--', 'Color', orange, 'LineWidth', 2, 'DisplayName', sprintf('%.1fg fold', loc.n_limit_fold));
 xline(loc.y_hinge, 'k:', 'LineWidth', 2, 'Label', 'Fold hinge');
 xlim([loc.y_hinge*0.6, G.s*1.05]);
-xlabel('y [m]');  ylabel('Q [MN]');  title('Outer panel shear — flight vs fold');
+xlabel('y [m]');  ylabel('Q [MN]');  title('Outer panel shear - flight vs fold');
 legend('Location', 'northwest');  grid on;
 
 nexttile(2);  hold on;
@@ -109,7 +109,7 @@ plot(y, M_fl,   '-',  'Color', blue,   'LineWidth', 2, 'DisplayName', '2.5g flig
 plot(y, M_fold, '--', 'Color', orange, 'LineWidth', 2, 'DisplayName', sprintf('%.1fg fold', loc.n_limit_fold));
 xline(loc.y_hinge, 'k:', 'LineWidth', 2, 'Label', 'Fold hinge');
 xlim([loc.y_hinge*0.6, G.s*1.05]);
-xlabel('y [m]');  ylabel('M [MNm]');  title('Outer panel BM — flight vs fold');
+xlabel('y [m]');  ylabel('M [MNm]');  title('Outer panel BM - flight vs fold');
 legend('Location', 'northwest');  grid on;
 
 % Panel 3: EI and GJ across hinge - stiffness discontinuity
@@ -146,7 +146,7 @@ bh     = bar(vals, 'FaceColor', 'flat');
 bh.CData = clrs;
 set(gca, 'XTickLabel', labels, 'XTickLabelRotation', 20);
 ylabel('Mass [t]');
-title(sprintf('Outer panel mass  —  total %.0f kg', FT.m_outer_total));
+title(sprintf('Outer panel mass  -  total %.0f kg', FT.m_outer_total));
 for k = 1:4
     text(k, vals(k)+0.02, sprintf('%.2ft', vals(k)), 'HorizontalAlignment', 'center', 'FontSize', 8);
 end

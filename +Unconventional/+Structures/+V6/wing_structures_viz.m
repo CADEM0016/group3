@@ -6,6 +6,9 @@ function wing_structures_viz(~, loc, G, L, S, W, ~, MB, ~, MB_CF, ~)
 
 if nargin < 10, MB_CF = struct(); end
 
+font_ref = 'Helvetica';
+legend_fs = 8;
+
 y = fliplr(G.y);      % root -> tip
 f = @(x) fliplr(x);
 
@@ -25,30 +28,31 @@ xline(loc.y_hinge, 'k:', 'DisplayName','Fold hinge');
 xline(G.y_engine1, 'm-.', 'DisplayName','Engine 1');
 xline(G.y_engine2, 'c-.', 'DisplayName','Engine 2');
 xlabel('y [m]'); ylabel('x [m]'); title('Planform + Structural Stations');
-legend('Location','best');
+legend('Location','northeast','FontSize',legend_fs);
 
 nexttile; hold on; grid on; box on;
 plot(y, f(L.lift_dist)/1e3, 'b', 'DisplayName','Lift');
 plot(y, f(-L.w_wing)/1e3, '--', 'Color',[0 0.6 0], 'DisplayName','Wing relief');
 plot(y, f(-L.w_fuel)/1e3, '--', 'Color',[0.85 0.33 0.10], 'DisplayName','Fuel relief');
 plot(y, f(L.net_dist)/1e3, 'k', 'DisplayName','Net load');
-xline(loc.y_hinge, 'k:');
+xline(loc.y_hinge, 'k:', 'DisplayName', 'Fold hinge');
 xlabel('y [m]'); ylabel('Load [kN/m]'); title('Distributed Loads');
-legend('Location','best');
+legend('Location','northeast','FontSize',legend_fs);
 
 nexttile; hold on; grid on; box on;
-yyaxis left; plot(y, f(S.Q)/1e6, 'b'); ylabel('Q [MN]');
-yyaxis right; plot(y, f(S.M)/1e6, 'r--'); ylabel('M [MNm]');
-xline(loc.y_hinge, 'k:'); xlabel('y [m]');
+yyaxis left; plot(y, f(S.Q)/1e6, 'b', 'DisplayName','Shear Q'); ylabel('Q [MN]');
+yyaxis right; plot(y, f(S.M)/1e6, 'r--', 'DisplayName','Bending moment M'); ylabel('M [MNm]');
+xline(loc.y_hinge, 'k:', 'DisplayName', 'Fold hinge'); xlabel('y [m]');
 title('Shear and Bending Moment');
+legend('Location','northeast','FontSize',legend_fs);
 
 nexttile; hold on; grid on; box on;
-plot(y, f(W.t_skin_mm), 'b', 'DisplayName','Skin');
-plot(y, f(W.A_cap_cm2), 'r--', 'DisplayName','Cap area');
-plot(y, f(W.t_web_mm), 'Color',[0.49 0.18 0.56], 'LineStyle','-.', 'DisplayName','Web');
-xline(loc.y_hinge, 'k:');
+plot(y, f(W.t_skin_mm), 'b', 'DisplayName','Skin thickness');
+plot(y, f(W.A_cap_cm2), 'r--', 'DisplayName','Spar cap area');
+plot(y, f(W.t_web_mm), 'Color',[0.49 0.18 0.56], 'LineStyle','-.', 'DisplayName','Web thickness');
+xline(loc.y_hinge, 'k:', 'DisplayName','Fold hinge');
 xlabel('y [m]'); ylabel('Sizing metric'); title('Wingbox Sizing Trends');
-legend('Location','best');
+legend('Location','northeast','FontSize',legend_fs);
 
 % ---------- 3D visualisation ----------
 figure('Name','Wing Structures 3D','Color','w');
@@ -68,8 +72,10 @@ for j = 1:nS
     Xl(j,:) = xl3(j) + xi * c3(j);  Yl(j,:) = y3(j);  Zl(j,:) = -yt;
 end
 
-surf(ax, Xu, Yu, Zu, 'FaceAlpha',0.22, 'FaceColor',[0 0.45 0.74], 'EdgeColor','none');
-surf(ax, Xl, Yl, Zl, 'FaceAlpha',0.12, 'FaceColor',[0 0.45 0.74], 'EdgeColor','none');
+surf(ax, Xu, Yu, Zu, 'FaceAlpha',0.22, 'FaceColor',[0 0.45 0.74], 'EdgeColor','none', ...
+    'DisplayName','Wing upper surface');
+surf(ax, Xl, Yl, Zl, 'FaceAlpha',0.12, 'FaceColor',[0 0.45 0.74], 'EdgeColor','none', ...
+    'DisplayName','Wing lower surface');
 plot3(ax, xfs3, y3,  h3/2, 'g', 'LineWidth',2, 'DisplayName','Front spar');
 plot3(ax, xfs3, y3, -h3/2, 'g', 'LineWidth',2, 'HandleVisibility','off');
 plot3(ax, xrs3, y3,  h3/2, 'Color',[0.85 0.33 0.10], 'LineWidth',2, 'DisplayName','Rear spar');
@@ -79,9 +85,22 @@ plot3(ax, xrs3, y3, -h3/2, 'Color',[0.85 0.33 0.10], 'LineWidth',2, 'HandleVisib
 plot3(ax, [xl3(ih3), xl3(ih3)+c3(ih3)], [loc.y_hinge loc.y_hinge], [0 0], ...
     'm', 'LineWidth',3, 'DisplayName','Fold hinge');
 
+engine_y = [G.y_engine1, G.y_engine2];
+for ie = 1:numel(engine_y)
+    y_eng = engine_y(ie);
+    x_eng = interp1(G.y, G.x_LE + 0.4 .* G.chord, y_eng, 'linear', 'extrap');
+    z_eng = interp1(G.y, 0.5 .* G.h_wb, y_eng, 'linear', 'extrap');
+    plot3(ax, x_eng, y_eng, 0, 'ko', 'MarkerSize', 7, 'MarkerFaceColor', [0.93 0.69 0.13], ...
+        'DisplayName', sprintf('Engine %d', ie));
+    plot3(ax, [x_eng x_eng], [y_eng y_eng], [-z_eng z_eng], 'k:', 'LineWidth', 1.2, ...
+        'HandleVisibility','off');
+end
+
 xlabel(ax,'x [m]'); ylabel(ax,'y [m]'); zlabel(ax,'z [m]');
 title(ax,'3D Wing Surface with Wingbox Spars');
-view(ax,-52,22); pbaspect(ax,[2.1 5 0.45]); legend(ax,'Location','best');
+view(ax,-52,22); pbaspect(ax,[2.1 5 0.45]); legend(ax,'Location','northeastoutside','FontSize',legend_fs);
+
+set(findall(gcf,'-property','FontName'),'FontName',font_ref);
 
 % Folding-tip-vs-mass plot is generated in PlotsFoldingWingtip.m
 % to keep this visualizer focused on 2D/3D geometry and loads.

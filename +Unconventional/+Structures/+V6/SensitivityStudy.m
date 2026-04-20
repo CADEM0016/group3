@@ -4,6 +4,9 @@ function SensitivityStudy(adp, tlar, loc)
 
 fprintf('\n=== Sensitivity Study - Wing Structural Mass ===\n');
 
+font_ref = 'Helvetica';
+legend_fs = 8;
+
 figure('Name', 'Wing Mass Sensitivity', 'Position', [50 50 1400 900]);
 tl = tiledlayout(2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
 title(tl, 'Wing Structural Mass - Sensitivity Study', 'FontWeight', 'bold', 'FontSize', 13);
@@ -22,9 +25,9 @@ end
 nexttile(1);
 plot(ARs, m_emp/1e3, 'b-o', 'LineWidth', 2, 'DisplayName', 'Class I/II');  hold on;
 plot(ARs, m_II5/1e3, 'r-s', 'LineWidth', 2, 'DisplayName', 'Class II.5');
-xline(double(adp.Span)^2/double(adp.WingArea), 'k--', 'LineWidth', 1.5, 'Label', 'Design');
+xline(double(adp.Span)^2/double(adp.WingArea), 'k--', 'LineWidth', 1.5, 'Label', 'Design', 'DisplayName', 'Design');
 xlabel('AR');  ylabel('Wing mass [t]');  title('Mass vs Aspect Ratio');
-legend('Location', 'northwest');  grid on;
+legend('Location', 'northwest', 'FontSize', legend_fs);  grid on;
 
 % ---- Panel 2: MTOM sweep
 MTOMs  = linspace(200e3, 420e3, 10);
@@ -40,9 +43,9 @@ end
 nexttile(2);
 plot(MTOMs/1e3, m2_emp/1e3, 'b-o', 'LineWidth', 2, 'DisplayName', 'Class I/II');  hold on;
 plot(MTOMs/1e3, m2_II5/1e3, 'r-s', 'LineWidth', 2, 'DisplayName', 'Class II.5');
-xline(double(adp.MTOM)/1e3, 'k--', 'LineWidth', 1.5, 'Label', 'Design');
+xline(double(adp.MTOM)/1e3, 'k--', 'LineWidth', 1.5, 'Label', 'Design', 'DisplayName', 'Design');
 xlabel('MTOM [t]');  ylabel('Wing mass [t]');  title('Mass vs MTOM');
-legend('Location', 'northwest');  grid on;
+legend('Location', 'northwest', 'FontSize', legend_fs);  grid on;
 
 % ---- Panel 3: Wingspan sweep  (Code E and Code F limits marked)
 spans  = linspace(55, 80, 11);
@@ -58,11 +61,11 @@ end
 nexttile(3);
 plot(spans, m3_emp/1e3, 'b-o', 'LineWidth', 2, 'DisplayName', 'Class I/II');  hold on;
 plot(spans, m3_II5/1e3, 'r-s', 'LineWidth', 2, 'DisplayName', 'Class II.5');
-xline(65,              'g:', 'LineWidth', 2,   'Label', 'Code E 65m');
-xline(80,              'k:', 'LineWidth', 2,   'Label', 'Code F 80m');
-xline(double(adp.Span),'k--','LineWidth', 1.5, 'Label', 'Design');
+xline(65,              'g:', 'LineWidth', 2,   'Label', 'Code E 65m', 'DisplayName', 'Code E 65m');
+xline(80,              'k:', 'LineWidth', 2,   'Label', 'Code F 80m', 'DisplayName', 'Code F 80m');
+xline(double(adp.Span),'k--','LineWidth', 1.5, 'Label', 'Design', 'DisplayName', 'Design');
 xlabel('Wingspan [m]');  ylabel('Wing mass [t]');  title('Mass vs Wingspan');
-legend('Location', 'northwest');  grid on;
+legend('Location', 'northwest', 'FontSize', legend_fs);  grid on;
 
 % ---- Panel 4: Load case comparison
 cases    = {'2.5g', '1g', 'neg1g'};
@@ -92,7 +95,7 @@ bh(1).FaceColor = [0.2 0.5 0.8];
 bh(2).FaceColor = [0.8 0.4 0.1];
 set(gca, 'XTickLabel', mat_lbl);
 ylabel('Wing mass [t]');  title('Material comparison');
-legend({'Class I/II','Class II.5'}, 'Location', 'northeast');  grid on;
+legend({'Class I/II','Class II.5'}, 'Location', 'northeast', 'FontSize', legend_fs);  grid on;
 saving_pct = (m5_II5(1) - m5_II5(2)) / m5_II5(1) * 100;
 text(1.5, max(m5_emp)/1e3*0.5, sprintf('CFRP saves\n%.0f%%', saving_pct), ...
     'HorizontalAlignment', 'center', 'FontSize', 10, 'Color', [0 0.5 0]);
@@ -107,7 +110,7 @@ nexttile(6);
 for k = 1:5
     bar(k, fid_vals(k), 'FaceColor', colors(k,:));  hold on;
 end
-set(gca, 'XTickLabel', fid_lbl, 'XTickLabelRotation', 15);
+set(gca, 'XTick', 1:5, 'XTickLabel', fid_lbl, 'XTickLabelRotation', 15);
 ylabel('Wing mass [t]');  title('Fidelity ladder');  grid on;
 yline(34, 'k--', 'LineWidth', 2, 'Label', 'B777F 34t');
 for k = 1:5
@@ -115,7 +118,7 @@ for k = 1:5
 end
 
 % =========================================================================
-%  FIGURE 2 — SMT comparison across all three load cases
+%  FIGURE 2 - SMT comparison across all three load cases
 % =========================================================================
 G      = Unconventional.Structures.V6.WingGeometry(adp, tlar, loc);
 y_plot = fliplr(G.y);
@@ -141,15 +144,24 @@ for k = 1:3
 end
 
 for ax = [ax_Q, ax_M, ax_T]
-    xline(ax, loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
-    xline(ax, G.y_engine,  'r:', 'LineWidth', 1.2, 'Label', 'Engine');
+    xline(ax, loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge', 'DisplayName', 'Fold hinge');
+    xline(ax, G.y_engine,  'r:', 'LineWidth', 1.2, 'Label', 'Engine', 'DisplayName', 'Engine');
     grid(ax, 'on');
     xlabel(ax, 'y [m]');
-    legend(ax, 'Location', 'best', 'FontSize', 8);
+    legend(ax, 'Location', 'northeast', 'FontSize', legend_fs);
 end
 ylabel(ax_Q, 'Q [MN]');   title(ax_Q, 'Shear Force');
 ylabel(ax_M, 'M [MNm]');  title(ax_M, 'Bending Moment');
 ylabel(ax_T, 'T [MNm]');  title(ax_T, 'Torque');
+
+fig_ws = findall(0, 'Type', 'figure', 'Name', 'Wing Mass Sensitivity');
+if ~isempty(fig_ws)
+    set(findall(fig_ws, '-property', 'FontName'), 'FontName', font_ref);
+end
+fig_smt = findall(0, 'Type', 'figure', 'Name', 'SMT All Load Cases');
+if ~isempty(fig_smt)
+    set(findall(fig_smt, '-property', 'FontName'), 'FontName', font_ref);
+end
 
 end
 

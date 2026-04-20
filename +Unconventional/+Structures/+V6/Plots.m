@@ -11,9 +11,9 @@ green  = [0.47 0.67 0.19];
 purple = [0.49 0.18 0.56];
 black  = [0.00 0.00 0.00];
 
-%  FIGURE 1 — Distributed loads
+%  FIGURE 1 - Distributed loads
 
-figure('Name', sprintf('Loads — %s', lc), 'Position', [60 60 1200 500]);
+figure('Name', sprintf('Loads - %s', lc), 'Position', [60 60 1200 500]);
 tl = tiledlayout(1, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
 title(tl, sprintf('Distributed Loads: %s  (n_{lim}=%.1f, n_{ult}=%.2f)', ...
     lc, S.n_limit, S.n_ult), 'FontWeight', 'bold');
@@ -23,10 +23,10 @@ plot(y, flip_arr(L.lift_dist)/1e3, '-',  'Color', blue,   'LineWidth', 2.5, 'Dis
 plot(y, flip_arr(L.w_wing)/1e3,    '--', 'Color', orange, 'LineWidth', 1.8, 'DisplayName', 'Wing relief');
 plot(y, flip_arr(L.w_fuel)/1e3,    '--', 'Color', green,  'LineWidth', 1.8, 'DisplayName', 'Fuel relief');
 plot(y, flip_arr(L.net_dist)/1e3,  '-',  'Color', black,  'LineWidth', 2.5, 'DisplayName', 'Net load');
-xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
-xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
-xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1');
-xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2');
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink', 'DisplayName', 'Kink');
+xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge', 'DisplayName', 'Fold hinge');
+xline(G.y_engine1, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 1', 'DisplayName', 'Eng 1');
+xline(G.y_engine2, 'r:', 'LineWidth', 1.2, 'Label', 'Eng 2', 'DisplayName', 'Eng 2');
 xlabel('y [m]');  ylabel('Load [kN/m]');  title('Load components');
 legend('Location', 'northeast', 'FontSize', 8);  grid on;
 
@@ -37,18 +37,18 @@ relief_plot  = flip_arr(total_relief)/1e3;
 area(y, lift_plot,   'FaceColor', blue,   'FaceAlpha', 0.25, 'EdgeColor', blue,   'LineWidth', 1.5, 'DisplayName', 'Lift');
 hold on;
 area(y, relief_plot, 'FaceColor', orange, 'FaceAlpha', 0.35, 'EdgeColor', orange, 'LineWidth', 1.5, 'DisplayName', 'Total relief');
-xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
-xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
+xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink', 'DisplayName', 'Kink');
+xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge', 'DisplayName', 'Fold hinge');
 xlabel('y [m]');  ylabel('Load [kN/m]');
 relief_pct = trapz(y, relief_plot) / trapz(y, lift_plot) * 100;
 title(sprintf('Inertia relief = %.0f%% of lift', relief_pct));
 legend('Location', 'northeast', 'FontSize', 8);  grid on;
 
-%  FIGURE 2 — SMT diagrams
+%  FIGURE 2 - SMT diagrams
 
-figure('Name', sprintf('SMT — %s', lc), 'Position', [60 60 1300 820]);
+figure('Name', sprintf('SMT - %s', lc), 'Position', [60 60 1300 820]);
 tl = tiledlayout(3, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
-title(tl, sprintf('Shear / Bending / Torque — %s', lc), 'FontWeight', 'bold');
+title(tl, sprintf('Shear / Bending / Torque - %s', lc), 'FontWeight', 'bold');
 
 nexttile(1);
 plot(y, flip_arr(S.Q)/1e6, '-', 'Color', blue, 'LineWidth', 2.5);
@@ -64,7 +64,7 @@ plot(y, flip_arr(S.Q)/1e6, '-', 'Color', blue, 'LineWidth', 2);
 xlim([0, loc.y_hinge * 1.5]);
 xline(G.y_kink, '--', 'Color', [0.25 0.25 0.25], 'LineWidth', 1.2, 'Label', 'Kink');
 xline(loc.y_hinge, 'k:', 'LineWidth', 1.5, 'Label', 'Fold hinge');
-xlabel('y [m]  (inboard)');  ylabel('Q [MN]');  title('Shear — inboard detail');  grid on;
+xlabel('y [m]  (inboard)');  ylabel('Q [MN]');  title('Shear - inboard detail');  grid on;
 
 nexttile(3);
 plot(y, flip_arr(S.M)/1e6, '-', 'Color', orange, 'LineWidth', 2.5);
@@ -115,11 +115,11 @@ text(0.05, 0.97, {
     sprintf('M Snorri = %.2f MNm', S.M_hinge_snorri/1e6),
 }, 'Units', 'norm', 'VerticalAlignment', 'top', 'FontSize', 10, 'Interpreter', 'tex');
 
-%  FIGURE 3 — Wingbox properties
+%  FIGURE 3 - Wingbox properties
 
-figure('Name', sprintf('Wingbox — %s', lc), 'Position', [80 80 1300 650]);
+figure('Name', sprintf('Wingbox - %s', lc), 'Position', [80 80 1300 650]);
 tl = tiledlayout(2, 3, 'TileSpacing', 'compact', 'Padding', 'compact');
-title(tl, sprintf('Wingbox Properties — %s  (%s)', lc, W.mat_name), 'FontWeight', 'bold');
+title(tl, sprintf('Wingbox Properties - %s  (%s)', lc, W.mat_name), 'FontWeight', 'bold');
 
 nexttile(1);
 plot(y, flip_arr(W.t_skin_mm), '-', 'Color', blue, 'LineWidth', 2);
@@ -157,7 +157,7 @@ bar_c = [blue; orange; green; [0.5 0.5 0.5]; [0.8 0.6 0.0]];
 bh    = bar(bar_t, 'FaceColor', 'flat');
 bh.CData = bar_c;
 set(gca, 'XTickLabel', {'Skin','Caps','Webs','Secondary','Hinge'}, 'XTickLabelRotation', 20);
-ylabel('Mass [t]');  title(sprintf('Mass breakdown — total %.0f kg', MB.m_total));  grid on;
+ylabel('Mass [t]');  title(sprintf('Mass breakdown - total %.0f kg', MB.m_total));  grid on;
 for k = 1:5
     text(k, bar_t(k)+0.05, sprintf('%.1ft', bar_t(k)), 'HorizontalAlignment', 'center', 'FontSize', 8);
 end

@@ -12,7 +12,7 @@ Ae_h = G.A_enc(ih);         % m²  enclosed area at hinge
 c_h  = G.chord(ih);         % m   chord at hinge station
 y_h  = G.y_hinge;           % m   hinge position from CL
 
-% Hinge loads — 2.5g governs flight; 1.5g governs fold
+% Hinge loads - 2.5g governs flight; 1.5g governs fold
 Q_h  = abs(S_25g.Q_hinge);  % N
 M_h  = abs(S_25g.M_hinge);  % Nm
 T_h  = abs(S_25g.T_hinge);  % Nm
@@ -20,7 +20,7 @@ T_h  = abs(S_25g.T_hinge);  % Nm
 Q_h_fold = abs(S_1g.Q_hinge) * loc.n_limit_fold;   % N   fold load case
 M_h_fold = abs(S_1g.M_hinge) * loc.n_limit_fold;   % Nm
 
-% Hinge pin sizing — double-shear, titanium
+% Hinge pin sizing - double-shear, titanium
 % Shear in pin: V_pin = Q_hinge / 2 (double shear)
 % A_pin = V_pin / tau_all   =>   d_pin from A_pin = pi*d²/4
 V_pin  = Q_h / 2;
@@ -76,7 +76,7 @@ end
 % outer panel span
 b_tip = loc.b_tip_fold;
 
-% Folded position check — Code E compliance
+% Folded position check - Code E compliance
 span_taxi_check = 2 * y_h;   % m   folded span = 2 × hinge position
 code_E_margin   = 65.0 - span_taxi_check;   % m   positive = compliant
 
