@@ -86,7 +86,6 @@ set(ax,'YDir','normal')
 
 %% Example call to mission analysis discipline
 %[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis_oscar(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
-%[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = Unconventional.MissionAnalysis_PhysicsFinal(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
 [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = Unconventional.MissionAnalysis_PhysicsFinal(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
