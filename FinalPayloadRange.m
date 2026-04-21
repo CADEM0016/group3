@@ -10,7 +10,7 @@
 
 
 
-clear; clc; close all;
+%clear; clc; close all;
 
 set(0,'DefaultFigureColor','w')
 set(0,'DefaultAxesFontSize',18)
