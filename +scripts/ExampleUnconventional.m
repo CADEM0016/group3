@@ -85,7 +85,9 @@ set(ax,'YDir','normal')
 % fprintf('CD0: %0.3f, CD (CL=0.5): %0.3f \n',ADP.AeroPolar.CD(0),ADP.AeroPolar.CD(0.5));
 
 %% Example call to mission analysis discipline
-[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis_oscar(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
+%[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime] = Unconventional.MissionAnalysis_oscar(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
+%[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = Unconventional.MissionAnalysis_PhysicsFinal(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
+[BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = Unconventional.MissionAnalysis_PhysicsFinal(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
 %predefine spans to test

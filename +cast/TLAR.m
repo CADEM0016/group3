@@ -56,8 +56,8 @@ classdef TLAR
 %merge stuff
 
 
-            obj.Alt_max = 39e3./SI.ft; %m (39,000ft)
-            obj.Alt_cruise = 34e3./SI.ft;
+            obj.Alt_max = 34.1e3./SI.ft;
+            obj.Alt_cruise = 32e3./SI.ft;
             obj.Crew = 4;
             obj.Payload = 138500;
             obj.CrewMass = (80+10)*obj.Crew;

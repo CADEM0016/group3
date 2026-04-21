@@ -6,9 +6,20 @@
 %scripts.ExampleUnconventional
 
 %% ---------------------- Mission range / cruise setup ----------------------
-%tripRange = ADP.TLAR.RangeDes;
+tripRange = ADP.TLAR.RangeDes;
 %tripRange = 320000;
-tripRange = 960000; % worst case scneario
+%tripRange = 960000; % worst case scneario
+
+
+Range_km = tripRange / 1000;
+
+if Range_km < 1500
+    h4 = ADP.TLAR.Alt_alternate;   % short mission → lower altitude
+else
+    h4 = ADP.TLAR.Alt_cruise;      % everything else → normal cruise
+end
+
+
 Alt_max   = ADP.TLAR.Alt_max;
 ft2m = 0.3048;
 
@@ -231,6 +242,15 @@ FuelClimb  = FuelClimb + Climb_DeltaM_01;
 TimeClimb  = TimeClimb + Climb_t01;
 RangeClimb = RangeClimb + Climb_R01;
 
+h_rep = (h0 + h1)/2;
+
+fprintf('\n[0–1500 ft]\n');
+fprintf('h ≈ %.0f ft | V = %.1f m/s | Vy ≈ %.1f m/s | Mach ≈ %.3f\n', ...
+    h_rep/ft2m, v01, vy01, M_01);
+
+fprintf('Treq = %.0f N | Tav = %.0f N | Margin = %.0f N\n', ...
+    T01_req, T01_av, T01_av - T01_req);
+
 %% ============================================================
 %% 1500 --> 10000 ft
 %% ============================================================
@@ -249,8 +269,10 @@ t_target = 30*60;
 
 ROC_base = dh_total / t_target;
 
-%ROC_factor = 3.2;   % <-- THIS is your control
-ROC_factor = 3.5;   % <-- THIS is your control
+ROC_factor = 3.2;   % <-- THIS is your control
+%ROC_factor = 3.5;   % <-- THIS is your control
+%ROC_factor = 2.5;   % <-- THIS is your control
+
 
 ROC_used = ROC_base * ROC_factor;
 
@@ -345,6 +367,15 @@ FuelClimb  = FuelClimb + Climb_DeltaM_12;
 TimeClimb = TimeClimb + dt_step;
 RangeClimb = RangeClimb + Climb_R12;
 
+h_rep = (h1 + h2)/2;
+
+fprintf('\n[1500–10000 ft]\n');
+fprintf('h ≈ %.0f ft | V = %.1f m/s | Vy ≈ %.1f m/s | Mach ≈ %.3f\n', ...
+    h_rep/ft2m, v12, vy12, M_12);
+
+fprintf('Treq = %.0f N | Tav = %.0f N | Margin = %.0f N\n', ...
+    T12_req, T12_av, T12_av - T12_req);
+
 %% ============================================================
 %% 10000 --> 20000 ft
 %% ============================================================
@@ -356,9 +387,12 @@ dh23 = h3 - h2;
 
 %v23_cmd = 250*knots2m_s;
 % If you want 0.9*250 here as well, change previous line to:
-v23_cmd = 0.9*250*knots2m_s;
-%M_23_cmd = ADP.TLAR.M_c * 0.8;
-%v23_cmd  = M_23*a23;
+%v23_cmd = 0.9*250*knots2m_s;
+h23_rep = 0.5*(h2 + h3);   % midpoint altitude
+[~,a23_rep,~,~] = cast.atmos(h23_rep);
+
+M_23_cmd = ADP.TLAR.M_c * 0.8;
+v23_cmd  = M_23_cmd*a23_rep;
 
 %v23_cmd = 0.9*250*knots2m_s;
 
@@ -381,8 +415,9 @@ for i = 1:(length(h_nodes)-1)
     dt_step = dh_step / vy23;
     [rho23,a23,~,~] = cast.atmos(h23);
 
-    v23  = v23_cmd;
-    M_23 = v23/a23;
+    %v23  = v23_cmd;
+    M_23 = M_23_cmd;
+    v23  = M_23 * a23;
 
     if vy23 >= v23
         error('Segment 23 invalid: vy >= V at h = %.1f m', h23);
@@ -447,11 +482,22 @@ RangeClimb = RangeClimb + Climb_R23;
 if Climb_t_123_actual > 30*60
     warning('Climb 1500–20000 ft exceeds 30 min (%.1f min)', Climb_t_123_actual/60)
 end
+
+h_rep = (h2 + h3)/2;
+
+fprintf('\n[10000–20000 ft]\n');
+fprintf('h ≈ %.0f ft | V = %.1f m/s | Vy ≈ %.1f m/s | Mach ≈ %.3f\n', ...
+    h_rep/ft2m, v23, vy23, M_23);
+
+fprintf('Treq = %.0f N | Tav = %.0f N | Margin = %.0f N\n', ...
+    T23_req, T23_av, T23_av - T23_req);
+
 %% ============================================================
 %% 20000 ft --> cruise
 %% ============================================================
 h3 = 20000*ft2m;
-h4 = ADP.TLAR.Alt_cruise;      % top of climb = cruise altitude
+%h4 = ADP.TLAR.Alt_alternate;
+%h4 = ADP.TLAR.Alt_cruise;      % top of climb = cruise altitude
 %h4 = 20500*ft2m;   % top of climb = cruise altitude
 
 
@@ -460,14 +506,18 @@ dh34 = h4 - h3;
 
 %M_34_cmd = 0.84;
 % If you want to tie this to TLAR instead:
-M_34_cmd = ADP.TLAR.M_c * 0.9;
+M_34_cmd = ADP.TLAR.M_c * 0.95;
 
 % carry forward previous segment ROC
 %vy34_cmd = (dh23/Climb_t23);
 
 %Climb_t34 = dh34/vy34_cmd;
 
-vy34_cmd = ROC_used;
+ROC_factor_34 = 1;
+ROC_used_34 = ROC_base * ROC_factor_34;
+vy34_cmd = ROC_used_34;
+
+%vy34_cmd = ROC_used;
 
 h_nodes = h3:dh:h4;
 if h_nodes(end) ~= h4
@@ -489,7 +539,8 @@ for i = 1:(length(h_nodes)-1)
 
     M_34 = M_34_cmd;
     v34  = M_34*a34;
-    vy34 = dh_step/dt_step;
+    %vy34 = dh_step/dt_step;
+    vy34 = vy34_cmd;
 
     if vy34 >= v34
         error('Segment 34 invalid: vy >= V at h = %.1f m', h34);
@@ -561,6 +612,15 @@ Tav_vec(end+1)  = Tav_vec(end);
 
 t_vec(end+1) = t_vec(end);
 R_vec(end+1) = R_vec(end);
+
+h_rep = (h3 + h4)/2;
+
+fprintf('\n[20000–Cruise]\n');
+fprintf('h ≈ %.0f ft | V = %.1f m/s | Vy ≈ %.1f m/s | Mach ≈ %.3f\n', ...
+    h_rep/ft2m, v34, vy34, M_34);
+
+fprintf('Treq = %.0f N | Tav = %.0f N | Margin = %.0f N\n', ...
+    T34_req, T34_av, T34_av - T34_req);
 
 %% -------------------------- Outputs -------------------------
 Climb_m_TOTAL = Climb_DeltaM_01 + Climb_DeltaM_12 + Climb_DeltaM_23 + Climb_DeltaM_34;
@@ -914,21 +974,451 @@ fprintf('End of ground roll velocity (V_lof): %.1f knots\n', V_lof/knots2m_s)
 fprintf('Ground roll end speed: %.1f m/s (%.0f kt)\n', V_lof, V_lof/knots2m_s)
 
 
+% ========================
+% CONTINGENCY FUEL
+% ========================
+
+m_landing_dest = m_end_cruise - Descent_DeltaM;
+
+
+
+% 5 min loiter estimate (use your loiter model assumptions)
+t_cont = 5*60;
+
+h_cont = 1500*ft2m;
+[rho,a,~,~] = cast.atmos(h_cont);
+
+M_cont = 0.3;
+V_cont = M_cont * a;
+
+W_cont = m_landing_dest * g;
+
+CL = W_cont / (0.5 * rho * V_cont^2 * S);
+CD = 0.02 + 0.045*CL^2;
+
+D = 0.5 * rho * V_cont^2 * S * CD;
+
+TSFC_cont = ADP.Engine.TSFC(M_cont, h_cont);
+
+Fuel_cont_time = TSFC_cont * D * t_cont;
+
+% 3% rule
+%Fuel_cont_3pct = 0.03 * Fuel_trip;
+
+% FINAL contingency
+% Fuel_cont = max(Fuel_cont_time, Fuel_cont_3pct);
+
+Fuel_cont = Fuel_cont_time;
+
+% ADD CONTINGENCY HERE
+m_with_cont = m_landing_dest - Fuel_cont;
+%% ==========================================
+%% ALTERNATE MISSION (BOLT-ON)
+%% no loiter, no contingency
+%% approach already assumed inside descent
+%% ==========================================
+
+
+
+% Range_alternate = 350000;     % [m]
+% altRange = Range_alternate;
+
+% If you already added this TLAR field, use it instead:
+altRange = ADP.TLAR.Range_alternate * 1;
+
+h_alt_cruise = ADP.TLAR.Alt_alternate;  % you can set this independently if you want
+ROC_factor_alt = ROC_factor;            % independent control knob for alternate climb
+ROC_used_alt   = ROC_base * ROC_factor_alt;
+
+% -------- alternate climb: start from end of destination descent --------
+altClimb = runReserveClimb(ADP, m_with_cont, S, F_SL, h_alt_cruise, ...
+    ROC_used_alt, dh, ft2m, knots2m_s, g);
+
+% -------- estimate alternate descent range first --------
+% this lets cruise target close the alternate mission range properly
+altDesc_est = runReserveDescent(ADP, altClimb.m_end, S, h_alt_cruise, ...
+    knots2m_s, g, ft2m);
+
+AltCruise_R_target = altRange - altClimb.R_TOTAL - altDesc_est.R_TOTAL;
+
+if AltCruise_R_target < 0
+    warning(['Alternate range too short: climb + descent already exceed ', ...
+             'the target. Forcing zero alternate cruise.'])
+    AltCruise_R_target = 0;
+end
+
+% -------- alternate cruise --------
+altCruise = runReserveCruise(ADP, altClimb.m_end, S, F_SL, h_alt_cruise, ...
+    h_ceiling, Alt_max, AltCruise_R_target, ft2m, g);
+
+% -------- alternate descent to landing --------
+altDesc = runReserveDescent(ADP, altCruise.m_end, S, h_alt_cruise, ...
+    knots2m_s, g, ft2m);
+
+% -------- reserve totals --------
+Reserve_m_TOTAL = altClimb.DeltaM + altCruise.DeltaM + altDesc.DeltaM;
+Reserve_t_TOTAL = altClimb.t_TOTAL + altCruise.t_TOTAL + altDesc.t_TOTAL;
+Reserve_R_TOTAL = altClimb.R_TOTAL + altCruise.R_TOTAL + altDesc.R_TOTAL;
+
+Mfn_reserve = altDesc.m_end / m_landing_dest;
+%ADP.Mf_res  = Reserve_m_TOTAL / ADP.MTOM;
+ReserveFuelFrac_MTOM = Reserve_m_TOTAL / ADP.MTOM;
+
+
+fprintf('\n--- ALTERNATE MISSION ---\n')
+fprintf('Alternate climb fuel:   %.0f kg\n', altClimb.DeltaM)
+fprintf('Alternate cruise fuel:  %.0f kg\n', altCruise.DeltaM)
+fprintf('Alternate descent fuel: %.0f kg\n', altDesc.DeltaM)
+fprintf('Reserve fuel total:     %.0f kg\n', Reserve_m_TOTAL)
+fprintf('Reserve mass fraction:  %.5f\n', Mfn_reserve)
+fprintf('Reserve / MTOM:         %.5f\n', ReserveFuelFrac_MTOM)
+fprintf('Alternate time:         %.1f min\n', Reserve_t_TOTAL/60)
+fprintf('Alternate range:        %.1f km\n', Reserve_R_TOTAL/1000)
+fprintf('Alternate target:       %.1f km\n', altRange/1000)
+
+% overwrite landing mass so your landing constraint and taxi-in use the
+% actual final landing mass at the alternate airport
+m_landing = altDesc.m_end;
+
+
+
+
+function out = runReserveClimb(ADP, m0, S, F_SL, h4, ROC_used, dh, ft2m, knots2m_s, g)
+
+    CD0 = 0.02;
+    k   = 0.045;
+
+    out.DeltaM = 0;
+    out.R_TOTAL = 0;
+    out.t_TOTAL = 0;
+
+    m_curr = m0;
+
+    % ---------------- 0 -> 1500 ft ----------------
+    if h4 > 0
+        h0 = 0;
+        h1 = min(1500*ft2m, h4);
+        dh01 = h1 - h0;
+        Climb_t01 = 50;
+        v01_cmd = 0.9 * 250 * knots2m_s;
+
+        h_nodes = h0:dh:h1;
+        if h_nodes(end) ~= h1, h_nodes = [h_nodes h1]; end
+
+        for i = 1:(length(h_nodes)-1)
+            h_low  = h_nodes(i);
+            h_high = h_nodes(i+1);
+            h_mid  = 0.5*(h_low + h_high);
+
+            dh_step = h_high - h_low;
+            dt_step = Climb_t01 * (dh_step/dh01);
+
+            [rho,a,~,~] = cast.atmos(h_mid);
+
+            V  = v01_cmd;
+            M  = V/a;
+            vy = dh_step/dt_step;
+
+            vx = sqrt(V^2 - vy^2);
+            out.R_TOTAL = out.R_TOTAL + vx*dt_step;
+            out.t_TOTAL = out.t_TOTAL + dt_step;
+
+            W  = m_curr * g;
+            CL = W / (0.5 * rho * V^2 * S);
+            CD = CD0 + k * CL^2;
+            D  = 0.5 * rho * V^2 * S * CD;
+
+            Treq = D + W*(vy/V);
+            TSFC = ADP.Engine.TSFC(M, h_mid);
+            dM   = TSFC * Treq * dt_step;
+
+            out.DeltaM = out.DeltaM + dM;
+            m_curr = m_curr - dM;
+        end
+    end
+
+    % ---------------- 1500 -> 10000 ft ----------------
+    if h4 > 1500*ft2m
+        h0 = 1500*ft2m;
+        h1 = min(10000*ft2m, h4);
+        v_cmd = 0.9 * 250 * knots2m_s;
+
+        h_nodes = h0:dh:h1;
+        if h_nodes(end) ~= h1, h_nodes = [h_nodes h1]; end
+
+        for i = 1:(length(h_nodes)-1)
+            h_low  = h_nodes(i);
+            h_high = h_nodes(i+1);
+            h_mid  = 0.5*(h_low + h_high);
+
+            dh_step = h_high - h_low;
+            dt_step = dh_step / ROC_used;
+
+            [rho,a,~,~] = cast.atmos(h_mid);
+
+            V  = v_cmd;
+            M  = V/a;
+            vy = ROC_used;
+
+            vx = sqrt(V^2 - vy^2);
+            out.R_TOTAL = out.R_TOTAL + vx*dt_step;
+            out.t_TOTAL = out.t_TOTAL + dt_step;
+
+            W  = m_curr * g;
+            CL = W / (0.5 * rho * V^2 * S);
+            CD = CD0 + k * CL^2;
+            D  = 0.5 * rho * V^2 * S * CD;
+
+            Treq = D + W*(vy/V);
+            TSFC = ADP.Engine.TSFC(M, h_mid);
+            dM   = TSFC * Treq * dt_step;
+
+            out.DeltaM = out.DeltaM + dM;
+            m_curr = m_curr - dM;
+        end
+    end
+
+    % ---------------- 10000 -> 20000 ft ----------------
+    if h4 > 10000*ft2m
+        h0 = 10000*ft2m;
+        h1 = min(20000*ft2m, h4);
+        v_cmd = 0.9 * 250 * knots2m_s;
+
+        h_nodes = h0:dh:h1;
+        if h_nodes(end) ~= h1, h_nodes = [h_nodes h1]; end
+
+        for i = 1:(length(h_nodes)-1)
+            h_low  = h_nodes(i);
+            h_high = h_nodes(i+1);
+            h_mid  = 0.5*(h_low + h_high);
+
+            dh_step = h_high - h_low;
+            dt_step = dh_step / ROC_used;
+
+            [rho,a,~,~] = cast.atmos(h_mid);
+
+            V  = v_cmd;
+            M  = V/a;
+            vy = ROC_used;
+
+            vx = sqrt(V^2 - vy^2);
+            out.R_TOTAL = out.R_TOTAL + vx*dt_step;
+            out.t_TOTAL = out.t_TOTAL + dt_step;
+
+            W  = m_curr * g;
+            CL = W / (0.5 * rho * V^2 * S);
+            CD = CD0 + k * CL^2;
+            D  = 0.5 * rho * V^2 * S * CD;
+
+            Treq = D + W*(vy/V);
+            TSFC = ADP.Engine.TSFC(M, h_mid);
+            dM   = TSFC * Treq * dt_step;
+
+            out.DeltaM = out.DeltaM + dM;
+            m_curr = m_curr - dM;
+        end
+    end
+
+    % ---------------- 20000 ft -> cruise ----------------
+    if h4 > 20000*ft2m
+        h0 = 20000*ft2m;
+        h1 = h4;
+        M_cmd = ADP.TLAR.M_c * 0.9;
+
+        h_nodes = h0:dh:h1;
+        if h_nodes(end) ~= h1, h_nodes = [h_nodes h1]; end
+
+        for i = 1:(length(h_nodes)-1)
+            h_low  = h_nodes(i);
+            h_high = h_nodes(i+1);
+            h_mid  = 0.5*(h_low + h_high);
+
+            dh_step = h_high - h_low;
+            dt_step = dh_step / ROC_used;
+
+            [rho,a,~,~] = cast.atmos(h_mid);
+
+            M  = M_cmd;
+            V  = M * a;
+            vy = ROC_used;
+
+            vx = sqrt(V^2 - vy^2);
+            out.R_TOTAL = out.R_TOTAL + vx*dt_step;
+            out.t_TOTAL = out.t_TOTAL + dt_step;
+
+            W  = m_curr * g;
+            CL = W / (0.5 * rho * V^2 * S);
+            CD = CD0 + k * CL^2;
+            D  = 0.5 * rho * V^2 * S * CD;
+
+            Treq = D + W*(vy/V);
+            TSFC = ADP.Engine.TSFC(M, h_mid);
+            dM   = TSFC * Treq * dt_step;
+
+            out.DeltaM = out.DeltaM + dM;
+            m_curr = m_curr - dM;
+        end
+    end
+
+    out.m_end = m_curr;
+end
+
+
+function out = runReserveCruise(ADP, m0, S, F_SL, h_start, h_ceiling, Alt_max, rangeTarget, ft2m, g)
+
+    dh_cruise_block = 1000*ft2m;
+    M_cruise = ADP.TLAR.M_c;
+    h_cruise = h_start;
+
+    h_cruise_upper = floor(min(h_ceiling, Alt_max)/dh_cruise_block) * dh_cruise_block;
+    h_cruise_upper = max(h_cruise_upper, h_start);
+
+    N_cruise_segments = 6;
+    dR_cruise = max(rangeTarget,0) / max(N_cruise_segments,1);
+
+    CD0 = 0.02;
+    k   = 0.045;
+
+    out.DeltaM = 0;
+    out.t_TOTAL = 0;
+    out.R_TOTAL = 0;
+
+    m_curr = m0;
+
+    while out.R_TOTAL < rangeTarget
+
+        dR_step = min(dR_cruise, rangeTarget - out.R_TOTAL);
+
+        [rho,a,~,~] = cast.atmos(h_cruise);
+        V = M_cruise * a;
+        dt_step = dR_step / V;
+
+        W  = m_curr * g;
+        CL = W / (0.5 * rho * V^2 * S);
+        CD = CD0 + k * CL^2;
+        D  = 0.5 * rho * V^2 * S * CD;
+
+        Treq = D;
+        Tav  = thrustMattinglyHighBPR(F_SL, h_cruise, M_cruise);
+
+        if Tav < Treq
+            warning('Alternate cruise infeasible at current altitude/Mach')
+        end
+
+        TSFC = ADP.Engine.TSFC(M_cruise, h_cruise);
+        dM   = TSFC * Treq * dt_step;
+
+        m_curr = m_curr - dM;
+        out.DeltaM = out.DeltaM + dM;
+        out.t_TOTAL = out.t_TOTAL + dt_step;
+        out.R_TOTAL = out.R_TOTAL + dR_step;
+
+        h_next = h_cruise + dh_cruise_block;
+
+        if h_next <= h_cruise_upper
+            [rho_n,a_n,~,~] = cast.atmos(h_next);
+            Vn = M_cruise * a_n;
+            Wn = m_curr * g;
+
+            CLn = Wn / (0.5 * rho_n * Vn^2 * S);
+            CDn = CD0 + k * CLn^2;
+            Dn  = 0.5 * rho_n * Vn^2 * S * CDn;
+
+            Tavn = thrustMattinglyHighBPR(F_SL, h_next, M_cruise);
+            ROCn = ((Tavn - Dn) * Vn) / Wn;
+
+            if (Tavn >= Dn) && (ROCn >= 300*ft2m/60) && (Dn < D)
+                h_cruise = h_next;
+            end
+        end
+    end
+
+    out.m_end = m_curr;
+end
+
+
+function out = runReserveDescent(ADP, m0, S, h_start, knots2m_s, g, ft2m)
+
+    h_end   = 0;
+    dh_des  = -500*ft2m;
+
+    CD0 = 0.02;
+    k   = 0.045;
+
+    out.DeltaM = 0;
+    out.R_TOTAL = 0;
+    out.t_TOTAL = 0;
+
+    m_curr = m0;
+
+    h_nodes = h_start:dh_des:h_end;
+    if h_nodes(end) ~= h_end
+        h_nodes = [h_nodes h_end];
+    end
+
+    for i = 1:(length(h_nodes)-1)
+
+        h_high = h_nodes(i);
+        h_low  = h_nodes(i+1);
+        h_mid  = 0.5*(h_high + h_low);
+
+        dh_step = h_low - h_high;   % negative
+        dt_step = 20;
+
+        [rho,a,~,~] = cast.atmos(h_mid);
+
+        % if h_mid > 20000*ft2m
+        %     M = ADP.TLAR.M_c * 0.9;
+        %     V = M * a;
+        % else
+        %     V = 0.9 * 250 * knots2m_s;
+        %     M = V / a;
+        % end
+
+        M = ADP.TLAR.M_c * 0.9;
+        V = M * a;
+
+        vy = dh_step / dt_step;     % negative
+        vx = sqrt(V^2 - vy^2);
+
+        out.R_TOTAL = out.R_TOTAL + vx*dt_step;
+        out.t_TOTAL = out.t_TOTAL + dt_step;
+
+        W  = m_curr * g;
+        CL = W / (0.5 * rho * V^2 * S);
+        CD = CD0 + k * CL^2;
+        D  = 0.5 * rho * V^2 * S * CD;
+
+        Treq = D - W*(abs(vy)/V);
+        Treq = max(Treq, 0);
+
+        TSFC = ADP.Engine.TSFC(M, h_mid);
+        dM   = TSFC * Treq * dt_step;
+
+        out.DeltaM = out.DeltaM + dM;
+        m_curr = m_curr - dM;
+    end
+
+    out.m_end = m_curr;
+end
+
+
 %% ==========================================
 %% LANDING CONSTRAINT (CS-25 APPROACH SPEED)
 %% ==========================================
 
 % ---------------- INPUTS ----------------
 V_app_max = 145 * knots2m_s;   % requirement from spec
-CL_max_land = 2.5;             % realistic landing config (2.2–2.8 range)
+CL_max_land = 2.8;             % realistic landing config (2.2–2.8 range)
+% CL_max_land = 1.5;             % realistic landing config (2.2–2.8 range)
+
 
 % landing happens at sea level ISA
 h_land = 0;
 [rho_land,~,~,~] = cast.atmos(h_land);
 
 % ---------------- MASS AT LANDING ----------------
-m_landing = m_end_cruise - Descent_DeltaM;   % end of your descent
-
+% use FINAL landing mass (after alternate mission)
 W_landing = m_landing * g;
 
 % ---------------- STALL SPEED ----------------
@@ -1059,12 +1549,62 @@ grid on
 
 
 
-%% ---------------- MASS TRACKING FIX (BOLT-ON) ----------------
+% ========================
+% LOITER (30 min @ 1500 ft)
+% ========================
 
-m1 = m01;              % after taxi + takeoff (start of climb)
-m2 = m4c;              % after climb (TOC)
-m3 = m_end_cruise;     % after cruise
-m4 = m_landing;        % after descent (before taxi-in)
+h_loiter = 1500*ft2m;
+t_loiter = 30*60;
+
+[rho,a,~,~] = cast.atmos(h_loiter);
+
+M_loiter = 0.3; % reasonable assumption or optimise
+V_loiter = M_loiter * a;
+
+W = altDesc.m_end * g;
+
+CL = W / (0.5 * rho * V_loiter^2 * S);
+CD = 0.02 + 0.045*CL^2;
+
+D = 0.5 * rho * V_loiter^2 * S * CD;
+
+TSFC = ADP.Engine.TSFC(M_loiter, h_loiter);
+
+Fuel_loiter = TSFC * D * t_loiter;
+
+m_after_loiter = altDesc.m_end - Fuel_loiter;
+
+
+
+%% ---------------- MASS TRACKING FIX (BOLT-ON) ----------------
+% ================================
+% CLEAN MASS CHECKPOINTS
+% ================================
+
+m0 = ADP.MTOM;                       % start
+
+m1 = m01;                            % after taxi + takeoff
+m2 = m4c;                            % after climb
+m3 = m_end_cruise;                   % after cruise
+m4 = m_end_cruise - Descent_DeltaM;  % after descent (DESTINATION)
+
+m5 = m_landing;                      % after alternate mission
+m6 = m_final;                        % after taxi-in (FINAL)
+
+% ================================
+% SEGMENT FUEL FRACTIONS (CORRECT)
+% ================================
+
+Mfn_taxi_TO = m1 / m0;
+Mfn_climb   = m2 / m1;
+Mfn_cruise  = m3 / m2;
+Mfn_descent = m4 / m3;
+
+% everything after destination landing = reserves
+Mfn_reserve = m6 / m4;
+
+
+
 
 t_taxi_TO = TaxiTime + t_TO;
 t_climb    = Climb_t_TOTAL;
@@ -1079,8 +1619,21 @@ Mfn_taxi_TO = Mfn_taxi_TO;
 Mfn_climb   = Mfn_climb;
 Mfn_cruise  = Mfn_cruise;
 
-Mf_total = Mfn_taxi_TO * Mfn_climb * Mfn_cruise * Mfn_descent;
+% ================================
+% FINAL FUEL FRACTIONS
+% ================================
 
+% ---- TRIP (NO RESERVES) ----
+Mfn_trip = Mfn_taxi_TO * Mfn_climb * Mfn_cruise * Mfn_descent;
+FuelFrac_trip = 1 - Mfn_trip;
+
+% ---- BLOCK (WITH RESERVES) ----
+Mfn_block = Mfn_trip * Mfn_reserve;
+FuelFrac_block = 1 - Mfn_block;
+
+% optional full block-fuel fraction
+
+fprintf('Block fuel fraction:    %.5f\n', Mfn_block)
 
 fprintf('\n\n================ MISSION DEBUG DUMP ================\n');
 
@@ -1104,13 +1657,11 @@ fprintf('TOTAL RANGE         : %.1f km\n', ...
     (d_climb + d_cruise + d_descent)/1000);
 
 % ------------------ FUEL FRACTIONS ------------------
-fprintf('\n--- FUEL FRACTIONS ---\n');
-fprintf('Taxi + TO           : %.5f\n', Mfn_taxi_TO);
-fprintf('Climb               : %.5f\n', Mfn_climb);
-fprintf('Cruise              : %.5f\n', Mfn_cruise);
-fprintf('Descent             : %.5f\n', Mfn_descent);
-fprintf('----------------------------------------\n');
-fprintf('TOTAL FUEL FRACTION : %.5f\n', Mf_total);
+fprintf('\n=== FINAL FUEL FRACTIONS ===\n')
+
+fprintf('Trip Fuel Fraction (NO reserve): %.4f\n', FuelFrac_trip)
+fprintf('Block Fuel Fraction (WITH reserve): %.4f\n', FuelFrac_block)
+fprintf('Reserve contribution: %.4f\n', FuelFrac_block - FuelFrac_trip)
 
 % ------------------ MASSES ------------------
 fprintf('\n--- MASS TRACKING ---\n');
@@ -1136,3 +1687,250 @@ if t_climb/60 > 40
 end
 
 fprintf('\n====================================================\n\n');
+
+
+
+figure; hold on;
+
+
+
+% =========================
+% MAIN MISSION
+% =========================
+
+% --- ground ---
+plot(linspace(0,s_g,20)/1000, zeros(1,20), 'k','LineWidth',2)
+
+% --- climb ---
+stairs((s_g + R_vec)/1000, h_vec/ft2m, 'b','LineWidth',2)
+
+% --- cruise (STEPPED) ---
+R_cruise_plot = [s_g + R_vec(end), s_g + R_vec(end) + Cruise_R_vec];
+h_cruise_plot = [h_vec(end), Cruise_h_vec];
+
+stairs(R_cruise_plot/1000, h_cruise_plot/ft2m, 'r','LineWidth',2)
+
+
+
+% --- descent ---
+R_descent_start = R_cruise_plot(end);
+plot((R_descent_start + Descent_R_vec)/1000, ...
+     Descent_h_vec/ft2m, 'g','LineWidth',2)
+
+% --- connect cruise to descent (simple visual fix) ---
+stairs([R_cruise_plot(end), R_descent_start + Descent_R_vec(1)]/1000, ...
+     [Cruise_h_vec(end), Descent_h_vec(1)]/ft2m, ...
+     'r','LineWidth',2)
+
+% =========================
+% ALTERNATE MISSION
+% =========================
+
+R_alt_start = R_descent_start + Descent_R_vec(end);
+
+% --- alternate climb ---
+R_alt_climb = linspace(0, altClimb.R_TOTAL, 50);
+h_alt_climb = linspace(0, h_alt_cruise, 50);
+
+stairs((R_alt_start + R_alt_climb)/1000, h_alt_climb/ft2m, ...
+     'b--','LineWidth',2)
+
+% --- alternate cruise (STEPPED) ---
+R_alt_cruise = linspace(0, altCruise.R_TOTAL, length(Cruise_h_vec));
+h_alt_cruise_vec = h_alt_cruise * ones(size(R_alt_cruise));
+
+stairs((R_alt_start + altClimb.R_TOTAL + R_alt_cruise)/1000, ...
+       h_alt_cruise_vec/ft2m, 'r--','LineWidth',2)
+
+% --- alternate descent ---
+R_alt_desc_start = R_alt_start + altClimb.R_TOTAL + altCruise.R_TOTAL;
+
+stairs((R_alt_desc_start + linspace(0, altDesc.R_TOTAL, 50))/1000, ...
+     linspace(h_alt_cruise,0,50)/ft2m, ...
+     'g--','LineWidth',2)
+
+% --- final landing ---
+R_final = R_alt_desc_start + altDesc.R_TOTAL;
+plot((R_final + linspace(0,s_g,20))/1000, zeros(1,20), ...
+     'k','LineWidth',2)
+
+xlabel('Range [km]')
+ylabel('Altitude [ft]')
+title('Full Mission Profile (Main + Alternate)')
+grid on
+
+% =========================
+% ZOOM INSET (CLIMB REGION)
+% =========================
+
+ax_main = gca;  % current axes
+
+% create small inset axes (position = [x y width height])
+ax_zoom = axes('Position',[0.55 0.55 0.3 0.3]); 
+hold(ax_zoom, 'on')
+
+% plot SAME data into inset
+stairs(ax_zoom, R_climb_abs/1000, h_vec/ft2m, 'b','LineWidth',2)
+stairs(ax_zoom, [R_climb_abs(end), Cruise_R_abs]/1000, ...
+       [h_vec(end), Cruise_h_vec]/ft2m, 'r','LineWidth',2)
+plot(ax_zoom, Descent_R_abs/1000, Descent_h_vec/ft2m, 'g','LineWidth',2)
+
+% zoom limits (climb region)
+xlim(ax_zoom, [0 250])     % <-- adjust
+ylim(ax_zoom, [0 35000])
+
+grid(ax_zoom, 'on')
+title(ax_zoom, 'Climb Zoom')
+
+figure; hold on;
+
+% =========================
+% MAIN MISSION
+% =========================
+
+% ground
+plot(linspace(0,t0,20)/3600, zeros(1,20), 'k','LineWidth',2)
+
+% climb
+stairs((t0 + t_vec)/3600, h_vec/ft2m, 'b','LineWidth',2)
+
+% cruise (STEPPED)
+t_cruise_plot = [t0 + t_vec(end), t0 + t_vec(end) + Cruise_t_vec];
+h_cruise_plot = [h_vec(end), Cruise_h_vec];
+
+stairs(t_cruise_plot/3600, h_cruise_plot/ft2m, 'r','LineWidth',2)
+
+
+% descent
+t_descent_start = t_cruise_plot(end);
+stairs((t_descent_start + Descent_t_vec)/3600, ...
+     Descent_h_vec/ft2m, 'g','LineWidth',2)
+
+% --- tiny connector (actual join point) ---
+plot([t_descent_start, t_descent_start + Descent_t_vec(1)]/3600, ...
+     [Cruise_h_vec(end), Descent_h_vec(1)]/ft2m, ...
+     'r','LineWidth',2)
+
+
+
+% =========================
+% ALTERNATE
+% =========================
+
+t_alt_start = t_descent_start + Descent_t_vec(end);
+
+% alternate climb
+stairs((t_alt_start + linspace(0,altClimb.t_TOTAL,50))/3600, ...
+     linspace(0,h_alt_cruise,50)/ft2m, 'b--','LineWidth',2)
+
+% alternate cruise (STEPPED)
+t_alt_cruise = linspace(0, altCruise.t_TOTAL, length(Cruise_h_vec));
+stairs((t_alt_start + altClimb.t_TOTAL + t_alt_cruise)/3600, ...
+       (h_alt_cruise*ones(size(t_alt_cruise)))/ft2m, ...
+       'r--','LineWidth',2)
+
+% alternate descent
+t_alt_desc_start = t_alt_start + altClimb.t_TOTAL + altCruise.t_TOTAL;
+
+stairs((t_alt_desc_start + linspace(0,altDesc.t_TOTAL,50))/3600, ...
+     linspace(h_alt_cruise,0,50)/ft2m, ...
+     'g--','LineWidth',2)
+
+% landing
+t_final = t_alt_desc_start + altDesc.t_TOTAL;
+plot((t_final + linspace(0,t_TO,20))/3600, zeros(1,20), ...
+     'k','LineWidth',2)
+
+xlabel('Time [hr]')
+ylabel('Altitude [ft]')
+title('Full Mission Profile (Time)')
+grid on
+
+% =========================
+% ZOOM INSET (TIME - CLIMB REGION)
+% =========================
+
+ax_main = gca;
+
+% create inset axes
+ax_zoom_t = axes('Position',[0.55 0.55 0.3 0.3]); 
+hold(ax_zoom_t, 'on')
+
+% plot SAME data (time version)
+stairs(ax_zoom_t, t_climb_abs/3600, h_vec/ft2m, 'b','LineWidth',2)
+
+stairs(ax_zoom_t, [t_climb_abs(end), Cruise_t_abs]/3600, ...
+       [h_vec(end), Cruise_h_vec]/ft2m, 'r','LineWidth',2)
+
+plot(ax_zoom_t, Descent_t_abs/3600, ...
+     Descent_h_vec/ft2m, 'g','LineWidth',2)
+
+% zoom limits (KEY PART)
+xlim(ax_zoom_t, [0 0.25])   % ~ first 15 min (adjust if needed)
+ylim(ax_zoom_t, [0 35000])
+
+grid(ax_zoom_t, 'on')
+title(ax_zoom_t, 'Climb Zoom (Time)')
+
+
+fprintf('\n\n================ FULL MISSION BREAKDOWN ================\n');
+
+% ---------------- MAIN MISSION ----------------
+fprintf('\n--- MAIN MISSION ---\n');
+
+fprintf('\n[Taxi Out]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min\n', FuelTaxi, TaxiTime/60);
+
+fprintf('\n[Takeoff]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f s | Distance: %.0f m\n', ...
+    FuelTO, t_TO, s_g);
+
+fprintf('\n[Climb Segments]\n');
+fprintf('0–1500 ft    : Fuel = %.0f kg | Range = %.1f km\n', Climb_DeltaM_01, Climb_R01/1000);
+fprintf('1500–10000 ft: Fuel = %.0f kg | Range = %.1f km\n', Climb_DeltaM_12, Climb_R12/1000);
+fprintf('10000–20000 ft: Fuel = %.0f kg | Range = %.1f km\n', Climb_DeltaM_23, Climb_R23/1000);
+fprintf('20000–Cruise : Fuel = %.0f kg | Range = %.1f km\n', Climb_DeltaM_34, Climb_R34/1000);
+
+fprintf('TOTAL CLIMB  : Fuel = %.0f kg | Time = %.1f min | Range = %.1f km\n', ...
+    Climb_m_TOTAL, Climb_t_TOTAL/60, Climb_R_TOTAL/1000);
+
+fprintf('\n[Cruise]\n');
+fprintf('Fuel: %.0f kg | Time: %.2f hr | Range: %.1f km\n', ...
+    Cruise_DeltaM, Cruise_t_TOTAL/3600, Cruise_R_TOTAL/1000);
+
+fprintf('\n[Descent]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min | Range: %.1f km\n', ...
+    Descent_DeltaM, Descent_t_TOTAL/60, Descent_R/1000);
+
+% ---------------- CONTINGENCY ----------------
+fprintf('\n[Contingency - 5 min hold]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min\n', Fuel_cont, t_cont/60);
+
+% ---------------- ALTERNATE ----------------
+fprintf('\n--- ALTERNATE MISSION ---\n');
+
+fprintf('\n[Alt Climb]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min | Range: %.1f km\n', ...
+    altClimb.DeltaM, altClimb.t_TOTAL/60, altClimb.R_TOTAL/1000);
+
+fprintf('\n[Alt Cruise]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min | Range: %.1f km\n', ...
+    altCruise.DeltaM, altCruise.t_TOTAL/60, altCruise.R_TOTAL/1000);
+
+fprintf('\n[Alt Descent]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min | Range: %.1f km\n', ...
+    altDesc.DeltaM, altDesc.t_TOTAL/60, altDesc.R_TOTAL/1000);
+
+fprintf('\nTOTAL ALTERNATE:\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min | Range: %.1f km\n', ...
+    Reserve_m_TOTAL, Reserve_t_TOTAL/60, Reserve_R_TOTAL/1000);
+
+% ---------------- FINAL ----------------
+fprintf('\n[Taxi In]\n');
+fprintf('Fuel: %.0f kg | Time: %.1f min\n', FuelTaxi_land, t_taxi_in/60);
+
+fprintf('\n--- TOTALS ---\n');
+fprintf('Trip Fuel (no reserve): %.0f kg\n', ADP.MTOM*(1 - Mfn_trip));
+fprintf('Block Fuel (with reserve): %.0f kg\n', ADP.MTOM*(1 - Mfn_block));
+
+fprintf('\n========================================================\n');
