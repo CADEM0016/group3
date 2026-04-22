@@ -337,7 +337,7 @@ grid on;
 
 figure;
 
-c_CO2  = [1 1 1];
+c_CO2  = [0 0 0];
 c_H2O  = [0.8500 0.3250 0.0980];
 c_SO4  = [0.9290 0.6940 0.1250];
 c_SOOT = [0.4940 0.1840 0.5560];
@@ -354,8 +354,10 @@ plot(t, ATR_t_AIC, 'Color', c_AIC, 'LineWidth', 2);
 plot(t, ATR_t_CH4, 'Color', c_CH4, 'LineWidth', 2);
 plot(t, ATR_t_O3L, 'Color', c_O3L, 'LineWidth', 2);
 plot(t, ATR_t_O3S, 'Color', c_O3S, 'LineWidth', 2);
+plot(t, ATR_t_all, 'k', 'LineWidth', 3);
 
-legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S');
+
+legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S','TOTAL');
 
 xlabel('Time horizon H (years)');
 ylabel('ATR (K)');

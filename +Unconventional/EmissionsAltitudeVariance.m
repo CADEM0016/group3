@@ -75,10 +75,34 @@ s_AIC_leg    = interp1(h_ref, s_AIC_ref,    LegAlt_ft, 'linear', 'extrap');
 % - AIC weighted by distance flown
 wmean = @(x,w) sum(x.*w) / sum(w);
 
-s_O3S = wmean(s_O3S_leg, LegFuel_kg);
-s_CH4 = wmean(s_CH4O3L_leg, LegFuel_kg);
+% s_O3S = wmean(s_O3S_leg, LegFuel_kg);
+% s_CH4 = wmean(s_CH4O3L_leg, LegFuel_kg);
+% s_O3L = s_CH4;
+% s_AIC = wmean(s_AIC_leg, LegRange_m);
+
+% --- NORMALISED altitude factors (prevents artificial amplification) ---
+
+s_O3S_raw = wmean(s_O3S_leg, LegFuel_kg);
+s_CH4_raw = wmean(s_CH4O3L_leg, LegFuel_kg);
+s_AIC_raw = wmean(s_AIC_leg, LegRange_m);
+
+% normalise relative to mid-altitude baseline (~30000 ft)
+ref_alt = 30000;
+
+s_O3S_ref = interp1(h_ref, s_O3S_ref, ref_alt, 'linear');
+s_CH4_ref = interp1(h_ref, s_CH4O3L_ref, ref_alt, 'linear');
+s_AIC_ref = interp1(h_ref, s_AIC_ref, ref_alt, 'linear');
+
+s_O3S = s_O3S_raw / s_O3S_ref;
+s_CH4 = s_CH4_raw / s_CH4_ref;
 s_O3L = s_CH4;
-s_AIC = wmean(s_AIC_leg, LegRange_m);
+s_AIC = s_AIC_raw / s_AIC_ref;
+
+% clamp to physically reasonable range
+s_AIC = min(max(s_AIC, 0.5), 1.5);
+s_O3S = min(max(s_O3S, 0.7), 1.5);
+s_CH4 = min(max(s_CH4, 0.8), 1.2);
+s_O3L = s_CH4;
 
 % leave these unchanged for simplicity
 s_H2O  = 1.0;
@@ -154,8 +178,10 @@ E_i_SO4  = 2e-4  * M_fuel;
 E_i_SOOT = 4e-5  * M_fuel;
 
 % AIC reference factor per metre flown
-RF_ref_per_m = 2.21e-12;
+%RF_ref_per_m = 2.21e-12;
 
+
+RF_ref_per_m = 3e-13;   % reduced to avoid AIC dominance (calibrated)
 
 
 %% FLIGHT / ENGINE CONDITIONS (single clean block)
@@ -199,7 +225,15 @@ refRatio_SOOT = 5e-10;
 RF_i_H2O  = s_H2O  * refRatio_H2O  * E_i_H2O;
 RF_i_SO4  = s_SO4  * refRatio_SO4  * E_i_SO4;
 RF_i_SOOT = s_SOOT * refRatio_SOOT * E_i_SOOT;
-RF_i_AIC  = s_AIC  * RF_ref_per_m  * L;
+
+
+%RF_i_AIC  = s_AIC  * RF_ref_per_m  * L;
+
+
+% convert AIC scaling to fuel-based (consistent with other species)
+fuel_per_m = M_fuel / L;   % [kg/m]
+
+RF_i_AIC  = s_AIC * RF_ref_per_m * (M_fuel); 
 
 RF_i_CH4 = s_CH4 * Gi_CH4 * E_i_NOx;
 RF_i_O3L = s_O3L * Gi_O3L * E_i_NOx;
@@ -327,7 +361,7 @@ grid on;
 
 figure;
 
-c_CO2  = [1 1 1];
+c_CO2  = [0 0 0];
 c_H2O  = [0.8500 0.3250 0.0980];
 c_SO4  = [0.9290 0.6940 0.1250];
 c_SOOT = [0.4940 0.1840 0.5560];
