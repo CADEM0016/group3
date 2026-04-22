@@ -357,7 +357,15 @@ plot(t, ATR_t_O3S, 'Color', c_O3S, 'LineWidth', 2);
 plot(t, ATR_t_all, 'k', 'LineWidth', 3);
 
 
-legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S','TOTAL');
+lgd = legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S','TOTAL');
+
+lgd.FontSize = 16;              % main shrink
+lgd.NumColumns = 2;            % compact layout
+lgd.ItemTokenSize = [8 8];     % smaller line markers
+lgd.Box = 'on';                % optional clean box
+
+lgd.Units = 'normalized';
+lgd.Position = [0.7 0.2 0.2 0.2];  % tweak this manually if needed
 
 xlabel('Time horizon H (years)');
 ylabel('ATR (K)');

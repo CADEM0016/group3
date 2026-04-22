@@ -1,4 +1,4 @@
-%% Size an Unconventional at a Mach number of 0.84
+ %% Size an Unconventional at a Mach number of 0.84
 
 
 
@@ -20,7 +20,8 @@ ADP0.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
 ADP0.TLAR.M_c = 0.84;
 % Unconventional.aerodynamics.high_lift(ADP)
 
-% --------------------- set Unconventional specific parameters ---------------------
+% --------------------- set Unconventional specific parameters
+% ---------------------r 
 ADP0.FuselageLength = 65; % Total fuselage length (m)
 ADP0.KinkPos = 10;       % spanwise position of TE kink in wing planform
 ADP0.CabinRadius = 6.3;

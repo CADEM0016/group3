@@ -429,8 +429,15 @@ plot(t, ATR_t_O3L, 'Color', c_O3L, 'LineWidth', 2);
 plot(t, ATR_t_O3S, 'Color', c_O3S, 'LineWidth', 2);
 plot(t, ATR_t_all, 'k', 'LineWidth', 3);
 
-legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S','TOTAL');
+lgd = legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S','TOTAL');
 
+lgd.FontSize = 6;              % main shrink
+lgd.NumColumns = 2;            % compact layout
+lgd.ItemTokenSize = [8 8];     % smaller line markers
+lgd.Box = 'on';                % optional clean box
+
+lgd.Units = 'normalized';
+lgd.Position = [0.7 0.2 0.2 0.2];  % tweak this manually if needed
 xlabel('Time horizon H (years)');
 ylabel('ATR (K)');
 title('ATR Trend by Species (1–100 years)');
@@ -486,7 +493,19 @@ fprintf('ATR (100 yr): %.3e K\n', ATR_t_all(end));
 fprintf('ATR per tonne payload: %.3e K/t\n', ATR_per_tonne);
 
 
+ClimateResults.USE_FLEET        = USE_FLEET;
+ClimateResults.M_fuel_kg        = M_fuel;
+ClimateResults.TotalRange_km    = TotalRange_km;
+ClimateResults.avg_FL           = avg_FL;
 
+ClimateResults.s_AIC            = s_AIC;
+ClimateResults.s_O3S            = s_O3S;
+ClimateResults.s_CH4            = s_CH4;
+ClimateResults.s_O3L            = s_O3L;
+
+ClimateResults.ATR_100yr_K      = ATR_t_all(end);
+ClimateResults.ATR_100yr_CO2_K  = ATR_t_CO2(end);
+ClimateResults.ATR_per_tonne    = ATR_per_tonne;
 
 
 
