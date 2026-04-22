@@ -1,7 +1,50 @@
 %% EMISSIONS MODEL
 
+%% ================= EMISSIONS INTERFACE (FINAL) =================
+
+% -------------------------------------------------
+% 1. CHOOSE ANALYSIS LEVEL
+% -------------------------------------------------
+USE_FLEET = true;   % true = fleet impact, false = single schedule
+
+if USE_FLEET
+    M_fuel = FleetTripFuel_kg;        % [kg]
+    TotalRange_km = FleetSize * sum([FlightResults.TrueRouteRange_km]);
+else
+    M_fuel = TotalTripFuel_kg;        % [kg]
+    TotalRange_km = sum([FlightResults.TrueRouteRange_km]);
+end
+
+L = TotalRange_km * 1000;             % [m]
+
+% -------------------------------------------------
+% 2. FLIGHT CONDITION CONSISTENCY (IMPORTANT FIX)
+% -------------------------------------------------
+% Use actual mission outputs instead of hardcoding
+
+avg_FL = mean([LegResults.Cruise_FL]);   % flight level
+
+% crude ISA mapping (good enough for conceptual model)
+T_atm = 288.15 - 6.5*(avg_FL*100/1000);   % [K]
+p_atm = 101325 * (T_atm/288.15)^5.256;    % [Pa]
+
+M = 0.8;   % keep constant unless you model variation
+
+% -------------------------------------------------
+% 3. SANITY PRINT
+% -------------------------------------------------
+fprintf('\n===== EMISSIONS INPUTS =====\n');
+fprintf('Fuel burned: %.1f t\n', M_fuel/1e3);
+fprintf('Distance flown: %.1f Mm\n', L/1e6);
+fprintf('Avg cruise FL: %.0f\n', avg_FL);
+
+
+
+
+
+
 %M_fuel = 15*10^3;
-M_fuel = TotalBurn;
+%M_fuel = TotalBurn;
 % tau_short = 0.011107635;
 tau_short = 5/365;
 
@@ -61,7 +104,7 @@ E_i_H2O = 1.26*M_fuel;
 E_i_SO4 = 2e-4*M_fuel;
 E_i_SOOT = 4e-5*M_fuel;
 
-L = TotalRange; % mission distance [m]
+%L = TotalRange; % mission distance [m]
 
 RF_ref_per_L = 2.21e-12;
 RF_ref_per_L_km = RF_ref_per_L/(1.852e3);
@@ -294,7 +337,7 @@ grid on;
 
 figure;
 
-c_CO2  = [1 1 1];
+c_CO2  = [0 0 0];
 c_H2O  = [0.8500 0.3250 0.0980];
 c_SO4  = [0.9290 0.6940 0.1250];
 c_SOOT = [0.4940 0.1840 0.5560];
@@ -311,8 +354,18 @@ plot(t, ATR_t_AIC, 'Color', c_AIC, 'LineWidth', 2);
 plot(t, ATR_t_CH4, 'Color', c_CH4, 'LineWidth', 2);
 plot(t, ATR_t_O3L, 'Color', c_O3L, 'LineWidth', 2);
 plot(t, ATR_t_O3S, 'Color', c_O3S, 'LineWidth', 2);
+plot(t, ATR_t_all, 'k', 'LineWidth', 3);
 
-legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S');
+
+lgd = legend('CO2','H2O','SO4','SOOT','AIC','CH4','O3L','O3S','TOTAL');
+
+lgd.FontSize = 16;              % main shrink
+lgd.NumColumns = 2;            % compact layout
+lgd.ItemTokenSize = [8 8];     % smaller line markers
+lgd.Box = 'on';                % optional clean box
+
+lgd.Units = 'normalized';
+lgd.Position = [0.7 0.2 0.2 0.2];  % tweak this manually if needed
 
 xlabel('Time horizon H (years)');
 ylabel('ATR (K)');
@@ -352,3 +405,18 @@ legend('\Delta T (All)', '\Delta T (CO_2 only)', ...
        'ATR (All)', 'ATR (CO_2 only)', ...
        'Location', 'northwest');
 
+
+
+%% ================= NORMALISED METRICS =================
+
+TotalPayload_kg = sum([Fleet.Flights.Payload_kg]);
+
+if USE_FLEET
+    TotalPayload_kg = FleetSize * TotalPayload_kg;
+end
+
+ATR_per_tonne = ATR_t_all(end) / (TotalPayload_kg / 1000);
+
+fprintf('\n===== CLIMATE METRIC =====\n');
+fprintf('ATR (100 yr): %.3e K\n', ATR_t_all(end));
+fprintf('ATR per tonne payload: %.3e K/t\n', ATR_per_tonne);

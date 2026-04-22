@@ -117,6 +117,12 @@ ylabel('Block Fuel [t]')
 %% B vs Mach using BPR-derived SFC (UltraFan + T977B)
 
 
+% --- Load aero lookup table ---
+baseDir = fileparts(matlab.desktop.editor.getActiveFilename);
+lookupPath = fullfile(baseDir, '../+Unconventional/+lookup/+aerodynamics/cruise_lookup_table.mat');
+S = load(lookupPath);
+R = S.Results;
+
 
 % -----------------------------
 % ALTITUDE

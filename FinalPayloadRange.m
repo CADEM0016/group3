@@ -2,7 +2,7 @@
 % Internal units:
 %   mass   -> kg
 %   range  -> m
-%   speed  -> m/s
+%   speed  -> m/
 %   TSFC   -> kg/N/s
 % Plot/output units:
 %   range  -> km
@@ -19,22 +19,43 @@ set(0,'DefaultTextFontSize',18)
 %% -------------------- INPUTS --------------------
 
 % Masses [tonnes]
-MTOM_t            = 560;
-OEM_t             = 265;
-maxPayload_struct_t = 138.5;
-maxFuel_t         = 0.4 * MTOM_t;
+MTOM            = ADP.MTOM;
+OEM             = ADP.OEM;
+%maxPayload_struct_t = 138.5;
+%maxFuel_t         = 0.4 * MTOM_t;
 
-% Convert to SI [kg]
-MTOM              = MTOM_t * 1e3;
-OEM               = OEM_t  * 1e3;
-maxPayload_struct = maxPayload_struct_t * 1e3;
-maxFuel           = maxFuel_t * 1e3;
+rho_fuel = 800; % kg/m^3
 
-% Performance assumptions
-LD       = 16;
-M_cruise = 0.72;
-alt      = 11000;     % m
+V_fuel = 613.8; % m^3 (example)
+
+maxFuel = rho_fuel * V_fuel*0.33; % kg
+
+%maxFuel         = 0.32 * MTOM;
+
+
+%maxFuel_t = ADP.Mf_Fuel * MTOM;
+maxPayload_struct = ADP.TLAR.Payload;   % if defined properly
+
+
+% % Convert to SI [kg]
+% MTOM              = MTOM_t * 1e3;
+% OEM               = OEM_t  * 1e3;
+% maxPayload_struct = maxPayload_struct_t * 1e3;
+% maxFuel           = maxFuel_t * 1e3;
+
+% % Performance assumptions
+% LD       = 16;
+% M_cruise = 0.72;
+% alt      = 11000;     % m
 g        = 9.81;      % m/s^2
+
+
+M_cruise = ADP.TLAR.M_c;
+
+LD = ADP.LD_c;
+
+alt = ADP.TLAR.Alt_cruise;
+
 
 %% -------------------- ENGINE / ATMOSPHERE --------------------
 
@@ -148,7 +169,7 @@ dist_km = [
 9782.64
 13052.79
 320.63
-5515.99
+5454
 ];
 
 %% -------------------- ROUTE PAYLOAD ANALYSIS --------------------
@@ -211,6 +232,8 @@ payloads_routes_t = kg2t(payloads_routes_kg);
 
 %% -------------------- PLOT --------------------
 
+
+
 figure; hold on; grid on
 
 % Envelope
@@ -249,13 +272,13 @@ xlim([0, 1.05*max([ranges_km; dist_km])])
 ylim([0, 1.10*max(payloads_t)])
 
 % Optional annotations
-text(0.15*R_B/1000, kg2t(P_A) + 4, 'Max Payload', ...
+text(0.15*R_B, kg2t(P_A) + 4, 'Max Payload', ...
     'FontWeight','bold')
 
-text(0.82*R_C/1000, 0.25*kg2t(P_C), 'Max Fuel Point', ...
+text(0.82*R_C, 0.25*kg2t(P_C), 'Max Fuel Point', ...
     'FontWeight','bold')
 
-text(0.93*R_D/1000, 8, 'Ferry Range', ...
+text(0.93*R_D, 8, 'Ferry Range', ...
     'FontWeight','bold', ...
     'HorizontalAlignment','right')
 
@@ -325,7 +348,7 @@ ylim([0, 1.10*max(payloads_UF_t)])
 % ---- Optional: % improvement at max fuel point ----
 delta_range_pct = (R_C - R_C_977B) / R_C_977B * 100;
 
-text(0.5*(R_C + R_C_977B)/1000, (P_C/1000)+5, ...
+text(0.5*(R_C + R_C_977B), (P_C/1000)+5, ...
     sprintf('+%.1f%% range', delta_range_pct), ...
     'HorizontalAlignment','center', ...
     'FontWeight','bold')
@@ -336,7 +359,6 @@ text(0.5*(R_C + R_C_977B)/1000, (P_C/1000)+5, ...
 % ---- Fleet requirement ----
 Payload_tot = 736 * 1000;   % kg (fleet total)
 N_fleetsize = 6;
-
 Payload_operating = Payload_tot / N_fleetsize;   % kg per aircraft
 
 % ---- compute design range ----
@@ -407,9 +429,15 @@ plot(dist_split_km, payload_split_kg/1000, 'rd', ...
     'DisplayName','Split Routes')
 
 % Design point (convert kg → tonnes)
-plot(R_design_km, Payload_operating/1000, 'bp', ...
-    'MarkerSize',12, ...
-    'LineWidth',2, ...
+% plot(R_design_km, Payload_operating/1000, 'bx', ...
+%     'MarkerSize',12, ...
+%     'LineWidth',2, ...
+%     'DisplayName','Design Point')
+
+plot(R_design_km, Payload_operating/1000, 'x', ...
+    'Color','b', ...
+    'MarkerSize',14, ...
+    'LineWidth',3, ...
     'DisplayName','Design Point')
 
 % Design range line
@@ -430,9 +458,13 @@ ylim([0, 1.10*max(payloads_t)])
 
 %% ==================== OPERATIONAL MODEL (FIXED PAYLOAD) ====================
 
+
+
 fprintf('\n--- OPERATIONAL MODEL (FIXED PAYLOAD - CONSISTENT) ---\n')
 
 payload_oper = Payload_operating;   % kg
+
+
 
 dist_oper_km    = [];
 payload_oper_kg = [];
@@ -462,11 +494,17 @@ for i = 1:nRoutes
     % Max achievable range at this payload
     R_max_direct = range_from_payload(payload_oper, fuel_available);
     
-    if R_target_m <= R_max_direct
+    if R_target_m <= R_design
         % ✅ DIRECT FLIGHT (PHYSICALLY VALID)
+
+        if AirportPairs(i) == "AUS-MEX"
+            payload_here = 0;   % <-- FORCE EMPTY FLIGHT
+        else
+            payload_here = payload_oper;
+        end
         
         dist_oper_km(end+1)     = dist_km(i);
-        payload_oper_kg(end+1)  = payload_oper;
+        payload_oper_kg(end+1)  = payload_here;
         route_type(end+1)       = 1;
         
         fprintf('Direct: %.0f km\n', dist_km(i))
@@ -505,6 +543,9 @@ for i = 1:nRoutes
     end
 end
 
+payload_oper_t = payload_oper_kg / 1000;   % <-- ADD THIS LINE
+
+
 %% ==================== OPERATIONAL PLOT ====================
 
 figure; hold on; grid on
@@ -523,17 +564,17 @@ is_direct = route_type == 1;
 is_split  = route_type == 2;
 
 % Direct (magenta)
-plot(dist_oper_km(is_direct), payload_oper_kg(is_direct)/1000, 'md', ...
+plot(dist_oper_km(is_direct), payload_oper_t(is_direct), 'md', ...
     'MarkerFaceColor','m', ...
     'DisplayName','Operational Direct (123t)')
 
 % Split (cyan)
-plot(dist_oper_km(is_split), payload_oper_kg(is_split)/1000, 'cd', ...
+plot(dist_oper_km(is_split), payload_oper_t(is_split), 'cd', ...
     'MarkerFaceColor','c', ...
     'DisplayName','Operational Split (1 stop)')
 
 % Design point
-plot(R_design_km, payload_oper/1000, 'bp', ...
+plot(R_design_km, payload_oper/1000, 'bx', ...
     'MarkerSize',12,'LineWidth',2, ...
     'DisplayName','Design Point')
 
@@ -548,3 +589,44 @@ legend('Location','northeast')
 
 xlim([0, 1.05*max([ranges_km; dist_km])])
 ylim([0, 1.10*max(payloads_t)])
+
+%% ----------- INPUTS YOU ALREADY HAVE -----------
+Payload_total = 736e3;   % kg  :contentReference[oaicite:0]{index=0}
+N_aircraft    = 6;
+
+Payload_oper = Payload_total / N_aircraft;
+
+Fleet.N_aircraft = N_aircraft;
+
+%% ----------- DESIGN RANGE (JUST A CONSTANT) -----------
+R_design = ADP.TLAR.RangeDes / 1000;   % km
+% or hardcode if cleaner:
+% R_design = 10186;
+
+%% ----------- FLIGHT LOGIC ONLY -----------
+k = 1;
+
+for i = 1:length(dist_km)
+
+    R = dist_km(i);
+
+    if R <= R_design
+        % -------- DIRECT --------
+        Flights(k).Type = "direct";
+
+    else
+        % -------- SPLIT (max 1 stop) --------
+        Flights(k).Type = "split";
+    end
+
+    % -------- STORE ONLY WHAT YOU CARE ABOUT --------
+    Flights(k).Payload_kg = Payload_oper;
+    Flights(k).NumLegs    = 1 + (R > R_design);  % 1 or 2
+
+    % ✅ UNIQUE IDENTIFIER
+    Flights(k).RouteName = AirportPairs(i);
+
+    k = k + 1;
+end
+
+Fleet.Flights = Flights;

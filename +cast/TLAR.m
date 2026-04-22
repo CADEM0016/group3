@@ -4,7 +4,7 @@ classdef TLAR
     
     properties
         Crew
-        Range = 10000*10^3     % Harmonic Range
+        Range = 10000*10^3   % Harmonic Range
         RangeDes       % Design Range
         Payload     % Max. Payload
         V_ld        % Landing Speed

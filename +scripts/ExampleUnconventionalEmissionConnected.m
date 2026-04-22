@@ -1,4 +1,17 @@
-%% Size an Unconventional at a Mach number of 0.84
+ %% Size an Unconventional at a Mach number of 0.84
+
+
+
+clear all; clc;
+
+cd(fileparts(mfilename('fullpath')))
+addpath(genpath(fileparts(fileparts(mfilename('fullpath')))))
+
+close all force
+set(0,'DefaultFigureVisible','off')
+drawnow
+
+
 
 % Instantiate an instance of the Unconventional class add define some initial
 % parameters
@@ -7,7 +20,8 @@ ADP0.TLAR = cast.TLAR.Unconventional(); % sets top level aircraft requirements
 ADP0.TLAR.M_c = 0.84;
 % Unconventional.aerodynamics.high_lift(ADP)
 
-% --------------------- set Unconventional specific parameters ---------------------
+% --------------------- set Unconventional specific parameters
+% ---------------------r 
 ADP0.FuselageLength = 65; % Total fuselage length (m)
 ADP0.KinkPos = 10;       % spanwise position of TE kink in wing planform
 ADP0.CabinRadius = 6.3;
@@ -89,41 +103,59 @@ set(ax,'YDir','normal')
 [BlockFuel,TripFuel,ResFuel,Mf_TOC,MissionTime,cruise_FL] = Unconventional.MissionAnalysis_PhysicsFinal(ADP, ADP.TLAR.RangeDes, ADP.MTOM);
 
 %% Example Trade study, comparing MTOM and Block Fuel as a function of wing span
-%predefine spans to test
-Spans = 50:1:100;
-
-% pre-allocate arrays for results
-mtoms = zeros(size(Spans));
-fuels = zeros(size(Spans));
-
-% Use the converged baseline aircraft as the starting point for each case,
-% then re-size to convergence at each span
-% for i = 1:length(Spans)
-%     ADPi = ADP;                 % start from converged baseline aircraft
-%     ADPi.Span = Spans(i);       % apply new span
-%     ADPi = Unconventional.Size(ADPi);   % re-converge aircraft at this span
+% %predefine spans to test
+% Spans = 50:1:100;
 % 
-%     mtoms(i) = ADPi.MTOM;
-%     fuels(i) = ADPi.Mf_Fuel * ADPi.MTOM;
-% end
+% % pre-allocate arrays for results
+% mtoms = zeros(size(Spans));
+% fuels = zeros(size(Spans));
+% 
+% % Use the converged baseline aircraft as the starting point for each case,
+% % then re-size to convergence at each span
+% % for i = 1:length(Spans)
+% %     ADPi = ADP;                 % start from converged baseline aircraft
+% %     ADPi.Span = Spans(i);       % apply new span
+% %     ADPi = Unconventional.Size(ADPi);   % re-converge aircraft at this span
+% % 
+% %     mtoms(i) = ADPi.MTOM;
+% %     fuels(i) = ADPi.Mf_Fuel * ADPi.MTOM;
+% % end
+% 
+% % out = Unconventional.plotCGbubble(ADP0, ...
+% %     FuelFractions = 0:0.1:1, ...
+% %     PalletCounts = 0:45, ...
+% %     CargoStart = 7);
+% 
+% f = figure(2);
+% clf;
+% tt = tiledlayout(2,1);
+% 
+% nexttile(1);
+% plot(Spans, mtoms/1e3, '-s')
+% xlabel('Span [m]')
+% ylabel('MTOM [t]')
+% 
+% nexttile(2);
+% plot(Spans, fuels/1e3, '-o')
+% xlabel('Span [m]')
+% ylabel('Block Fuel [t]')
+% 
+% %% Sizing Function
 
-% out = Unconventional.plotCGbubble(ADP0, ...
-%     FuelFractions = 0:0.1:1, ...
-%     PalletCounts = 0:45, ...
-%     CargoStart = 7);
 
-f = figure(2);
-clf;
-tt = tiledlayout(2,1);
 
-nexttile(1);
-plot(Spans, mtoms/1e3, '-s')
-xlabel('Span [m]')
-ylabel('MTOM [t]')
+%% ================= MISSION PIPELINE =================
 
-nexttile(2);
-plot(Spans, fuels/1e3, '-o')
-xlabel('Span [m]')
-ylabel('Block Fuel [t]')
+% 1. Payload range + build Fleet
+FinalPayloadRange   % (or whatever your script is called)
 
-%% Sizing Function
+% 2. Mission evaluation (uses ADP + Fleet)
+MissionEvaluationFinal
+
+
+set(0,'DefaultFigureVisible','on')
+drawnow
+
+
+% 3. Run climate/emissions model
+EmissionsFinal

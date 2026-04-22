@@ -1,10 +1,10 @@
 Plane Unconventional
 #Mach
-0.300000
+0.900000
 #IYsym   IZsym   Zsym
 0 0 0.0
 #Sref    Cref    Bref
-716.002115 12.117949 78.000000
+658.905000 12.117949 78.000000
 #Xref    Yref    Zref
 0.000000 0.000000 0.000000
 #
@@ -38,7 +38,7 @@ CLAF
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-7.310971     11.700000    1.023617     9.689029     2.000000   0          0
+8.775000     11.700000    1.023617     8.225000     2.000000   0          0
 AFILE
 SC(2)-0610.dat
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
@@ -51,7 +51,7 @@ CLAF
 #-------------------------------------------------------------
 SECTION
 #Xle    Yle    Zle     Chord   Ainc  Nspanwise  Sspace
-24.369905     39.000000    3.412058     5.100000     2.000000   0          0
+29.250000     39.000000    3.412058     5.100000     2.000000   0          0
 AFILE
 SC(2)-0610.dat
 #Cname   Cgain  Xhinge  HingeVec     SgnDup
