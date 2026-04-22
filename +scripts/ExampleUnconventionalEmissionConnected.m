@@ -1,10 +1,17 @@
 %% Size an Unconventional at a Mach number of 0.84
 
+
+
 clear all; clc;
+
+cd(fileparts(mfilename('fullpath')))
+addpath(genpath(fileparts(fileparts(mfilename('fullpath')))))
 
 close all force
 set(0,'DefaultFigureVisible','off')
 drawnow
+
+
 
 % Instantiate an instance of the Unconventional class add define some initial
 % parameters
