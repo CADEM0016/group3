@@ -107,3 +107,7 @@ Unconventional.Structures.V6.wing_structures_viz(adp, loc, G, L_25g, S_25g, W_25
 
 % 10 - sensitivity studies
 Unconventional.Structures.V6.SensitivityStudy(adp, tlar, loc);
+
+% 12 — V-n diagram
+adp.TLAR = tlar;   % VnDiagram reads ADP.TLAR, so attach it first
+Unconventional.VnDiagram(adp);
